@@ -197,6 +197,5 @@ Generated code targets the same output as XrmToolBox EarlyBoundGeneratorV2 with 
 ## Reference
 
 - [EarlyBoundGeneratorV2 (XrmToolBox)](https://github.com/daryllabar/DLaB.Xrm.XrmToolBoxTools)
-- [DLaB.ModelBuilderExtensions](https://www.nuget.org/packages/DLaB.ModelBuilderExtensions)
 - [PPTB Types Package](https://www.npmjs.com/package/@pptb/types)
 - [Microsoft Dataverse SDK](https://learn.microsoft.com/en-us/power-apps/developer/data-platform/org-service/overview)
