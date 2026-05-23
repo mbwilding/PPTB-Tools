@@ -1,7 +1,8 @@
 {
-    "name": "@power-maverick/tool-early-bound-generator",
+    "name": "@mbwilding/tool-early-bound-generator",
     "displayName": "Early Bound Generator",
     "description": "Generate strongly-typed C# early-bound classes for Dataverse entities, option sets, and messages",
+    "main": "index.html",
     "version": "0.0.1",
     "license": "GPL-2.0",
     "icon": "icons/ebg.svg",
@@ -12,12 +13,19 @@
         }
     ],
     "configurations": {
-        "repository": "https://github.com/Power-Maverick/PPTB-Tools/tree/main/tools/early-bound-generator",
-        "readmeUrl": "https://raw.githubusercontent.com/Power-Maverick/PPTB-Tools/refs/heads/main/tools/early-bound-generator/README.md"
+        "repository": "https://github.com/mbwilding/PPTB-Tools/tree/main/tools/early-bound-generator",
+        "readmeUrl": "https://raw.githubusercontent.com/mbwilding/PPTB-Tools/refs/heads/main/tools/early-bound-generator/README.md"
     },
-    "features": {
-        "multiConnection": "none"
+    "homepage": "https://github.com/mbwilding/PPTB-Tools/tree/main/tools/early-bound-generator",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/mbwilding/PPTB-Tools.git"
     },
+    "bugs": {
+        "url": "https://github.com/mbwilding/PPTB-Tools/issues"
+    },
+    "keywords": ["powerplatform", "dataverse", "toolbox", "early-bound", "code-gen", "source-gen"],
+    "features": {},
     "type": "module",
     "scripts": {
         "build": "npm run typecheck && vite build",
