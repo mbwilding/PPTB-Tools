@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useSearchQuery } from "./SearchContext";
 
 interface PropertySectionProps {
     title: string;
@@ -8,22 +9,29 @@ interface PropertySectionProps {
 
 export function PropertySection({ title, children, defaultExpanded = true }: PropertySectionProps) {
     const [expanded, setExpanded] = useState(defaultExpanded);
+    const query = useSearchQuery();
+
+    // When a search is active, force all sections open
+    const isSearching = query.length > 0;
+    const isExpanded = isSearching || expanded;
 
     return (
         <div className="prop-section">
             <div
                 className="prop-section-header"
-                onClick={() => setExpanded((v) => !v)}
+                onClick={() => {
+                    if (!isSearching) setExpanded((v) => !v);
+                }}
                 role="button"
                 tabIndex={0}
                 onKeyDown={(e) => {
-                    if (e.key === "Enter" || e.key === " ") setExpanded((v) => !v);
+                    if (!isSearching && (e.key === "Enter" || e.key === " ")) setExpanded((v) => !v);
                 }}
             >
-                <span className="prop-section-toggle">{expanded ? "▼" : "▶"}</span>
+                <span className="prop-section-toggle">{isExpanded ? "▼" : "▶"}</span>
                 <span className="prop-section-title">{title}</span>
             </div>
-            {expanded && <div className="prop-section-body">{children}</div>}
+            {isExpanded && <div className="prop-section-body">{children}</div>}
         </div>
     );
 }

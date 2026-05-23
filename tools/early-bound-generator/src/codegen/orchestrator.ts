@@ -226,8 +226,10 @@ export async function captureMetadata(settings: EbgSettings, outputDir: string, 
     log(`Metadata snapshot written to ${snapshotDir}`);
 }
 
-export async function runCodegen(settings: EbgSettings, settingsDir: string, outputDir: string, log: LogFn, appVersion: string): Promise<void> {
+export async function runCodegen(settings: EbgSettings, settingsDir: string, outputDir: string, log: LogFn, appVersion: string, onProgress?: (pct: number) => void): Promise<void> {
+    const progress = onProgress ?? (() => {});
     log("=== Early Bound Generator ===");
+    progress(0);
 
     log("Loading dictionary...");
     const sortedOverrides = [...settings.tokenCapitalizationOverrides].sort((a, b) => b.length - a.length);
@@ -259,6 +261,7 @@ export async function runCodegen(settings: EbgSettings, settingsDir: string, out
         caser = new CamelCaser(new Map(), sortedOverrides);
     }
 
+    progress(2);
     const naming = new NamingService(settings, caser);
     const filter = new FilterService(settings);
 
@@ -278,6 +281,7 @@ export async function runCodegen(settings: EbgSettings, settingsDir: string, out
         }),
     );
 
+    progress(5);
     log(`Fetching metadata for ${toGenerate.length} entities...`);
 
     const allEntitiesMap = new Map<string, EntityMetadata>();
@@ -292,8 +296,10 @@ export async function runCodegen(settings: EbgSettings, settingsDir: string, out
             generatedEntities.push(entity);
         }
         log(`\tFetched ${Math.min(i + BATCH, toGenerate.length)} / ${toGenerate.length}`);
+        progress(5 + Math.round((Math.min(i + BATCH, toGenerate.length) / Math.max(toGenerate.length, 1)) * 65));
     }
 
+    progress(70);
     const entityFolderAndFile = resolveFolderAndFile(settings.entityTypesFolder, "Entities.cs");
     const entityDir = entityFolderAndFile.dir ? joinPath(outputDir, entityFolderAndFile.dir) : outputDir;
 
@@ -330,6 +336,7 @@ export async function runCodegen(settings: EbgSettings, settingsDir: string, out
         await writeTextWithPermission(joinPath(entityDir, entityFolderAndFile.filename), header.toString(), log);
     }
 
+    progress(80);
     const optionSetFolderAndFile = resolveFolderAndFile(settings.optionSetsTypesFolder, "OptionSet.cs");
     const optionSetDir = optionSetFolderAndFile.dir ? joinPath(outputDir, optionSetFolderAndFile.dir) : outputDir;
 
@@ -368,10 +375,12 @@ export async function runCodegen(settings: EbgSettings, settingsDir: string, out
         await writeTextWithPermission(joinPath(optionSetDir, optionSetFolderAndFile.filename), content, log);
     }
 
+    progress(88);
     log("--- Service Context ---");
     const contextContent = generateContextFile(generatedEntities, naming, settings);
     await writeTextWithPermission(joinPath(outputDir, `${settings.serviceContextName}.cs`), contextContent, log);
 
+    progress(92);
     if (settings.generateMessages) {
         const messagePairs = await fetchSdkMessages(settings, filter, log);
         const messageFolderAndFile = resolveFolderAndFile(settings.messageTypesFolder, "Messages.cs");
@@ -395,6 +404,7 @@ export async function runCodegen(settings: EbgSettings, settingsDir: string, out
         }
     }
 
+    progress(100);
     log("=== Generation Complete ===");
 }
 

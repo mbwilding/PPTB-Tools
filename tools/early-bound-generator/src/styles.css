@@ -103,10 +103,47 @@ body {
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    gap: 2px;
+    gap: 8px;
     padding: 4px 8px;
     background-color: var(--toolbar-bg);
     border-top: 1px solid var(--toolbar-border);
+}
+
+.generate-progress {
+    flex: 1;
+    height: 4px;
+    border-radius: 2px;
+    border: none;
+    appearance: none;
+    -webkit-appearance: none;
+    background-color: var(--border-color);
+    overflow: hidden;
+}
+
+.generate-progress::-webkit-progress-bar {
+    background-color: var(--border-color);
+    border-radius: 2px;
+}
+
+.generate-progress::-webkit-progress-value {
+    background-color: var(--button-bg);
+    border-radius: 2px;
+    transition: width 0.3s ease;
+}
+
+.generate-progress::-moz-progress-bar {
+    background-color: var(--button-bg);
+    border-radius: 2px;
+    transition: width 0.3s ease;
+}
+
+@keyframes progress-indeterminate {
+    0% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(350%);
+    }
 }
 
 /* ── Top toolbar ── */
@@ -218,6 +255,54 @@ body {
     flex: 1;
     overflow: hidden;
     min-height: 0;
+}
+
+/* ── Settings search bar ── */
+.settings-search-bar {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 6px 8px;
+    background-color: var(--toolbar-bg);
+    border-bottom: 1px solid var(--toolbar-border);
+    flex-shrink: 0;
+}
+
+.settings-search-input {
+    flex: 1;
+    height: 26px;
+    padding: 0 6px;
+    font-size: 12px;
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    outline: none;
+}
+
+.settings-search-input:focus {
+    border-color: var(--accent);
+}
+
+.settings-search-clear {
+    flex-shrink: 0;
+    width: 22px;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    border-radius: 3px;
+    padding: 0;
+}
+
+.settings-search-clear:hover {
+    background-color: var(--hover-bg);
+    color: var(--text-primary);
 }
 
 /* ── Settings panel ── */
