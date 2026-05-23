@@ -3,7 +3,7 @@
     "displayName": "Early Bound Generator",
     "description": "Generate strongly-typed C# early-bound classes for Dataverse entities, option sets, and messages",
     "main": "index.html",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "license": "GPL-2.0",
     "icon": "icons/ebg.svg",
     "contributors": [
@@ -41,7 +41,8 @@
         "test": "vitest run",
         "test:watch": "vitest",
         "validate": "pptb-validate",
-        "finalize-package": "npm shrinkwrap"
+        "finalize-package": "npm shrinkwrap",
+        "pretty": "prettier --write ."
     },
     "files": [
         "dist",
@@ -60,6 +61,7 @@
         "happy-dom": "^20.9.0",
         "typescript": "^5.9.3",
         "vite": "^6.0.7",
-        "vitest": "^4.1.7"
+        "vitest": "^4.1.7",
+        "prettier": "^3.8.3"
     }
 }

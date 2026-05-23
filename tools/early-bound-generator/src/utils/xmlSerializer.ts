@@ -66,7 +66,6 @@ function eliAttrSpecified(name: string, record: Record<string, string[]>): strin
 // ── serialise ────────────────────────────────────────────────────────────────
 
 export function settingsToXml(s: EbgSettings, appVersion: string): string {
-    const settingsVersion = appVersion;
     let xml = `<?xml version="1.0" encoding="utf-8"?>\n`;
     xml += `<Config xmlns:xsd="${XSD}" xmlns:xsi="${XSI}">\n`;
 
@@ -162,9 +161,9 @@ export function settingsToXml(s: EbgSettings, appVersion: string): string {
     xml += el("Namespace", esc(s.namespace));
     xml += el("ServiceContextName", esc(s.serviceContextName));
     xml += elBool("SuppressGeneratedCodeAttribute", s.suppressGeneratedCodeAttribute);
-    xml += el("SettingsVersion", settingsVersion);
+    xml += el("SettingsVersion", "2.2025.8.26");
     xml += elBool("UpdateBuilderSettingsJson", s.updateBuilderSettingsJson);
-    xml += el("Version", settingsVersion);
+    xml += el("Version", appVersion);
 
     xml += `</Config>`;
     return xml;
