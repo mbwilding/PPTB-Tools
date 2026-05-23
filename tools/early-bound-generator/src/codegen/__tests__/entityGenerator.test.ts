@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { generateEntityFile } from "../entityGenerator";
-import { makeSettings, TEST_VERSION } from "./helpers/settings";
+import { makeSettings } from "./helpers/settings";
 import { buildNamingService, buildFilterService } from "./helpers/naming";
 import { contactEntity, systemUserEntity } from "./fixtures/contact";
 import type { EntityMetadata } from "../types";
@@ -21,7 +21,6 @@ describe("entityGenerator", () => {
             namingService: naming,
             filterService: filter,
             suppressGeneratedCode: settings.suppressGeneratedCodeAttribute,
-            appVersion: TEST_VERSION,
         });
 
         expect(output).toMatchSnapshot();
@@ -38,7 +37,6 @@ describe("entityGenerator", () => {
             namingService: naming,
             filterService: filter,
             suppressGeneratedCode: false,
-            appVersion: TEST_VERSION,
         });
 
         expect(output).toMatchSnapshot();
@@ -55,7 +53,6 @@ describe("entityGenerator", () => {
             namingService: naming,
             filterService: filter,
             suppressGeneratedCode: settings.suppressGeneratedCodeAttribute,
-            appVersion: TEST_VERSION,
         });
 
         expect(output).toMatchSnapshot();
@@ -72,7 +69,6 @@ describe("entityGenerator", () => {
             namingService: naming,
             filterService: filter,
             suppressGeneratedCode: settings.suppressGeneratedCodeAttribute,
-            appVersion: TEST_VERSION,
         });
 
         expect(output).toMatchSnapshot();
@@ -89,7 +85,6 @@ describe("entityGenerator", () => {
             namingService: naming,
             filterService: filter,
             suppressGeneratedCode: settings.suppressGeneratedCodeAttribute,
-            appVersion: TEST_VERSION,
         });
 
         expect(output).toMatchSnapshot();
@@ -106,7 +101,6 @@ describe("entityGenerator", () => {
             namingService: naming,
             filterService: filter,
             suppressGeneratedCode: settings.suppressGeneratedCodeAttribute,
-            appVersion: TEST_VERSION,
         });
 
         expect(output).toMatchSnapshot();
@@ -123,7 +117,6 @@ describe("entityGenerator", () => {
             namingService: naming,
             filterService: filter,
             suppressGeneratedCode: settings.suppressGeneratedCodeAttribute,
-            appVersion: TEST_VERSION,
         });
 
         expect(output).toMatchSnapshot();
@@ -140,7 +133,6 @@ describe("entityGenerator", () => {
             namingService: naming,
             filterService: filter,
             suppressGeneratedCode: settings.suppressGeneratedCodeAttribute,
-            appVersion: TEST_VERSION,
         });
 
         expect(output).toContain('public const string EntityLogicalName = "contact"');
@@ -157,7 +149,6 @@ describe("entityGenerator", () => {
             namingService: naming,
             filterService: filter,
             suppressGeneratedCode: settings.suppressGeneratedCodeAttribute,
-            appVersion: TEST_VERSION,
         });
 
         expect(output).toContain("base.Id = value.Value;");

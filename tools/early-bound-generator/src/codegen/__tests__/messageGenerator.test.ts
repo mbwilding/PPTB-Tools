@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { generateMessageFile, generateMessagesFile } from "../messageGenerator";
-import { makeSettings, TEST_VERSION } from "./helpers/settings";
+import { makeSettings } from "./helpers/settings";
 import { buildNamingService } from "./helpers/naming";
 import { calculateCommissionMessage, noFieldsMessage } from "./fixtures/messages";
 
@@ -10,7 +10,7 @@ describe("messageGenerator", () => {
             const settings = makeSettings();
             const naming = buildNamingService(settings);
 
-            const output = generateMessageFile(calculateCommissionMessage, settings, TEST_VERSION, naming);
+            const output = generateMessageFile(calculateCommissionMessage, settings, naming);
 
             expect(output).toMatchSnapshot();
         });
@@ -19,7 +19,7 @@ describe("messageGenerator", () => {
             const settings = makeSettings();
             const naming = buildNamingService(settings);
 
-            const output = generateMessageFile(noFieldsMessage, settings, TEST_VERSION, naming);
+            const output = generateMessageFile(noFieldsMessage, settings, naming);
 
             expect(output).toMatchSnapshot();
         });
@@ -28,7 +28,7 @@ describe("messageGenerator", () => {
             const settings = makeSettings({ generateMessageAttributeNameConsts: true });
             const naming = buildNamingService(settings);
 
-            const output = generateMessageFile(calculateCommissionMessage, settings, TEST_VERSION, naming);
+            const output = generateMessageFile(calculateCommissionMessage, settings, naming);
 
             expect(output).toContain("public static class Fields");
         });
@@ -37,7 +37,7 @@ describe("messageGenerator", () => {
             const settings = makeSettings({ generateMessageAttributeNameConsts: false });
             const naming = buildNamingService(settings);
 
-            const output = generateMessageFile(calculateCommissionMessage, settings, TEST_VERSION, naming);
+            const output = generateMessageFile(calculateCommissionMessage, settings, naming);
 
             expect(output).not.toContain("public static class Fields");
         });
@@ -46,7 +46,7 @@ describe("messageGenerator", () => {
             const settings = makeSettings();
             const naming = buildNamingService(settings);
 
-            const output = generateMessageFile(calculateCommissionMessage, settings, TEST_VERSION, naming);
+            const output = generateMessageFile(calculateCommissionMessage, settings, naming);
 
             // Class name is the camelCased form of the logical name
             expect(output).toContain("public partial class");
@@ -58,7 +58,7 @@ describe("messageGenerator", () => {
             const settings = makeSettings();
             const naming = buildNamingService(settings);
 
-            const output = generateMessageFile(calculateCommissionMessage, settings, TEST_VERSION, naming);
+            const output = generateMessageFile(calculateCommissionMessage, settings, naming);
 
             expect(output).toContain('public const string ActionLogicalName = "contoso_CalculateCommission"');
         });
@@ -67,7 +67,7 @@ describe("messageGenerator", () => {
             const settings = makeSettings();
             const naming = buildNamingService(settings);
 
-            const output = generateMessageFile(calculateCommissionMessage, settings, TEST_VERSION, naming);
+            const output = generateMessageFile(calculateCommissionMessage, settings, naming);
 
             expect(output).toContain('if (this.Parameters.Contains("OpportunityId"))');
             expect(output).toContain("return default(");
@@ -77,7 +77,7 @@ describe("messageGenerator", () => {
             const settings = makeSettings();
             const naming = buildNamingService(settings);
 
-            const output = generateMessageFile(calculateCommissionMessage, settings, TEST_VERSION, naming);
+            const output = generateMessageFile(calculateCommissionMessage, settings, naming);
 
             expect(output).toContain('[Microsoft.Xrm.Sdk.Client.RequestProxyAttribute("contoso_CalculateCommission")]');
         });
@@ -86,7 +86,7 @@ describe("messageGenerator", () => {
             const settings = makeSettings();
             const naming = buildNamingService(settings);
 
-            const output = generateMessageFile(calculateCommissionMessage, settings, TEST_VERSION, naming);
+            const output = generateMessageFile(calculateCommissionMessage, settings, naming);
 
             expect(output).toContain("this.OpportunityId = default(System.Guid)");
             // OverrideRate is optional so should not be initialised
@@ -97,7 +97,7 @@ describe("messageGenerator", () => {
             const settings = makeSettings();
             const naming = buildNamingService(settings);
 
-            const output = generateMessageFile(calculateCommissionMessage, settings, TEST_VERSION, naming);
+            const output = generateMessageFile(calculateCommissionMessage, settings, naming);
 
             expect(output).toContain('DataContractAttribute(Namespace="http://schemas.microsoft.com/xrm/2011/new/")');
         });
@@ -108,7 +108,7 @@ describe("messageGenerator", () => {
             const settings = makeSettings();
             const naming = buildNamingService(settings);
 
-            const output = generateMessagesFile([calculateCommissionMessage, noFieldsMessage], settings, TEST_VERSION, naming);
+            const output = generateMessagesFile([calculateCommissionMessage, noFieldsMessage], settings, naming);
 
             expect(output).toMatchSnapshot();
         });
@@ -117,7 +117,7 @@ describe("messageGenerator", () => {
             const settings = makeSettings();
             const naming = buildNamingService(settings);
 
-            const output = generateMessagesFile([calculateCommissionMessage, noFieldsMessage], settings, TEST_VERSION, naming);
+            const output = generateMessagesFile([calculateCommissionMessage, noFieldsMessage], settings, naming);
 
             expect(output).toContain("CalculateCommissionRequest");
             expect(output).toContain("CalculateCommissionResponse");

@@ -16,6 +16,11 @@ namespace DataverseModel
 {
 	
 	
+	/// <summary>
+	/// Specifies the gender:
+	/// Male
+	/// Female
+	/// </summary>
 	[System.Runtime.Serialization.DataContractAttribute()]
 	public enum Contact_GenderCode
 	{
@@ -115,6 +120,11 @@ exports[`optionSetGenerator > generateEnumDeclaration > generates a global optio
 
 exports[`optionSetGenerator > generateEnumDeclaration > generates a local Picklist enum 1`] = `
 "	
+	/// <summary>
+	/// Specifies the gender:
+	/// Male
+	/// Female
+	/// </summary>
 	[System.Runtime.Serialization.DataContractAttribute()]
 	public enum Contact_GenderCode
 	{
@@ -145,6 +155,11 @@ namespace DataverseModel
 {
 	
 	
+	/// <summary>
+	/// Specifies the gender:
+	/// Male
+	/// Female
+	/// </summary>
 	[System.Runtime.Serialization.DataContractAttribute()]
 	public enum Contact_GenderCode
 	{
@@ -204,6 +219,11 @@ namespace DataverseModel
 {
 	
 	
+	/// <summary>
+	/// Specifies the gender:
+	/// Male
+	/// Female
+	/// </summary>
 	[System.Runtime.Serialization.DataContractAttribute()]
 	public enum Contact_GenderCode
 	{
@@ -257,6 +277,11 @@ namespace DataverseModel
 {
 	
 	
+	/// <summary>
+	/// Specifies the gender:
+	/// Male
+	/// Female
+	/// </summary>
 	[System.Runtime.Serialization.DataContractAttribute()]
 	public enum Contact_GenderCode
 	{

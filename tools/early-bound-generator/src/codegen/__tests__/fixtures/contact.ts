@@ -131,6 +131,7 @@ export const contactEntity: EntityMetadata = {
                 MetadataId: "aaa00001-0000-0000-0000-000000000001",
                 Name: "contact_gendercode",
                 DisplayName: { LocalizedLabels: [{ Label: "Gender", LanguageCode: 1033 }] },
+                Description: { LocalizedLabels: [{ Label: "Specifies the gender:\nMale\nFemale", LanguageCode: 1033 }] },
                 OptionSetType: "Picklist",
                 IsGlobal: false,
                 Options: [

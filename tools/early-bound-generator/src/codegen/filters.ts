@@ -172,3 +172,12 @@ export class FilterService {
         return true;
     }
 }
+
+export function isObsolete(displayName: string | undefined, obsoleteTokens: string[]): boolean {
+    if (!displayName || obsoleteTokens.length === 0) return false;
+    for (const token of obsoleteTokens) {
+        const regexStr = "^" + token.replace(/[.+?^${}()|[\]\\]/g, "\\$&").replace(/\*/g, ".*") + "$";
+        if (new RegExp(regexStr, "i").test(displayName)) return true;
+    }
+    return false;
+}

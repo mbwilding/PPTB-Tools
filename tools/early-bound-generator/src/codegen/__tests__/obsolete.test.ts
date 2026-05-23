@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { generateEntityFile } from "../entityGenerator";
-import { makeSettings, TEST_VERSION } from "./helpers/settings";
+import { makeSettings } from "./helpers/settings";
 import { buildNamingService, buildFilterService } from "./helpers/naming";
 import type { EntityMetadata } from "../types";
 
@@ -86,7 +86,6 @@ const run = (overrides: Parameters<typeof makeSettings>[0] = {}) => {
         namingService: naming,
         filterService: filter,
         suppressGeneratedCode: settings.suppressGeneratedCodeAttribute,
-        appVersion: TEST_VERSION,
     });
 };
 

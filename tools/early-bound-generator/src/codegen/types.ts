@@ -1,4 +1,5 @@
 export const CODEGEN_TOOL_NAME = "Dataverse Model Builder";
+export const CODEGEN_TOOL_VERSION = "2.0.0.16";
 
 export interface LocalizedLabel {
     Label: string;

@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { generateOptionSetsFile, generateEntityOptionSetsFile, generateSingleOptionSetFile, generateEnumDeclaration, collectOptionSets } from "../optionSetGenerator";
-import { makeSettings, TEST_VERSION } from "./helpers/settings";
+import { makeSettings } from "./helpers/settings";
 import { buildNamingService, buildFilterService } from "./helpers/naming";
 import { contactEntity } from "./fixtures/contact";
 import type { OptionSetMetadata } from "../types";
@@ -29,7 +29,7 @@ describe("optionSetGenerator", () => {
             const settings = makeSettings();
             const naming = buildNamingService(settings);
 
-            const output = generateEnumDeclaration(contactEntity, genderOptionSet, naming, settings, TEST_VERSION);
+            const output = generateEnumDeclaration(contactEntity, genderOptionSet, naming, settings);
 
             expect(output).toMatchSnapshot();
         });
@@ -38,7 +38,7 @@ describe("optionSetGenerator", () => {
             const settings = makeSettings();
             const naming = buildNamingService(settings);
 
-            const output = generateEnumDeclaration(contactEntity, stateOptionSet, naming, settings, TEST_VERSION);
+            const output = generateEnumDeclaration(contactEntity, stateOptionSet, naming, settings);
 
             expect(output).toMatchSnapshot();
         });
@@ -47,7 +47,7 @@ describe("optionSetGenerator", () => {
             const settings = makeSettings();
             const naming = buildNamingService(settings);
 
-            const output = generateEnumDeclaration(contactEntity, statusOptionSet, naming, settings, TEST_VERSION);
+            const output = generateEnumDeclaration(contactEntity, statusOptionSet, naming, settings);
 
             expect(output).toMatchSnapshot();
         });
@@ -56,7 +56,7 @@ describe("optionSetGenerator", () => {
             const settings = makeSettings();
             const naming = buildNamingService(settings);
 
-            const output = generateEnumDeclaration(null, globalOptionSet, naming, settings, TEST_VERSION);
+            const output = generateEnumDeclaration(null, globalOptionSet, naming, settings);
 
             expect(output).toMatchSnapshot();
         });
@@ -65,7 +65,7 @@ describe("optionSetGenerator", () => {
             const settings = makeSettings({ generateOptionSetMetadataAttribute: true });
             const naming = buildNamingService(settings);
 
-            const output = generateEnumDeclaration(contactEntity, genderOptionSet, naming, settings, TEST_VERSION);
+            const output = generateEnumDeclaration(contactEntity, genderOptionSet, naming, settings);
 
             expect(output).toContain("[OptionSetMetadataAttribute(");
         });
@@ -74,7 +74,7 @@ describe("optionSetGenerator", () => {
             const settings = makeSettings({ generateOptionSetMetadataAttribute: false, addOptionSetMetadataAttribute: false });
             const naming = buildNamingService(settings);
 
-            const output = generateEnumDeclaration(contactEntity, genderOptionSet, naming, settings, TEST_VERSION);
+            const output = generateEnumDeclaration(contactEntity, genderOptionSet, naming, settings);
 
             expect(output).not.toContain("[OptionSetMetadataAttribute(");
         });
@@ -84,7 +84,7 @@ describe("optionSetGenerator", () => {
             const naming = buildNamingService(settings);
             const emptyOptionSet: OptionSetMetadata = { ...genderOptionSet, Options: [] };
 
-            const output = generateEnumDeclaration(contactEntity, emptyOptionSet, naming, settings, TEST_VERSION);
+            const output = generateEnumDeclaration(contactEntity, emptyOptionSet, naming, settings);
 
             expect(output).toBeNull();
         });
@@ -97,7 +97,7 @@ describe("optionSetGenerator", () => {
             const filter = buildFilterService(settings);
             const collected = collectOptionSets([contactEntity], settings, filter);
 
-            const output = generateOptionSetsFile(collected, naming, settings, TEST_VERSION);
+            const output = generateOptionSetsFile(collected, naming, settings);
 
             expect(output).toMatchSnapshot();
         });
@@ -113,7 +113,6 @@ describe("optionSetGenerator", () => {
                 ],
                 naming,
                 settings,
-                TEST_VERSION,
             );
 
             expect(output).toMatchSnapshot();
@@ -125,7 +124,7 @@ describe("optionSetGenerator", () => {
             const settings = makeSettings();
             const naming = buildNamingService(settings);
 
-            const output = generateEntityOptionSetsFile(contactEntity, [genderOptionSet, stateOptionSet, statusOptionSet], naming, settings, TEST_VERSION);
+            const output = generateEntityOptionSetsFile(contactEntity, [genderOptionSet, stateOptionSet, statusOptionSet], naming, settings);
 
             expect(output).toMatchSnapshot();
         });
@@ -136,7 +135,7 @@ describe("optionSetGenerator", () => {
             const settings = makeSettings();
             const naming = buildNamingService(settings);
 
-            const output = generateSingleOptionSetFile(contactEntity, genderOptionSet, naming, settings, TEST_VERSION);
+            const output = generateSingleOptionSetFile(contactEntity, genderOptionSet, naming, settings);
 
             expect(output).toMatchSnapshot();
         });

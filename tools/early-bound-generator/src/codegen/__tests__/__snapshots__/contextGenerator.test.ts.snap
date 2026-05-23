@@ -21,7 +21,7 @@ namespace DataverseModel
 	/// <summary>
 	/// Represents a source of entities bound to a Dataverse service. It tracks and manages changes made to the retrieved entities.
 	/// </summary>
-	[System.CodeDom.Compiler.GeneratedCodeAttribute("Dataverse Model Builder", "0.0.0")]
+	[System.CodeDom.Compiler.GeneratedCodeAttribute("Dataverse Model Builder", "2.0.0.16")]
 	public partial class ContosoCrmContext : Microsoft.Xrm.Sdk.Client.OrganizationServiceContext
 	{
 		
@@ -203,7 +203,7 @@ namespace RWWA.CrmBridge.CrmSdk
 	/// <summary>
 	/// Represents a source of entities bound to a Dataverse service. It tracks and manages changes made to the retrieved entities.
 	/// </summary>
-	[System.CodeDom.Compiler.GeneratedCodeAttribute("Dataverse Model Builder", "0.0.0")]
+	[System.CodeDom.Compiler.GeneratedCodeAttribute("Dataverse Model Builder", "2.0.0.16")]
 	public partial class DataverseContext : Microsoft.Xrm.Sdk.Client.OrganizationServiceContext
 	{
 		
@@ -374,7 +374,7 @@ namespace DataverseModel
 	/// <summary>
 	/// Represents a source of entities bound to a Dataverse service. It tracks and manages changes made to the retrieved entities.
 	/// </summary>
-	[System.CodeDom.Compiler.GeneratedCodeAttribute("Dataverse Model Builder", "0.0.0")]
+	[System.CodeDom.Compiler.GeneratedCodeAttribute("Dataverse Model Builder", "2.0.0.16")]
 	public partial class DataverseContext : Microsoft.Xrm.Sdk.Client.OrganizationServiceContext
 	{
 		
@@ -556,7 +556,7 @@ namespace DataverseModel
 	/// <summary>
 	/// Represents a source of entities bound to a Dataverse service. It tracks and manages changes made to the retrieved entities.
 	/// </summary>
-	[System.CodeDom.Compiler.GeneratedCodeAttribute("Dataverse Model Builder", "0.0.0")]
+	[System.CodeDom.Compiler.GeneratedCodeAttribute("Dataverse Model Builder", "2.0.0.16")]
 	public partial class DataverseContext : Microsoft.Xrm.Sdk.Client.OrganizationServiceContext
 	{
 		

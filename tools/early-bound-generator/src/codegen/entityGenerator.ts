@@ -1,9 +1,11 @@
 import type { EbgSettings } from "../models/interfaces";
 import type { EntityMetadata, AttributeMetadata } from "./types";
-import { CODEGEN_TOOL_NAME } from "./types";
+import { CODEGEN_TOOL_NAME, CODEGEN_TOOL_VERSION } from "./types";
 import { NamingService, getLocalOrDefaultText } from "./naming";
 import type { FilterService } from "./filters";
-import { escapeXmlComment, generateSummary, isObsolete, codeFileHeader } from "./helpers";
+import { codeFileHeader } from "../utils/codeBuilder";
+import { isObsolete } from "./filters";
+import { CodeBuilder } from "../utils/codeBuilder";
 
 function getCSharpType(attr: AttributeMetadata): { csType: string; nullable: boolean; isEnum: boolean } {
     const t = attr.AttributeType;
@@ -61,9 +63,7 @@ const READONLY_FIELDS_EDITABLE_ATTRS = new Set(["createdby", "createdon", "modif
 
 function isReadOnly(attr: AttributeMetadata, settings: EbgSettings): boolean {
     if (settings.makeAllFieldsEditable) return false;
-
     if (settings.makeReadonlyFieldsEditable && READONLY_FIELDS_EDITABLE_ATTRS.has(attr.LogicalName)) return false;
-
     const canCreate = attr.IsValidForCreate !== false;
     const canUpdate = attr.IsValidForUpdate !== false;
     return !canCreate && !canUpdate;
@@ -78,91 +78,72 @@ export interface EntityGeneratorOptions {
     namingService: NamingService;
     filterService: FilterService;
     suppressGeneratedCode: boolean;
-    appVersion: string;
-
+    appVersion?: string;
     legacyHeader?: boolean;
 }
 
-function pushAttributePreamble(lines: string[], attr: AttributeMetadata, logicalName: string, summary: string | undefined, settings: EbgSettings): void {
-    if (summary) {
-        lines.push(generateSummary(summary, "\t\t").trimEnd());
-    }
-    lines.push(`\t\t[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("${logicalName}")]`);
+/** Push `[AttributeLogicalNameAttribute]` and optional `[ObsoleteAttribute]` at the current depth. */
+function pushAttributePreamble(b: CodeBuilder, attr: AttributeMetadata, logicalName: string, summary: string | undefined, settings: EbgSettings): void {
+    b.summary(summary);
+    b.attrArgs("Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute", `"${logicalName}"`);
     if (settings.obsoleteDeprecated && (attr.DeprecatedVersion != null || isObsolete(getLocalOrDefaultText(attr.DisplayName), settings.obsoleteTokens))) {
-        lines.push("\t\t[System.ObsoleteAttribute()]");
+        b.attr("System.ObsoleteAttribute()");
     }
 }
 
 function buildNameAttributeBlock(attr: AttributeMetadata, logicalName: string, propName: string, summary: string | undefined, settings: EbgSettings): string {
     const parentLogical = attr.AttributeOf!;
-    const lines: string[] = [];
-    pushAttributePreamble(lines, attr, logicalName, summary, settings);
-    lines.push(`\t\tpublic string? ${propName}`);
-    lines.push("\t\t{");
-    lines.push("\t\t\t[System.Diagnostics.DebuggerNonUserCode()]");
-    lines.push("\t\t\tget");
-    lines.push("\t\t\t{");
-    lines.push(`\t\t\t\tif (this.FormattedValues.Contains("${parentLogical}"))`);
-    lines.push("\t\t\t\t{");
-    lines.push(`\t\t\t\t\treturn this.FormattedValues["${parentLogical}"];`);
-    lines.push("\t\t\t\t}");
-    lines.push("\t\t\t\telse");
-    lines.push("\t\t\t\t{");
-    lines.push("\t\t\t\t\treturn default(string);");
-    lines.push("\t\t\t\t}");
-    lines.push("\t\t\t}");
+    const b = new CodeBuilder(2);
+    pushAttributePreamble(b, attr, logicalName, summary, settings);
+    b.open(`public string? ${propName}`);
+    b.getter(() => {
+        b.open(`if (this.FormattedValues.Contains("${parentLogical}"))`);
+        b.line(`return this.FormattedValues["${parentLogical}"];`);
+        b.close();
+        b.open("else");
+        b.line("return default(string);");
+        b.close();
+    });
     if (settings.makeAllFieldsEditable) {
-        lines.push("\t\t\t[System.Diagnostics.DebuggerNonUserCode()]");
-        lines.push("\t\t\tset");
-        lines.push("\t\t\t{");
-        lines.push(`\t\t\t\tthis.FormattedValues["${parentLogical}"] = value;`);
-        lines.push("\t\t\t}");
+        b.setter(() => {
+            b.line(`this.FormattedValues["${parentLogical}"] = value;`);
+        });
     }
-    lines.push("\t\t}");
-    return lines.join("\n");
+    b.close();
+    return b.toString();
 }
 
 function buildMultiSelectEnumBlock(attr: AttributeMetadata, logicalName: string, propName: string, enumName: string, summary: string | undefined, readonly_: boolean, settings: EbgSettings): string {
-    const lines: string[] = [];
-    pushAttributePreamble(lines, attr, logicalName, summary, settings);
-    lines.push(`\t\tpublic virtual System.Collections.Generic.IEnumerable<${enumName}> ${propName}`);
-    lines.push("\t\t{");
-    lines.push("\t\t\t[System.Diagnostics.DebuggerNonUserCode()]");
-    lines.push("\t\t\tget");
-    lines.push("\t\t\t{");
-    lines.push(`\t\t\t\treturn EntityOptionSetEnum.GetMultiEnum<${enumName}>(this, "${logicalName}");`);
-    lines.push("\t\t\t}");
+    const b = new CodeBuilder(2);
+    pushAttributePreamble(b, attr, logicalName, summary, settings);
+    b.open(`public virtual System.Collections.Generic.IEnumerable<${enumName}> ${propName}`);
+    b.getter(() => {
+        b.line(`return EntityOptionSetEnum.GetMultiEnum<${enumName}>(this, "${logicalName}");`);
+    });
     if (!readonly_) {
-        lines.push("\t\t\t[System.Diagnostics.DebuggerNonUserCode()]");
-        lines.push("\t\t\tset");
-        lines.push("\t\t\t{");
-        lines.push(`\t\t\t\tthis.SetAttributeValue("${logicalName}", EntityOptionSetEnum.GetMultiEnum(this, "${logicalName}", value));`);
-        lines.push("\t\t\t}");
+        b.setter(() => {
+            b.line(`this.SetAttributeValue("${logicalName}", EntityOptionSetEnum.GetMultiEnum(this, "${logicalName}", value));`);
+        });
     }
-    lines.push("\t\t}");
-    return lines.join("\n");
+    b.close();
+    return b.toString();
 }
 
 function buildStateCodeBlock(attr: AttributeMetadata, logicalName: string, propName: string, summary: string | undefined, readonly_: boolean, settings: EbgSettings): string {
     const entityStateType = "Microsoft.Xrm.Sdk.EntityState";
-    const lines: string[] = [];
-    pushAttributePreamble(lines, attr, logicalName, summary, settings);
-    lines.push(`\t\tpublic virtual ${entityStateType}? ${propName}`);
-    lines.push("\t\t{");
-    lines.push("\t\t\t[System.Diagnostics.DebuggerNonUserCode()]");
-    lines.push("\t\t\tget");
-    lines.push("\t\t\t{");
-    lines.push(`\t\t\t\treturn ((${entityStateType}?)(EntityOptionSetEnum.GetEnum(this, "${logicalName}")));`);
-    lines.push("\t\t\t}");
+    const b = new CodeBuilder(2);
+    pushAttributePreamble(b, attr, logicalName, summary, settings);
+    b.open(`public virtual ${entityStateType}? ${propName}`);
+    b.getter(() => {
+        b.line(`return ((${entityStateType}?)(EntityOptionSetEnum.GetEnum(this, "${logicalName}")));`);
+    });
     if (!readonly_) {
-        lines.push("\t\t\t[System.Diagnostics.DebuggerNonUserCode()]");
-        lines.push("\t\t\tset");
-        lines.push("\t\t\t{");
-        lines.push(`\t\t\t\tthis.SetAttributeValue("${logicalName}", value.HasValue ? new Microsoft.Xrm.Sdk.OptionSetValue((int)value) : null);`);
-        lines.push("\t\t\t}");
+        b.setter(() => {
+            b.line(`this.SetAttributeValue("${logicalName}", value.HasValue ? new Microsoft.Xrm.Sdk.OptionSetValue((int)value) : null);`);
+        });
     }
-    lines.push("\t\t}");
-    return lines.join("\n");
+    b.close();
+    return b.toString();
 }
 
 function buildEnumWithBothPropertiesBlock(
@@ -174,109 +155,83 @@ function buildEnumWithBothPropertiesBlock(
     readonly_: boolean,
     settings: EbgSettings,
 ): string {
-    const lines: string[] = [];
-    pushAttributePreamble(lines, attr, logicalName, summary, settings);
-
-    lines.push(`\t\tpublic virtual Microsoft.Xrm.Sdk.OptionSetValue? ${propName}`);
-    lines.push("\t\t{");
-    lines.push("\t\t\t[System.Diagnostics.DebuggerNonUserCode()]");
-    lines.push("\t\t\tget");
-    lines.push("\t\t\t{");
-    lines.push(`\t\t\t\treturn this.GetAttributeValue<Microsoft.Xrm.Sdk.OptionSetValue>("${logicalName}");`);
-    lines.push("\t\t\t}");
+    const b = new CodeBuilder(2);
+    pushAttributePreamble(b, attr, logicalName, summary, settings);
+    b.open(`public virtual Microsoft.Xrm.Sdk.OptionSetValue? ${propName}`);
+    b.getter(() => {
+        b.line(`return this.GetAttributeValue<Microsoft.Xrm.Sdk.OptionSetValue>("${logicalName}");`);
+    });
     if (!readonly_) {
-        lines.push("\t\t\t[System.Diagnostics.DebuggerNonUserCode()]");
-        lines.push("\t\t\tset");
-        lines.push("\t\t\t{");
-        lines.push(`\t\t\t\tthis.SetAttributeValue("${logicalName}", value);`);
-        lines.push("\t\t\t}");
+        b.setter(() => {
+            b.line(`this.SetAttributeValue("${logicalName}", value);`);
+        });
     }
-    lines.push("\t\t}");
-    lines.push("\t\t");
+    b.close();
+    b.spacer();
 
-    lines.push(`\t\t[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("${logicalName}")]`);
+    // Second property: the enum companion
+    b.attrArgs("Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute", `"${logicalName}"`);
     if (settings.obsoleteDeprecated && (attr.DeprecatedVersion != null || isObsolete(getLocalOrDefaultText(attr.DisplayName), settings.obsoleteTokens))) {
-        lines.push("\t\t[System.ObsoleteAttribute()]");
+        b.attr("System.ObsoleteAttribute()");
     }
-    lines.push(`\t\tpublic virtual ${enumName}? ${propName}Enum`);
-    lines.push("\t\t{");
-    lines.push("\t\t\t[System.Diagnostics.DebuggerNonUserCode()]");
-    lines.push("\t\t\tget");
-    lines.push("\t\t\t{");
-    lines.push(`\t\t\t\treturn ((${enumName}?)(EntityOptionSetEnum.GetEnum(this, "${logicalName}")));`);
-    lines.push("\t\t\t}");
+    b.open(`public virtual ${enumName}? ${propName}Enum`);
+    b.getter(() => {
+        b.line(`return ((${enumName}?)(EntityOptionSetEnum.GetEnum(this, "${logicalName}")));`);
+    });
     if (!readonly_) {
-        lines.push("\t\t\t[System.Diagnostics.DebuggerNonUserCode()]");
-        lines.push("\t\t\tset");
-        lines.push("\t\t\t{");
-        lines.push(`\t\t\t\tthis.SetAttributeValue("${logicalName}", value.HasValue ? new Microsoft.Xrm.Sdk.OptionSetValue((int)value) : null);`);
-        lines.push("\t\t\t}");
+        b.setter(() => {
+            b.line(`this.SetAttributeValue("${logicalName}", value.HasValue ? new Microsoft.Xrm.Sdk.OptionSetValue((int)value) : null);`);
+        });
     }
-    lines.push("\t\t}");
-    return lines.join("\n");
+    b.close();
+    return b.toString();
 }
 
 function buildEnumReplaceBlock(attr: AttributeMetadata, logicalName: string, propName: string, enumName: string, summary: string | undefined, readonly_: boolean, settings: EbgSettings): string {
-    const lines: string[] = [];
-    pushAttributePreamble(lines, attr, logicalName, summary, settings);
-    lines.push(`\t\tpublic virtual ${enumName}? ${propName}`);
-    lines.push("\t\t{");
-    lines.push("\t\t\t[System.Diagnostics.DebuggerNonUserCode()]");
-    lines.push("\t\t\tget");
-    lines.push("\t\t\t{");
-    lines.push(`\t\t\t\treturn ((${enumName}?)(EntityOptionSetEnum.GetEnum(this, "${logicalName}")));`);
-    lines.push("\t\t\t}");
+    const b = new CodeBuilder(2);
+    pushAttributePreamble(b, attr, logicalName, summary, settings);
+    b.open(`public virtual ${enumName}? ${propName}`);
+    b.getter(() => {
+        b.line(`return ((${enumName}?)(EntityOptionSetEnum.GetEnum(this, "${logicalName}")));`);
+    });
     if (!readonly_) {
-        lines.push("\t\t\t[System.Diagnostics.DebuggerNonUserCode()]");
-        lines.push("\t\t\tset");
-        lines.push("\t\t\t{");
-        lines.push(`\t\t\t\tthis.SetAttributeValue("${logicalName}", value.HasValue ? new Microsoft.Xrm.Sdk.OptionSetValue((int)value) : null);`);
-        lines.push("\t\t\t}");
+        b.setter(() => {
+            b.line(`this.SetAttributeValue("${logicalName}", value.HasValue ? new Microsoft.Xrm.Sdk.OptionSetValue((int)value) : null);`);
+        });
     }
-    lines.push("\t\t}");
-    return lines.join("\n");
+    b.close();
+    return b.toString();
 }
 
 function buildPrimaryIdBlock(attr: AttributeMetadata, logicalName: string, propName: string, summary: string | undefined, settings: EbgSettings): string {
-    const lines: string[] = [];
-    pushAttributePreamble(lines, attr, logicalName, summary, settings);
-    lines.push(`\t\tpublic System.Nullable<System.Guid> ${propName}`);
-    lines.push("\t\t{");
-    lines.push("\t\t\t[System.Diagnostics.DebuggerNonUserCode()]");
-    lines.push("\t\t\tget");
-    lines.push("\t\t\t{");
-    lines.push(`\t\t\t\treturn this.GetAttributeValue<System.Nullable<System.Guid>>("${logicalName}");`);
-    lines.push("\t\t\t}");
-    lines.push("\t\t\t[System.Diagnostics.DebuggerNonUserCode()]");
-    lines.push("\t\t\tset");
-    lines.push("\t\t\t{");
-    lines.push(`\t\t\t\tthis.SetAttributeValue("${logicalName}", value);`);
-    lines.push("\t\t\t\tif (value.HasValue)");
-    lines.push("\t\t\t\t{");
-    lines.push("\t\t\t\t\tbase.Id = value.Value;");
-    lines.push("\t\t\t\t}");
-    lines.push("\t\t\t\telse");
-    lines.push("\t\t\t\t{");
-    lines.push("\t\t\t\t\tbase.Id = System.Guid.Empty;");
-    lines.push("\t\t\t\t}");
-    lines.push("\t\t\t}");
-    lines.push("\t\t}");
-    lines.push("\t\t");
-    lines.push(`\t\t[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("${logicalName}")]`);
-    lines.push("\t\tpublic override System.Guid Id");
-    lines.push("\t\t{");
-    lines.push("\t\t\t[System.Diagnostics.DebuggerNonUserCode()]");
-    lines.push("\t\t\tget");
-    lines.push("\t\t\t{");
-    lines.push("\t\t\t\treturn base.Id;");
-    lines.push("\t\t\t}");
-    lines.push("\t\t\t[System.Diagnostics.DebuggerNonUserCode()]");
-    lines.push("\t\t\tset");
-    lines.push("\t\t\t{");
-    lines.push(`\t\t\t\tthis.${propName} = value;`);
-    lines.push("\t\t\t}");
-    lines.push("\t\t}");
-    return lines.join("\n");
+    const b = new CodeBuilder(2);
+    pushAttributePreamble(b, attr, logicalName, summary, settings);
+    b.open(`public System.Nullable<System.Guid> ${propName}`);
+    b.getter(() => {
+        b.line(`return this.GetAttributeValue<System.Nullable<System.Guid>>("${logicalName}");`);
+    });
+    b.setter(() => {
+        b.line(`this.SetAttributeValue("${logicalName}", value);`);
+        b.open("if (value.HasValue)");
+        b.line("base.Id = value.Value;");
+        b.close();
+        b.open("else");
+        b.line("base.Id = System.Guid.Empty;");
+        b.close();
+    });
+    b.close();
+    b.spacer();
+
+    b.attrArgs("Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute", `"${logicalName}"`);
+    b.open("public override System.Guid Id");
+    b.getter(() => {
+        b.line("return base.Id;");
+    });
+    b.setter(() => {
+        b.line(`this.${propName} = value;`);
+    });
+    b.close();
+    return b.toString();
 }
 
 function buildPlainTypeBlock(
@@ -290,202 +245,184 @@ function buildPlainTypeBlock(
     readonly_: boolean,
     settings: EbgSettings,
 ): string {
-    const lines: string[] = [];
-    pushAttributePreamble(lines, attr, logicalName, summary, settings);
-    lines.push(`\t\tpublic ${optionSetExcluded ? "virtual " : ""}${csType} ${propName}`);
-    lines.push("\t\t{");
-    lines.push("\t\t\t[System.Diagnostics.DebuggerNonUserCode()]");
-    lines.push("\t\t\tget");
-    lines.push("\t\t\t{");
-    if (optionSetExcluded) {
-        lines.push(`\t\t\t\tMicrosoft.Xrm.Sdk.OptionSetValue value = this.GetAttributeValue<Microsoft.Xrm.Sdk.OptionSetValue>("${logicalName}");`);
-        lines.push("\t\t\t\tif ((value != null))");
-        lines.push("\t\t\t\t{");
-        lines.push("\t\t\t\t\treturn value.Value;");
-        lines.push("\t\t\t\t}");
-        lines.push("\t\t\t\treturn null;");
-    } else {
-        lines.push(`\t\t\t\treturn this.GetAttributeValue<${csTypeRaw}>("${logicalName}");`);
-    }
-    lines.push("\t\t\t}");
+    const b = new CodeBuilder(2);
+    pushAttributePreamble(b, attr, logicalName, summary, settings);
+    b.open(`public ${optionSetExcluded ? "virtual " : ""}${csType} ${propName}`);
+    b.getter(() => {
+        if (optionSetExcluded) {
+            b.line(`Microsoft.Xrm.Sdk.OptionSetValue value = this.GetAttributeValue<Microsoft.Xrm.Sdk.OptionSetValue>("${logicalName}");`);
+            b.open("if ((value != null))");
+            b.line("return value.Value;");
+            b.close();
+            b.line("return null;");
+        } else {
+            b.line(`return this.GetAttributeValue<${csTypeRaw}>("${logicalName}");`);
+        }
+    });
     if (!readonly_) {
-        lines.push("\t\t\t[System.Diagnostics.DebuggerNonUserCode()]");
-        lines.push("\t\t\tset");
-        lines.push("\t\t\t{");
-        lines.push(`\t\t\t\tthis.SetAttributeValue("${logicalName}", value);`);
-        lines.push("\t\t\t}");
+        b.setter(() => {
+            b.line(`this.SetAttributeValue("${logicalName}", value);`);
+        });
     }
-    lines.push("\t\t}");
-    return lines.join("\n");
+    b.close();
+    return b.toString();
 }
 
 function buildRelationshipPropertyBlock(relType: "1:N" | "N:1" | "N:N", schemaName: string, propName: string, targetEntityName: string, isCollection: boolean, extraAttribute?: string): string {
-    const lines: string[] = [];
-    lines.push("\t\t/// <summary>");
-    lines.push(`\t\t/// ${relType} ${schemaName}`);
-    lines.push("\t\t/// </summary>");
+    const b = new CodeBuilder(2);
+    b.doc("<summary>");
+    b.doc(`${relType} ${schemaName}`);
+    b.doc("</summary>");
     if (extraAttribute) {
-        lines.push(`\t\t${extraAttribute}`);
+        b.line(extraAttribute);
     }
-    lines.push(`\t\t[Microsoft.Xrm.Sdk.RelationshipSchemaNameAttribute("${schemaName}")]`);
+    b.attrArgs("Microsoft.Xrm.Sdk.RelationshipSchemaNameAttribute", `"${schemaName}"`);
 
     if (isCollection) {
-        lines.push(`\t\tpublic System.Collections.Generic.IEnumerable<${targetEntityName}>? ${propName}`);
+        b.open(`public System.Collections.Generic.IEnumerable<${targetEntityName}>? ${propName}`);
     } else {
-        lines.push(`\t\tpublic ${targetEntityName}? ${propName}`);
+        b.open(`public ${targetEntityName}? ${propName}`);
     }
 
-    lines.push("\t\t{");
-    lines.push("\t\t\t[System.Diagnostics.DebuggerNonUserCode()]");
-    lines.push("\t\t\tget");
-    lines.push("\t\t\t{");
-    if (isCollection) {
-        lines.push(`\t\t\t\treturn this.GetRelatedEntities<${targetEntityName}>("${schemaName}", null);`);
-    } else {
-        lines.push(`\t\t\t\treturn this.GetRelatedEntity<${targetEntityName}>("${schemaName}", null);`);
-    }
-    lines.push("\t\t\t}");
-    lines.push("\t\t\t[System.Diagnostics.DebuggerNonUserCode()]");
-    lines.push("\t\t\tset");
-    lines.push("\t\t\t{");
-    lines.push(`\t\t\t\tthis.OnPropertyChanging("${propName}");`);
-    if (isCollection) {
-        lines.push(`\t\t\t\tthis.SetRelatedEntities<${targetEntityName}>("${schemaName}", null, value);`);
-    } else {
-        lines.push(`\t\t\t\tthis.SetRelatedEntity<${targetEntityName}>("${schemaName}", null, value);`);
-    }
-    lines.push(`\t\t\t\tthis.OnPropertyChanged("${propName}");`);
-    lines.push("\t\t\t}");
-    lines.push("\t\t}");
-    return lines.join("\n");
+    b.getter(() => {
+        if (isCollection) {
+            b.line(`return this.GetRelatedEntities<${targetEntityName}>("${schemaName}", null);`);
+        } else {
+            b.line(`return this.GetRelatedEntity<${targetEntityName}>("${schemaName}", null);`);
+        }
+    });
+    b.setter(() => {
+        b.line(`this.OnPropertyChanging("${propName}");`);
+        if (isCollection) {
+            b.line(`this.SetRelatedEntities<${targetEntityName}>("${schemaName}", null, value);`);
+        } else {
+            b.line(`this.SetRelatedEntity<${targetEntityName}>("${schemaName}", null, value);`);
+        }
+        b.line(`this.OnPropertyChanged("${propName}");`);
+    });
+    b.close();
+    return b.toString();
 }
 
 export function generateEntityFile(entity: EntityMetadata, allEntities: Map<string, EntityMetadata>, options: EntityGeneratorOptions): string {
-    const { settings, namingService, appVersion } = options;
+    const { settings, namingService } = options;
     const className = namingService.getNameForEntity(entity);
-    const descriptionText = getLocalOrDefaultText(entity.Description);
+    const classSummary = getLocalOrDefaultText(entity.Description) || null;
 
-    const classSummary = descriptionText || null;
+    const b = codeFileHeader(settings.namespace);
+    b.depth = 1;
+    b.spacer();
+    b.spacer();
 
-    const lines: string[] = [];
-
-    lines.push(...codeFileHeader(settings.namespace));
-    lines.push("\t");
-    lines.push("\t");
-
-    if (classSummary) {
-        lines.push("\t/// <summary>");
-        lines.push(`\t/// ${escapeXmlComment(classSummary)}`);
-        lines.push("\t/// </summary>");
-    }
-
-    lines.push("\t[System.Runtime.Serialization.DataContractAttribute()]");
-    lines.push(`\t[Microsoft.Xrm.Sdk.Client.EntityLogicalNameAttribute("${entity.LogicalName}")]`);
+    b.summary(classSummary ?? undefined);
+    b.attr("System.Runtime.Serialization.DataContractAttribute()");
+    b.attrArgs("Microsoft.Xrm.Sdk.Client.EntityLogicalNameAttribute", `"${entity.LogicalName}"`);
     if (!settings.suppressGeneratedCodeAttribute) {
-        lines.push(`\t[System.CodeDom.Compiler.GeneratedCodeAttribute("${CODEGEN_TOOL_NAME}", "${appVersion}")]`);
+        b.attrArgs("System.CodeDom.Compiler.GeneratedCodeAttribute", `"${CODEGEN_TOOL_NAME}", "${CODEGEN_TOOL_VERSION}"`);
     }
-    lines.push(`\tpublic partial class ${className} : Microsoft.Xrm.Sdk.Entity`);
-    lines.push("\t{");
-    lines.push("\t\t");
+    b.open(`public partial class ${className} : Microsoft.Xrm.Sdk.Entity`);
+    b.spacer();
 
-    lines.push("\t\t/// <summary>");
-    lines.push("\t\t/// Default Constructor.");
-    lines.push("\t\t/// </summary>");
-    lines.push("\t\t[System.Diagnostics.DebuggerNonUserCode()]");
-    lines.push(`\t\tpublic ${className}() : `);
-    lines.push("				base(EntityLogicalName)");
-    lines.push("\t\t{");
-    lines.push("\t\t}");
-    lines.push("\t\t");
-    lines.push("\t\t[System.Diagnostics.DebuggerNonUserCode()]");
-    lines.push(`\t\tpublic ${className}(System.Guid id) : `);
-    lines.push("				base(EntityLogicalName, id)");
-    lines.push("\t\t{");
-    lines.push("\t\t}");
-    lines.push("\t\t");
-    lines.push("\t\t[System.Diagnostics.DebuggerNonUserCode()]");
-    lines.push(`\t\tpublic ${className}(string keyName, object keyValue) : `);
-    lines.push("				base(EntityLogicalName, keyName, keyValue)");
-    lines.push("\t\t{");
-    lines.push("\t\t}");
-    lines.push("\t\t");
-    lines.push("\t\t[System.Diagnostics.DebuggerNonUserCode()]");
-    lines.push(`\t\tpublic ${className}(Microsoft.Xrm.Sdk.KeyAttributeCollection keyAttributes) : `);
-    lines.push("				base(EntityLogicalName, keyAttributes)");
-    lines.push("\t\t{");
-    lines.push("\t\t}");
-    lines.push("\t\t");
+    // Constructors
+    b.doc("<summary>");
+    b.doc("Default Constructor.");
+    b.doc("</summary>");
+    b.attr("System.Diagnostics.DebuggerNonUserCode()");
+    b.verbatim(`\t\tpublic ${className}() : `, "\t\t\t\tbase(EntityLogicalName)");
+    b.open();
+    b.close();
+    b.spacer();
 
+    b.attr("System.Diagnostics.DebuggerNonUserCode()");
+    b.verbatim(`\t\tpublic ${className}(System.Guid id) : `, "\t\t\t\tbase(EntityLogicalName, id)");
+    b.open();
+    b.close();
+    b.spacer();
+
+    b.attr("System.Diagnostics.DebuggerNonUserCode()");
+    b.verbatim(`\t\tpublic ${className}(string keyName, object keyValue) : `, "\t\t\t\tbase(EntityLogicalName, keyName, keyValue)");
+    b.open();
+    b.close();
+    b.spacer();
+
+    b.attr("System.Diagnostics.DebuggerNonUserCode()");
+    b.verbatim(`\t\tpublic ${className}(Microsoft.Xrm.Sdk.KeyAttributeCollection keyAttributes) : `, "\t\t\t\tbase(EntityLogicalName, keyAttributes)");
+    b.open();
+    b.close();
+    b.spacer();
+
+    // Constants
     if (entity.Keys && entity.Keys.length > 0) {
-        const altKeyValue = entity.Keys.map((k) => [...k.KeyAttributes].sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase())).join(","))
-            .sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()))
+        const altKeyValue = entity.Keys.map((k) => [...k.KeyAttributes].sort((a, c) => a.toLowerCase().localeCompare(c.toLowerCase())).join(","))
+            .sort((a, c) => a.toLowerCase().localeCompare(c.toLowerCase()))
             .join("|");
-        lines.push(`\t\tpublic const string AlternateKeys = "${altKeyValue}";`);
-        lines.push("\t\t");
+        b.line(`public const string AlternateKeys = "${altKeyValue}";`);
+        b.spacer();
     }
-    lines.push(`\t\tpublic const string EntityLogicalName = "${entity.LogicalName}";`);
-    lines.push("\t\t");
+    b.line(`public const string EntityLogicalName = "${entity.LogicalName}";`);
+    b.spacer();
     if (entity.PrimaryIdAttribute) {
-        lines.push(`\t\tpublic const string PrimaryIdAttribute = "${entity.PrimaryIdAttribute}";`);
-        lines.push("\t\t");
+        b.line(`public const string PrimaryIdAttribute = "${entity.PrimaryIdAttribute}";`);
+        b.spacer();
     }
     if (entity.PrimaryNameAttribute) {
-        lines.push(`\t\tpublic const string PrimaryNameAttribute = "${entity.PrimaryNameAttribute}";`);
-        lines.push("\t\t");
+        b.line(`public const string PrimaryNameAttribute = "${entity.PrimaryNameAttribute}";`);
+        b.spacer();
     }
-    lines.push(`\t\tpublic const string EntitySchemaName = "${entity.SchemaName}";`);
-    lines.push("\t\t");
+    b.line(`public const string EntitySchemaName = "${entity.SchemaName}";`);
+    b.spacer();
     if (entity.LogicalCollectionName) {
-        lines.push(`\t\tpublic const string EntityLogicalCollectionName = "${entity.LogicalCollectionName}";`);
-        lines.push("\t\t");
+        b.line(`public const string EntityLogicalCollectionName = "${entity.LogicalCollectionName}";`);
+        b.spacer();
     }
     if (entity.EntitySetName) {
-        lines.push(`\t\tpublic const string EntitySetName = "${entity.EntitySetName}";`);
-        lines.push("\t\t");
+        b.line(`public const string EntitySetName = "${entity.EntitySetName}";`);
+        b.spacer();
     }
 
+    // Nested classes
     if (settings.generateAttributeNameConsts) {
         const fieldsBlock = generateFieldsClass(entity, namingService);
         if (fieldsBlock) {
-            lines.push(fieldsBlock);
-            lines.push("\t\t");
+            b.verbatim(fieldsBlock);
+            b.spacer();
         }
     }
 
     if (settings.generateEntityRelationships) {
         const relBlock = generateRelationshipsClass(entity, namingService);
         if (relBlock) {
-            lines.push(relBlock);
-            lines.push("\t\t");
+            b.verbatim(relBlock);
+            b.spacer();
         }
     }
 
+    // Properties
     const attrs = (entity.Attributes ?? []).filter((a) => options.filterService.shouldGenerateAttribute(entity, a));
     for (const attr of attrs) {
-        const propLines = generatePropertyBlock(entity, attr, allEntities, namingService, settings);
-        if (propLines) {
-            lines.push(propLines);
-            lines.push("\t\t");
+        const propBlock = generatePropertyBlock(entity, attr, allEntities, namingService, settings);
+        if (propBlock) {
+            b.verbatim(propBlock);
+            b.spacer();
         }
     }
 
+    // Relationship navigation properties
     if (settings.generateEntityRelationships) {
         const relProps = generateRelationshipProperties(entity, allEntities, namingService);
         for (const rp of relProps) {
-            lines.push(rp);
-            lines.push("\t\t");
+            b.verbatim(rp);
+            b.spacer();
         }
     }
 
-    while (lines.length > 0 && lines[lines.length - 1].trim() === "") {
-        lines.pop();
-    }
+    b.trimEnd();
+    b.depth = 2;
+    b.close(); // closes class at \t}
+    b.depth = 0;
+    b.verbatim("}", "#pragma warning restore CS1591");
 
-    lines.push("\t}");
-    lines.push("}");
-    lines.push("#pragma warning restore CS1591");
-
-    return lines.join("\n") + "\n";
+    return b.toStringWithNewline();
 }
 
 function generateFieldsClass(entity: EntityMetadata, namingService: NamingService): string | null {
@@ -504,17 +441,13 @@ function generateFieldsClass(entity: EntityMetadata, namingService: NamingServic
 
     entries.sort((a, b) => a[0].localeCompare(b[0]));
 
-    const innerLines: string[] = [];
+    const b = new CodeBuilder(2);
+    b.open("public static partial class Fields");
     for (const [name, logical] of entries) {
-        innerLines.push(`\t\t\tpublic const string ${name} = "${logical}";`);
+        b.line(`public const string ${name} = "${logical}";`);
     }
-
-    const lines: string[] = [];
-    lines.push("\t\tpublic static partial class Fields");
-    lines.push("\t\t{");
-    lines.push(...innerLines);
-    lines.push("\t\t}");
-    return lines.join("\n");
+    b.close();
+    return b.toString();
 }
 
 function generateRelationshipsClass(entity: EntityMetadata, _namingService: NamingService): string | null {
@@ -537,14 +470,13 @@ function generateRelationshipsClass(entity: EntityMetadata, _namingService: Nami
 
     entries.sort((a, b) => a[0].localeCompare(b[0]));
 
-    const lines: string[] = [];
-    lines.push("\t\tpublic static partial class Relationships");
-    lines.push("\t\t{");
+    const b = new CodeBuilder(2);
+    b.open("public static partial class Relationships");
     for (const [name, schema] of entries) {
-        lines.push(`\t\t\tpublic const string ${name} = "${schema}";`);
+        b.line(`public const string ${name} = "${schema}";`);
     }
-    lines.push("\t\t}");
-    return lines.join("\n");
+    b.close();
+    return b.toString();
 }
 
 function generatePropertyBlock(entity: EntityMetadata, attr: AttributeMetadata, _allEntities: Map<string, EntityMetadata>, namingService: NamingService, settings: EbgSettings): string | null {

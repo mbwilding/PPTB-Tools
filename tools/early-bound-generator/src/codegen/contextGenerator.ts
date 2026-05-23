@@ -1,8 +1,9 @@
 import type { EbgSettings } from "../models/interfaces";
 import type { EntityMetadata } from "./types";
-import { CODEGEN_TOOL_NAME } from "./types";
+import { CODEGEN_TOOL_NAME, CODEGEN_TOOL_VERSION } from "./types";
 import { NamingService } from "./naming";
-import { codeFileHeader } from "./helpers";
+import { codeFileHeader } from "../utils/codeBuilder";
+import { CodeBuilder } from "../utils/codeBuilder";
 
 const OPTION_SET_METADATA_ATTRIBUTE_LINES: string[] = [
     "\t",
@@ -132,59 +133,57 @@ const OPTION_SET_EXTENSION_LINES: string[] = [
     "\t}",
 ];
 
-export function generateContextFile(entities: EntityMetadata[], namingService: NamingService, settings: EbgSettings, appVersion: string): string {
+export function generateContextFile(entities: EntityMetadata[], namingService: NamingService, settings: EbgSettings): string {
     const ns = settings.namespace;
     const contextName = settings.serviceContextName;
 
-    const lines: string[] = [];
+    // Build the file header without the namespace block (we need to insert the assembly attribute first).
+    // codeFileHeader emits: ...header lines..., "", `namespace X`, `{`
+    // We keep everything up to and including the blank line, then insert the assembly attribute.
+    const header = codeFileHeader(ns);
+    const headerLines = header.toLines();
+    // Last 3 lines are: "", `namespace X`, `{` -- keep the blank line, drop namespace+brace
+    const preamble = headerLines.slice(0, -2);
 
-    lines.push(...codeFileHeader(ns).slice(0, -2));
-    lines.push("[assembly: Microsoft.Xrm.Sdk.Client.ProxyTypesAssemblyAttribute()]");
-    lines.push("");
-    lines.push(`namespace ${ns}`);
-    lines.push("{");
-    lines.push("\t");
-    lines.push("\t");
+    const b = new CodeBuilder();
+    b.verbatim(...preamble);
+    b.verbatim("[assembly: Microsoft.Xrm.Sdk.Client.ProxyTypesAssemblyAttribute()]");
+    b.verbatim("");
+    b.verbatim(`namespace ${ns}`, "{");
+    b.depth = 1;
 
-    lines.push("\t/// <summary>");
-    lines.push("\t/// Represents a source of entities bound to a Dataverse service. It tracks and manages changes made to the retrieved entities.");
-    lines.push("\t/// </summary>");
-    lines.push(`\t[System.CodeDom.Compiler.GeneratedCodeAttribute("${CODEGEN_TOOL_NAME}", "${appVersion}")]`);
-    lines.push(`\tpublic partial class ${contextName} : Microsoft.Xrm.Sdk.Client.OrganizationServiceContext`);
-    lines.push("\t{");
-    lines.push("\t\t");
+    b.spacer();
+    b.spacer();
+    b.summary("Represents a source of entities bound to a Dataverse service. It tracks and manages changes made to the retrieved entities.");
+    b.attrArgs("System.CodeDom.Compiler.GeneratedCodeAttribute", `"${CODEGEN_TOOL_NAME}", "${CODEGEN_TOOL_VERSION}"`);
+    b.open(`public partial class ${contextName} : Microsoft.Xrm.Sdk.Client.OrganizationServiceContext`);
+    b.spacer();
 
-    lines.push("\t\t/// <summary>");
-    lines.push("\t\t/// Constructor.");
-    lines.push("\t\t/// </summary>");
-    lines.push(`\t\tpublic ${contextName}(Microsoft.Xrm.Sdk.IOrganizationService service) : `);
-    lines.push("\t\t\t\tbase(service)");
-    lines.push("\t\t{");
-    lines.push("\t\t}");
+    b.summary("Constructor.");
+    b.verbatim(`\t\tpublic ${contextName}(Microsoft.Xrm.Sdk.IOrganizationService service) : `, "\t\t\t\tbase(service)");
+    b.open();
+    b.close();
 
     for (const entity of entities) {
         const className = namingService.getNameForEntity(entity);
         const propName = `${className}Set`;
         const qualifiedName = `${ns}.${className}`;
 
-        lines.push("\t\t");
-        lines.push("\t\t/// <summary>");
-        lines.push(`\t\t/// Gets a binding to the set of all <see cref="${qualifiedName}"/> entities.`);
-        lines.push("\t\t/// </summary>");
-        lines.push(`\t\tpublic System.Linq.IQueryable<${qualifiedName}> ${propName}`);
-        lines.push("\t\t{");
-        lines.push("\t\t\tget");
-        lines.push("\t\t\t{");
-        lines.push(`\t\t\t\treturn this.CreateQuery<${qualifiedName}>();`);
-        lines.push("\t\t\t}");
-        lines.push("\t\t}");
+        b.spacer();
+        b.summaryRaw(`Gets a binding to the set of all <see cref="${qualifiedName}"/> entities.`);
+        b.open(`public System.Linq.IQueryable<${qualifiedName}> ${propName}`);
+        b.getter(() => {
+            b.line(`return this.CreateQuery<${qualifiedName}>();`);
+        }, false);
+        b.close();
     }
 
-    lines.push("\t}");
-    lines.push(...OPTION_SET_METADATA_ATTRIBUTE_LINES);
-    lines.push(...OPTION_SET_EXTENSION_LINES);
-    lines.push("}");
-    lines.push("#pragma warning restore CS1591");
+    b.close();
 
-    return lines.join("\n") + "\n";
+    b.depth = 0;
+    b.verbatim(...OPTION_SET_METADATA_ATTRIBUTE_LINES);
+    b.verbatim(...OPTION_SET_EXTENSION_LINES);
+    b.verbatim("}", "#pragma warning restore CS1591");
+
+    return b.toStringWithNewline();
 }

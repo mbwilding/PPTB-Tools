@@ -1,47 +1,25 @@
 import type { EbgSettings } from "../models/interfaces";
 import type { EntityMetadata, OptionSetMetadata, OptionMetadata } from "./types";
-import { CODEGEN_TOOL_NAME } from "./types";
+import { CODEGEN_TOOL_NAME, CODEGEN_TOOL_VERSION } from "./types";
 import { NamingService, getLocalOrDefaultText } from "./naming";
 import type { FilterService } from "./filters";
-import { escapeXmlComment, codeFileHeader } from "./helpers";
+import { codeFileHeader } from "../utils/codeBuilder";
+import { CodeBuilder } from "../utils/codeBuilder";
 
-export function generateEnumDeclaration(
-    entity: EntityMetadata | null,
-    optionSet: OptionSetMetadata,
-    namingService: NamingService,
-    settings: EbgSettings,
-    appVersion: string,
-    langCode = 1033,
-): string | null {
+export function generateEnumDeclaration(entity: EntityMetadata | null, optionSet: OptionSetMetadata, namingService: NamingService, settings: EbgSettings, langCode = 1033): string | null {
     if (!optionSet.Options || optionSet.Options.length === 0) return null;
 
     const enumName = namingService.getNameForOptionSet(entity, optionSet);
-
     const description = getLocalOrDefaultText(optionSet.Description, langCode);
 
-    const lines: string[] = [];
-    lines.push("\t");
-
-    if (description) {
-        lines.push("\t/// <summary>");
-
-        const descLines = description.split(/\r?\n/);
-        for (const dl of descLines) {
-            if (dl === "") {
-                lines.push("\t///");
-            } else {
-                lines.push(`\t/// ${escapeXmlComment(dl)}`);
-            }
-        }
-        lines.push("\t/// </summary>");
-    }
-
-    lines.push("\t[System.Runtime.Serialization.DataContractAttribute()]");
+    const b = new CodeBuilder(1);
+    b.spacer();
+    b.summary(description);
+    b.attr("System.Runtime.Serialization.DataContractAttribute()");
     if (!settings.suppressGeneratedCodeAttribute) {
-        lines.push(`\t[System.CodeDom.Compiler.GeneratedCodeAttribute("${CODEGEN_TOOL_NAME}", "${appVersion}")]`);
+        b.attrArgs("System.CodeDom.Compiler.GeneratedCodeAttribute", `"${CODEGEN_TOOL_NAME}", "${CODEGEN_TOOL_VERSION}"`);
     }
-    lines.push(`\tpublic enum ${enumName}`);
-    lines.push("\t{");
+    b.open(`public enum ${enumName}`);
 
     const metadataOrderByValue = new Map<number, number>();
     optionSet.Options.forEach((opt, i) => {
@@ -55,7 +33,6 @@ export function generateEnumDeclaration(
     for (const opt of optionSet.Options) {
         if (opt.Value === null || opt.Value === undefined) continue;
         const name = namingService.getNameForOption(optionSet, opt, langCode);
-
         const labelText = getLocalOrDefaultText(opt.Label, langCode);
         const optionDescription = getLocalOrDefaultText(opt.Description, langCode) ?? "";
         const color = opt.Color ?? "";
@@ -72,14 +49,9 @@ export function generateEnumDeclaration(
     namedOptions.sort((a, b) => a.name.localeCompare(b.name));
 
     for (const opt of namedOptions) {
-        lines.push("\t\t");
-
-        if (opt.optionDescription) {
-            lines.push("\t\t/// <summary>");
-            lines.push(`\t\t/// ${escapeXmlComment(opt.optionDescription)}`);
-            lines.push("\t\t/// </summary>");
-        }
-        lines.push("\t\t[System.Runtime.Serialization.EnumMemberAttribute()]");
+        b.spacer();
+        b.summary(opt.optionDescription || undefined);
+        b.attr("System.Runtime.Serialization.EnumMemberAttribute()");
         if (settings.generateOptionSetMetadataAttribute || settings.addOptionSetMetadataAttribute) {
             const optAttrArgs: string[] = [`"${escapeStringLiteral(opt.label)}"`, `${opt.metadataIdx}`];
             if (opt.color) {
@@ -88,56 +60,54 @@ export function generateEnumDeclaration(
                     optAttrArgs.push(`"${escapeStringLiteral(opt.optionDescription)}"`);
                 }
             }
-            lines.push(`\t\t[OptionSetMetadataAttribute(${optAttrArgs.join(", ")})]`);
+            b.attrArgs("OptionSetMetadataAttribute", optAttrArgs.join(", "));
         }
-        lines.push(`\t\t${opt.name} = ${opt.value},`);
+        b.line(`${opt.name} = ${opt.value},`);
     }
 
-    lines.push("\t}");
-    return lines.join("\n");
+    b.close();
+    return b.toString();
 }
 
 function escapeStringLiteral(s: string): string {
     return s.replace(/\\/g, "\\\\").replace(/'/g, "\\'").replace(/"/g, '\\"');
 }
 
-function wrapEnumDeclarations(decls: Array<string | null>): string[] {
-    const lines: string[] = [];
+function appendEnumDeclarations(b: CodeBuilder, decls: Array<string | null>): void {
     for (const decl of decls) {
-        if (decl) lines.push(decl);
+        if (decl) b.verbatim(decl);
     }
-    lines.push("}");
-    lines.push("#pragma warning restore CS1591");
-    return lines;
+    b.verbatim("}", "#pragma warning restore CS1591");
 }
 
-export function generateOptionSetsFile(
-    entityOptionSets: Array<{ entity: EntityMetadata | null; optionSet: OptionSetMetadata }>,
-    namingService: NamingService,
-    settings: EbgSettings,
-    appVersion: string,
-): string {
+export function generateOptionSetsFile(entityOptionSets: Array<{ entity: EntityMetadata | null; optionSet: OptionSetMetadata }>, namingService: NamingService, settings: EbgSettings): string {
     const sorted = [...entityOptionSets].sort((a, b) => {
         const nameA = namingService.getNameForOptionSet(a.entity, a.optionSet);
         const nameB = namingService.getNameForOptionSet(b.entity, b.optionSet);
         return nameA.localeCompare(nameB);
     });
 
-    const decls = sorted.map(({ entity, optionSet }) => generateEnumDeclaration(entity, optionSet, namingService, settings, appVersion));
-    const lines = [...codeFileHeader(settings.namespace), "\t", ...wrapEnumDeclarations(decls)];
-    return lines.join("\n") + "\n";
+    const decls = sorted.map(({ entity, optionSet }) => generateEnumDeclaration(entity, optionSet, namingService, settings));
+    const b = codeFileHeader(settings.namespace);
+    b.spacer();
+    appendEnumDeclarations(b, decls);
+    return b.toStringWithNewline();
 }
 
-export function generateEntityOptionSetsFile(entity: EntityMetadata, optionSets: OptionSetMetadata[], namingService: NamingService, settings: EbgSettings, appVersion: string): string {
-    const decls = optionSets.map((optionSet) => generateEnumDeclaration(entity, optionSet, namingService, settings, appVersion));
-    const lines = [...codeFileHeader(settings.namespace), "\t", ...wrapEnumDeclarations(decls)];
-    return lines.join("\n");
+export function generateEntityOptionSetsFile(entity: EntityMetadata, optionSets: OptionSetMetadata[], namingService: NamingService, settings: EbgSettings): string {
+    const decls = optionSets.map((optionSet) => generateEnumDeclaration(entity, optionSet, namingService, settings));
+    const b = codeFileHeader(settings.namespace);
+    b.spacer();
+    appendEnumDeclarations(b, decls);
+    return b.toString();
 }
 
-export function generateSingleOptionSetFile(entity: EntityMetadata | null, optionSet: OptionSetMetadata, namingService: NamingService, settings: EbgSettings, appVersion: string): string {
-    const decl = generateEnumDeclaration(entity, optionSet, namingService, settings, appVersion);
-    const lines = [...codeFileHeader(settings.namespace), "\t", ...wrapEnumDeclarations([decl])];
-    return lines.join("\n");
+export function generateSingleOptionSetFile(entity: EntityMetadata | null, optionSet: OptionSetMetadata, namingService: NamingService, settings: EbgSettings): string {
+    const decl = generateEnumDeclaration(entity, optionSet, namingService, settings);
+    const b = codeFileHeader(settings.namespace);
+    b.spacer();
+    appendEnumDeclarations(b, [decl]);
+    return b.toString();
 }
 
 export function collectOptionSets(entities: EntityMetadata[], settings: EbgSettings, _filterService: FilterService): Array<{ entity: EntityMetadata | null; optionSet: OptionSetMetadata }> {
