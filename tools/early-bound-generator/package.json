@@ -14,7 +14,8 @@
     ],
     "configurations": {
         "repository": "https://github.com/mbwilding/PPTB-Tools/tree/main/tools/early-bound-generator",
-        "readmeUrl": "https://raw.githubusercontent.com/mbwilding/PPTB-Tools/refs/heads/main/tools/early-bound-generator/README.md"
+        "readmeUrl": "https://raw.githubusercontent.com/mbwilding/PPTB-Tools/refs/heads/main/tools/early-bound-generator/README.md",
+        "website": "https://github.com/mbwilding/PPTB-Tools/tree/main/tools/early-bound-generator"
     },
     "homepage": "https://github.com/mbwilding/PPTB-Tools/tree/main/tools/early-bound-generator",
     "repository": {
@@ -25,14 +26,15 @@
         "url": "https://github.com/mbwilding/PPTB-Tools/issues"
     },
     "keywords": ["powerplatform", "dataverse", "toolbox", "early-bound", "code-gen", "source-gen"],
-    "features": {},
     "type": "module",
     "scripts": {
         "build": "npm run typecheck && vite build",
         "typecheck": "tsc --noEmit -p tsconfig.test.json",
         "dev": "vite",
         "test": "vitest run",
-        "test:watch": "vitest"
+        "test:watch": "vitest",
+        "validate": "pptb-validate",
+        "finalize-package": "npm shrinkwrap"
     },
     "files": [
         "dist",
