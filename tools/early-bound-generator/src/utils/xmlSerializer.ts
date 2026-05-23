@@ -161,7 +161,7 @@ export function settingsToXml(s: EbgSettings, appVersion: string): string {
     xml += el("Namespace", esc(s.namespace));
     xml += el("ServiceContextName", esc(s.serviceContextName));
     xml += elBool("SuppressGeneratedCodeAttribute", s.suppressGeneratedCodeAttribute);
-    xml += el("SettingsVersion", "2.2025.8.26");
+    xml += el("SettingsVersion", "2.2026.5.12");
     xml += elBool("UpdateBuilderSettingsJson", s.updateBuilderSettingsJson);
     xml += el("Version", appVersion);
 
