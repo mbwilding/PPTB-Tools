@@ -54,6 +54,10 @@ jobs:
         run: npm run validate -- --skip-url-checks
         working-directory: ${{ matrix.tool }}
 
+      - name: Test
+        run: npm test
+        working-directory: ${{ matrix.tool }}
+
       - name: Build
         run: npm run build
         working-directory: ${{ matrix.tool }}
@@ -62,7 +66,25 @@ jobs:
         run: npm run finalize-package
         working-directory: ${{ matrix.tool }}
 
+      - name: Check if version is new
+        id: version-check
+        working-directory: ${{ matrix.tool }}
+        run: |
+          LOCAL=$(node -p "require('./package.json').version")
+          PKG=$(node -p "require('./package.json').name")
+          REMOTE=$(npm view "$PKG" version 2>/dev/null || echo "none")
+          echo "local=$LOCAL" >> "$GITHUB_OUTPUT"
+          echo "remote=$REMOTE" >> "$GITHUB_OUTPUT"
+          if [ "$LOCAL" = "$REMOTE" ]; then
+            echo "publish=false" >> "$GITHUB_OUTPUT"
+            echo "Version $LOCAL already published, skipping."
+          else
+            echo "publish=true" >> "$GITHUB_OUTPUT"
+            echo "Local version $LOCAL differs from remote $REMOTE, will publish."
+          fi
+
       - name: Publish to npm
+        if: steps.version-check.outputs.publish == 'true'
         run: npm publish --access public
         working-directory: ${{ matrix.tool }}
         env:
