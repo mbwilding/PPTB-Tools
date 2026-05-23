@@ -11,11 +11,11 @@
             "url": "https://github.com/mbwilding"
         }
     ],
+    "icon": "icons/ebg.svg",
     "configurations": {
         "repository": "https://github.com/mbwilding/PPTB-Tools/tree/main/tools/early-bound-generator",
         "readmeUrl": "https://raw.githubusercontent.com/mbwilding/PPTB-Tools/refs/heads/main/tools/early-bound-generator/README.md",
-        "website": "https://github.com/mbwilding/PPTB-Tools/tree/main/tools/early-bound-generator",
-        "iconUrl": "https://raw.githubusercontent.com/mbwilding/PPTB-Tools/refs/heads/main/tools/early-bound-generator/public/icons/ebg.png"
+        "website": "https://github.com/mbwilding/PPTB-Tools/tree/main/tools/early-bound-generator"
     },
     "homepage": "https://github.com/mbwilding/PPTB-Tools/tree/main/tools/early-bound-generator",
     "repository": {
