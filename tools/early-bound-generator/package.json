@@ -20,7 +20,7 @@
     "homepage": "https://github.com/mbwilding/PPTB-Tools/tree/main/tools/early-bound-generator",
     "repository": {
         "type": "git",
-        "url": "https://github.com/mbwilding/PPTB-Tools.git"
+        "url": "git+https://github.com/mbwilding/PPTB-Tools.git"
     },
     "bugs": {
         "url": "https://github.com/mbwilding/PPTB-Tools/issues"
