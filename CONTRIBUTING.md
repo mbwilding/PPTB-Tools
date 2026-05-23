@@ -14,20 +14,22 @@ Thank you for your interest in contributing to PPTB-Tools! This document provide
 
 1. Fork the repository on GitHub
 2. Clone your fork locally:
-   ```bash
-   git clone https://github.com/YOUR_USERNAME/PPTB-Tools.git
-   cd PPTB-Tools
-   ```
+
+    ```bash
+    git clone https://github.com/YOUR_USERNAME/PPTB-Tools.git
+    cd PPTB-Tools
+    ```
 
 3. Install dependencies:
-   ```bash
-   npm install
-   ```
+
+    ```bash
+    npm install
+    ```
 
 4. Build all tools:
-   ```bash
-   npm run build
-   ```
+    ```bash
+    npm run build
+    ```
 
 ## Development Workflow
 
@@ -47,22 +49,24 @@ PPTB-Tools/
 ### Making Changes
 
 1. Create a new branch for your feature or bugfix:
-   ```bash
-   git checkout -b feature/your-feature-name
-   ```
+
+    ```bash
+    git checkout -b feature/your-feature-name
+    ```
 
 2. Make your changes in the appropriate package
 
 3. Build and test your changes:
-   ```bash
-   npm run build
-   npm run test
-   ```
+
+    ```bash
+    npm run build
+    npm run test
+    ```
 
 4. Commit your changes with a descriptive message:
-   ```bash
-   git commit -m "feat: add new feature"
-   ```
+    ```bash
+    git commit -m "feat: add new feature"
+    ```
 
 ### Commit Message Guidelines
 
@@ -80,48 +84,51 @@ We follow conventional commit messages:
 To add a new tool to the monorepo:
 
 1. Create a new directory under `tools/`:
-   ```bash
-   mkdir -p tools/your-tool/src
-   ```
+
+    ```bash
+    mkdir -p tools/your-tool/src
+    ```
 
 2. Create `package.json` in the new package:
-   ```json
-   {
-     "name": "@dvdt-tools/your-tool",
-     "version": "1.0.0",
-     "description": "Description of your tool",
-     "main": "dist/index.js",
-     "types": "dist/index.d.ts",
-     "scripts": {
-       "build": "tsc",
-       "test": "echo \"No tests yet\"",
-       "dev": "tsc --watch"
-     },
-     "keywords": ["dataverse", "power-platform"],
-     "author": "Power-Maverick",
-     "license": "GPL-2.0"
-   }
-   ```
+
+    ```json
+    {
+        "name": "@dvdt-tools/your-tool",
+        "version": "1.0.0",
+        "description": "Description of your tool",
+        "main": "dist/index.js",
+        "types": "dist/index.d.ts",
+        "scripts": {
+            "build": "tsc",
+            "test": "echo \"No tests yet\"",
+            "dev": "tsc --watch"
+        },
+        "keywords": ["dataverse", "power-platform"],
+        "author": "Power-Maverick",
+        "license": "GPL-2.0"
+    }
+    ```
 
 3. Create `tsconfig.json`:
-   ```json
-   {
-     "extends": "../../tsconfig.json",
-     "compilerOptions": {
-       "outDir": "./dist",
-       "rootDir": "./src"
-     },
-     "include": ["src/**/*"]
-   }
-   ```
+
+    ```json
+    {
+        "extends": "../../tsconfig.json",
+        "compilerOptions": {
+            "outDir": "./dist",
+            "rootDir": "./src"
+        },
+        "include": ["src/**/*"]
+    }
+    ```
 
 4. Add your source code in the `src/` directory
 
 5. Build and test:
-   ```bash
-   npm install
-   npm run build
-   ```
+    ```bash
+    npm install
+    npm run build
+    ```
 
 ## Pull Request Process
 
@@ -148,6 +155,7 @@ To add a new tool to the monorepo:
 ## Questions?
 
 If you have questions, feel free to:
+
 - Open an issue on GitHub
 - Reach out to the maintainers
 
