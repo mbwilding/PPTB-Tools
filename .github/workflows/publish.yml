@@ -7,33 +7,29 @@ on:
       - main
 
 jobs:
-  detect-changes:
-    name: Detect changed tools
+  detect-tools:
+    name: Detect tools
     runs-on: ubuntu-latest
     outputs:
-      tools: ${{ steps.changed.outputs.tools }}
+      tools: ${{ steps.list.outputs.tools }}
     steps:
       - uses: actions/checkout@v6.0.2
-        with:
-          fetch-depth: 2
 
-      - name: Find tools with changed package.json
-        id: changed
+      - name: List tools
+        id: list
         run: |
-          CHANGED=$(git diff --name-only HEAD~1 HEAD \
-            | grep '^tools/[^/]*/package\.json$' \
-            | sed 's|/package\.json||' \
+          TOOLS=$(find tools -mindepth 1 -maxdepth 1 -type d \
             | jq -R -s -c 'split("\n") | map(select(length > 0))')
-          echo "tools=$CHANGED" >> "$GITHUB_OUTPUT"
+          echo "tools=$TOOLS" >> "$GITHUB_OUTPUT"
 
   publish:
     name: Publish ${{ matrix.tool }}
-    needs: detect-changes
-    if: ${{ needs.detect-changes.outputs.tools != '[]' && needs.detect-changes.outputs.tools != '' }}
+    needs: detect-tools
+    if: ${{ needs.detect-tools.outputs.tools != '[]' && needs.detect-tools.outputs.tools != '' }}
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        tool: ${{ fromJson(needs.detect-changes.outputs.tools) }}
+        tool: ${{ fromJson(needs.detect-tools.outputs.tools) }}
       fail-fast: false
 
     steps:
