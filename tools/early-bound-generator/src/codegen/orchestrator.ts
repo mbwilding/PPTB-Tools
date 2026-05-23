@@ -146,13 +146,16 @@ function parseRelationships(raw: unknown): EntityMetadata["OneToManyRelationship
 }
 
 async function writeTextWithPermission(path: string, content: string, log: LogFn): Promise<void> {
+    const dir = path.includes("/") ? path.substring(0, path.lastIndexOf("/")) : "";
+    if (dir) {
+        await window.toolboxAPI.fileSystem.createDirectory(dir);
+    }
     try {
         await window.toolboxAPI.fileSystem.writeText(path, content);
         log(`\tCode written to ${path}.`);
     } catch (err) {
         const msg = String(err);
         if (msg.includes("Access denied") || msg.includes("permission")) {
-            const dir = path.includes("/") ? path.substring(0, path.lastIndexOf("/")) : path;
             log(`\tAccess denied — requesting permission for: ${dir}`);
             const granted = await window.toolboxAPI.fileSystem.selectPath({
                 type: "folder",
@@ -160,6 +163,7 @@ async function writeTextWithPermission(path: string, content: string, log: LogFn
                 defaultPath: dir,
             });
             if (!granted) throw new Error(`Access denied to ${dir} and permission request was cancelled.`);
+            await window.toolboxAPI.fileSystem.createDirectory(dir);
             await window.toolboxAPI.fileSystem.writeText(path, content);
             log(`\tCode written to ${path}.`);
         } else {
