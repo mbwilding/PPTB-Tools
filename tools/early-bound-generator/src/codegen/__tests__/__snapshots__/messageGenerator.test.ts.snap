@@ -15,34 +15,38 @@ exports[`messageGenerator > generateMessageFile > generates a message file with 
 namespace DataverseModel
 {
 	
-	[System.Runtime.Serialization.DataContractAttribute()]
+	
+	[System.Runtime.Serialization.DataContractAttribute(Namespace="http://schemas.microsoft.com/xrm/2011/new/")]
 	[Microsoft.Xrm.Sdk.Client.RequestProxyAttribute("contoso_TriggerSync")]
-	public partial class contoso_TriggerSyncRequest : Microsoft.Xrm.Sdk.OrganizationRequest
+	public partial class COntoSo_TriggerSyncRequest : Microsoft.Xrm.Sdk.OrganizationRequest
 	{
+		
 		public static class Fields
 		{
-			public const string ActionName = "contoso_TriggerSync";
 		}
 		
-		public contoso_TriggerSyncRequest()
+		public const string ActionLogicalName = "contoso_TriggerSync";
+		
+		public COntoSo_TriggerSyncRequest()
 		{
 			this.RequestName = "contoso_TriggerSync";
-			this.Parameters["contoso_TriggerSync"] = null;
 		}
 	}
 	
-	[System.Runtime.Serialization.DataContractAttribute()]
+	[System.Runtime.Serialization.DataContractAttribute(Namespace="http://schemas.microsoft.com/xrm/2011/new/")]
 	[Microsoft.Xrm.Sdk.Client.ResponseProxyAttribute("contoso_TriggerSync")]
-	public partial class contoso_TriggerSyncResponse : Microsoft.Xrm.Sdk.OrganizationResponse
+	public partial class COntoSo_TriggerSyncResponse : Microsoft.Xrm.Sdk.OrganizationResponse
 	{
-		public static class Fields
-		{
-			public const string ActionName = "contoso_TriggerSync";
-		}
 		
+		public const string ActionLogicalName = "contoso_TriggerSync";
+		
+		public COntoSo_TriggerSyncResponse()
+		{
+		}
 	}
 }
-#pragma warning restore CS1591"
+#pragma warning restore CS1591
+"
 `;
 
 exports[`messageGenerator > generateMessageFile > generates a single message file with request and response fields 1`] = `
@@ -60,98 +64,79 @@ exports[`messageGenerator > generateMessageFile > generates a single message fil
 namespace DataverseModel
 {
 	
-	[System.Runtime.Serialization.DataContractAttribute()]
+	
+	[System.Runtime.Serialization.DataContractAttribute(Namespace="http://schemas.microsoft.com/xrm/2011/new/")]
 	[Microsoft.Xrm.Sdk.Client.RequestProxyAttribute("contoso_CalculateCommission")]
-	public partial class contoso_CalculateCommissionRequest : Microsoft.Xrm.Sdk.OrganizationRequest
+	public partial class ConToSo_CalculateCommissionRequest : Microsoft.Xrm.Sdk.OrganizationRequest
 	{
+		
 		public static class Fields
 		{
-			public const string ActionName = "contoso_CalculateCommission";
 			public const string OpportunityId = "OpportunityId";
-			public const string OverrideRate = "OverrideRate";
+			public const string OverriderAte = "OverrideRate";
 		}
 		
-		public contoso_CalculateCommissionRequest()
-		{
-			this.RequestName = "contoso_CalculateCommission";
-			this.Parameters["contoso_CalculateCommission"] = null;
-		}
+		public const string ActionLogicalName = "contoso_CalculateCommission";
 		
-		[System.Runtime.Serialization.DataMemberAttribute()]
-		public System.Guid OpportunityId
+		public System.Guid? OpportunityId
 		{
-			[System.Diagnostics.DebuggerNonUserCode()]
 			get
 			{
-				return ((System.Guid)(this.Parameters["OpportunityId"]));
+				if (this.Parameters.Contains("OpportunityId"))
+				{
+					return ((System.Guid)(this.Parameters["OpportunityId"]));
+				}
+				else
+				{
+					return default(System.Guid);
+				}
 			}
-			[System.Diagnostics.DebuggerNonUserCode()]
 			set
 			{
 				this.Parameters["OpportunityId"] = value;
 			}
 		}
 		
-		[System.Runtime.Serialization.DataMemberAttribute()]
-		public System.Nullable<decimal>? OverrideRate
+		public System.Nullable<decimal>? OverriderAte
 		{
-			[System.Diagnostics.DebuggerNonUserCode()]
 			get
 			{
-				return ((System.Nullable<decimal>)(this.Parameters["OverrideRate"]));
+				if (this.Parameters.Contains("OverrideRate"))
+				{
+					return ((System.Nullable<decimal>)(this.Parameters["OverrideRate"]));
+				}
+				else
+				{
+					return default(System.Nullable<decimal>);
+				}
 			}
-			[System.Diagnostics.DebuggerNonUserCode()]
 			set
 			{
 				this.Parameters["OverrideRate"] = value;
 			}
 		}
+		
+		public ConToSo_CalculateCommissionRequest()
+		{
+			this.RequestName = "contoso_CalculateCommission";
+			this.OpportunityId = default(System.Guid);
+		}
 	}
 	
-	[System.Runtime.Serialization.DataContractAttribute()]
+	[System.Runtime.Serialization.DataContractAttribute(Namespace="http://schemas.microsoft.com/xrm/2011/new/")]
 	[Microsoft.Xrm.Sdk.Client.ResponseProxyAttribute("contoso_CalculateCommission")]
-	public partial class contoso_CalculateCommissionResponse : Microsoft.Xrm.Sdk.OrganizationResponse
+	public partial class ConToSo_CalculateCommissionResponse : Microsoft.Xrm.Sdk.OrganizationResponse
 	{
-		public static class Fields
-		{
-			public const string ActionName = "contoso_CalculateCommission";
-			public const string CommissionAmount = "CommissionAmount";
-			public const string BreakdownJson = "BreakdownJson";
-		}
 		
+		public const string ActionLogicalName = "contoso_CalculateCommission";
 		
-		[System.Runtime.Serialization.DataMemberAttribute()]
-		public System.Nullable<decimal>? CommissionAmount
+		public ConToSo_CalculateCommissionResponse()
 		{
-			[System.Diagnostics.DebuggerNonUserCode()]
-			get
-			{
-				return ((System.Nullable<decimal>)(this.Results["CommissionAmount"]));
-			}
-			[System.Diagnostics.DebuggerNonUserCode()]
-			set
-			{
-				this.Results["CommissionAmount"] = value;
-			}
-		}
-		
-		[System.Runtime.Serialization.DataMemberAttribute()]
-		public string? BreakdownJson
-		{
-			[System.Diagnostics.DebuggerNonUserCode()]
-			get
-			{
-				return ((string)(this.Results["BreakdownJson"]));
-			}
-			[System.Diagnostics.DebuggerNonUserCode()]
-			set
-			{
-				this.Results["BreakdownJson"] = value;
-			}
 		}
 	}
 }
-#pragma warning restore CS1591"
+#pragma warning restore CS1591
+"
 `;
 
 exports[`messageGenerator > generateMessagesFile > generates a combined messages file 1`] = `
@@ -170,123 +155,106 @@ namespace DataverseModel
 {
 
 	
-	[System.Runtime.Serialization.DataContractAttribute()]
+	
+	[System.Runtime.Serialization.DataContractAttribute(Namespace="http://schemas.microsoft.com/xrm/2011/new/")]
 	[Microsoft.Xrm.Sdk.Client.RequestProxyAttribute("contoso_CalculateCommission")]
-	public partial class contoso_CalculateCommissionRequest : Microsoft.Xrm.Sdk.OrganizationRequest
+	public partial class ConToSo_CalculateCommissionRequest : Microsoft.Xrm.Sdk.OrganizationRequest
 	{
+		
 		public static class Fields
 		{
-			public const string ActionName = "contoso_CalculateCommission";
 			public const string OpportunityId = "OpportunityId";
-			public const string OverrideRate = "OverrideRate";
+			public const string OverriderAte = "OverrideRate";
 		}
 		
-		public contoso_CalculateCommissionRequest()
-		{
-			this.RequestName = "contoso_CalculateCommission";
-			this.Parameters["contoso_CalculateCommission"] = null;
-		}
+		public const string ActionLogicalName = "contoso_CalculateCommission";
 		
-		[System.Runtime.Serialization.DataMemberAttribute()]
-		public System.Guid OpportunityId
+		public System.Guid? OpportunityId
 		{
-			[System.Diagnostics.DebuggerNonUserCode()]
 			get
 			{
-				return ((System.Guid)(this.Parameters["OpportunityId"]));
+				if (this.Parameters.Contains("OpportunityId"))
+				{
+					return ((System.Guid)(this.Parameters["OpportunityId"]));
+				}
+				else
+				{
+					return default(System.Guid);
+				}
 			}
-			[System.Diagnostics.DebuggerNonUserCode()]
 			set
 			{
 				this.Parameters["OpportunityId"] = value;
 			}
 		}
 		
-		[System.Runtime.Serialization.DataMemberAttribute()]
-		public System.Nullable<decimal>? OverrideRate
+		public System.Nullable<decimal>? OverriderAte
 		{
-			[System.Diagnostics.DebuggerNonUserCode()]
 			get
 			{
-				return ((System.Nullable<decimal>)(this.Parameters["OverrideRate"]));
+				if (this.Parameters.Contains("OverrideRate"))
+				{
+					return ((System.Nullable<decimal>)(this.Parameters["OverrideRate"]));
+				}
+				else
+				{
+					return default(System.Nullable<decimal>);
+				}
 			}
-			[System.Diagnostics.DebuggerNonUserCode()]
 			set
 			{
 				this.Parameters["OverrideRate"] = value;
 			}
 		}
+		
+		public ConToSo_CalculateCommissionRequest()
+		{
+			this.RequestName = "contoso_CalculateCommission";
+			this.OpportunityId = default(System.Guid);
+		}
 	}
 	
-	[System.Runtime.Serialization.DataContractAttribute()]
+	[System.Runtime.Serialization.DataContractAttribute(Namespace="http://schemas.microsoft.com/xrm/2011/new/")]
 	[Microsoft.Xrm.Sdk.Client.ResponseProxyAttribute("contoso_CalculateCommission")]
-	public partial class contoso_CalculateCommissionResponse : Microsoft.Xrm.Sdk.OrganizationResponse
+	public partial class ConToSo_CalculateCommissionResponse : Microsoft.Xrm.Sdk.OrganizationResponse
 	{
-		public static class Fields
-		{
-			public const string ActionName = "contoso_CalculateCommission";
-			public const string CommissionAmount = "CommissionAmount";
-			public const string BreakdownJson = "BreakdownJson";
-		}
 		
+		public const string ActionLogicalName = "contoso_CalculateCommission";
 		
-		[System.Runtime.Serialization.DataMemberAttribute()]
-		public System.Nullable<decimal>? CommissionAmount
+		public ConToSo_CalculateCommissionResponse()
 		{
-			[System.Diagnostics.DebuggerNonUserCode()]
-			get
-			{
-				return ((System.Nullable<decimal>)(this.Results["CommissionAmount"]));
-			}
-			[System.Diagnostics.DebuggerNonUserCode()]
-			set
-			{
-				this.Results["CommissionAmount"] = value;
-			}
-		}
-		
-		[System.Runtime.Serialization.DataMemberAttribute()]
-		public string? BreakdownJson
-		{
-			[System.Diagnostics.DebuggerNonUserCode()]
-			get
-			{
-				return ((string)(this.Results["BreakdownJson"]));
-			}
-			[System.Diagnostics.DebuggerNonUserCode()]
-			set
-			{
-				this.Results["BreakdownJson"] = value;
-			}
 		}
 	}
 
 	
-	[System.Runtime.Serialization.DataContractAttribute()]
+	
+	[System.Runtime.Serialization.DataContractAttribute(Namespace="http://schemas.microsoft.com/xrm/2011/new/")]
 	[Microsoft.Xrm.Sdk.Client.RequestProxyAttribute("contoso_TriggerSync")]
-	public partial class contoso_TriggerSyncRequest : Microsoft.Xrm.Sdk.OrganizationRequest
+	public partial class COntoSo_TriggerSyncRequest : Microsoft.Xrm.Sdk.OrganizationRequest
 	{
+		
 		public static class Fields
 		{
-			public const string ActionName = "contoso_TriggerSync";
 		}
 		
-		public contoso_TriggerSyncRequest()
+		public const string ActionLogicalName = "contoso_TriggerSync";
+		
+		public COntoSo_TriggerSyncRequest()
 		{
 			this.RequestName = "contoso_TriggerSync";
-			this.Parameters["contoso_TriggerSync"] = null;
 		}
 	}
 	
-	[System.Runtime.Serialization.DataContractAttribute()]
+	[System.Runtime.Serialization.DataContractAttribute(Namespace="http://schemas.microsoft.com/xrm/2011/new/")]
 	[Microsoft.Xrm.Sdk.Client.ResponseProxyAttribute("contoso_TriggerSync")]
-	public partial class contoso_TriggerSyncResponse : Microsoft.Xrm.Sdk.OrganizationResponse
+	public partial class COntoSo_TriggerSyncResponse : Microsoft.Xrm.Sdk.OrganizationResponse
 	{
-		public static class Fields
-		{
-			public const string ActionName = "contoso_TriggerSync";
-		}
 		
+		public const string ActionLogicalName = "contoso_TriggerSync";
+		
+		public COntoSo_TriggerSyncResponse()
+		{
+		}
 	}
 }
 #pragma warning restore CS1591"

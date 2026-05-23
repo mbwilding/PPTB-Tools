@@ -388,13 +388,13 @@ export async function runCodegen(settings: EbgSettings, settingsDir: string, out
             if (settings.createOneFilePerMessage) {
                 log(`--- Messages (${messagePairs.length}) ---`);
                 for (const pair of messagePairs) {
-                    const content = generateMessageFile(pair, settings, appVersion);
+                    const content = generateMessageFile(pair, settings, appVersion, naming);
                     const messageFileName = naming.camelCase(pair.Request.Name);
                     await writeTextWithPermission(joinPath(messageDir, `${messageFileName}.cs`), content, log);
                 }
             } else {
                 log("--- Messages (combined) ---");
-                const content = generateMessagesFile(messagePairs, settings, appVersion);
+                const content = generateMessagesFile(messagePairs, settings, appVersion, naming);
                 await writeTextWithPermission(joinPath(messageDir, messageFolderAndFile.filename), content, log);
             }
         } else {
