@@ -294,13 +294,13 @@ function buildRelationshipPropertyBlock(relType: "1:N" | "N:1" | "N:N", schemaNa
         }
     }, settings.addDebuggerNonUserCode);
     b.setter(() => {
-        b.line(`this.OnPropertyChanging("${propName}");`);
+        if (settings.generateINotifyPattern) b.line(`this.OnPropertyChanging("${propName}");`);
         if (isCollection) {
             b.line(`this.SetRelatedEntities<${targetEntityName}>("${schemaName}", null, value);`);
         } else {
             b.line(`this.SetRelatedEntity<${targetEntityName}>("${schemaName}", null, value);`);
         }
-        b.line(`this.OnPropertyChanged("${propName}");`);
+        if (settings.generateINotifyPattern) b.line(`this.OnPropertyChanged("${propName}");`);
     }, settings.addDebuggerNonUserCode);
     b.close();
     return b.toString();
@@ -322,10 +322,31 @@ export function generateEntityFile(entity: EntityMetadata, allEntities: Map<stri
     if (!settings.suppressGeneratedCodeAttribute) {
         b.attrArgs("System.CodeDom.Compiler.GeneratedCodeAttribute", `"${CODEGEN_TOOL_NAME}", "${CODEGEN_TOOL_VERSION}"`);
     }
-    b.open(`${settings.generateTypesAsInternal ? "internal" : "public"} partial class ${className} : Microsoft.Xrm.Sdk.Entity`);
+    b.open(`${settings.generateTypesAsInternal ? "internal" : "public"} partial class ${className} : Microsoft.Xrm.Sdk.Entity${settings.generateINotifyPattern ? ", System.ComponentModel.INotifyPropertyChanging, System.ComponentModel.INotifyPropertyChanged" : ""}`);
     b.spacer();
 
     const access = settings.generateTypesAsInternal ? "internal" : "public";
+
+    if (settings.generateINotifyPattern) {
+        b.line(`public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;`);
+        b.spacer();
+        b.line(`public event System.ComponentModel.PropertyChangingEventHandler PropertyChanging;`);
+        b.spacer();
+        if (settings.addDebuggerNonUserCode) b.attr("System.Diagnostics.DebuggerNonUserCode()");
+        b.open(`private void OnPropertyChanged(string propertyName)`);
+        b.open(`if ((this.PropertyChanged != null))`);
+        b.line(`this.PropertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));`);
+        b.close();
+        b.close();
+        b.spacer();
+        if (settings.addDebuggerNonUserCode) b.attr("System.Diagnostics.DebuggerNonUserCode()");
+        b.open(`private void OnPropertyChanging(string propertyName)`);
+        b.open(`if ((this.PropertyChanging != null))`);
+        b.line(`this.PropertyChanging(this, new System.ComponentModel.PropertyChangingEventArgs(propertyName));`);
+        b.close();
+        b.close();
+        b.spacer();
+    }
 
     // Constructors
     b.doc("<summary>");
@@ -337,23 +358,73 @@ export function generateEntityFile(entity: EntityMetadata, allEntities: Map<stri
     b.close();
     b.spacer();
 
-    if (settings.addDebuggerNonUserCode) b.attr("System.Diagnostics.DebuggerNonUserCode()");
-    b.verbatim(`\t\t${access} ${className}(System.Guid id) : `, "\t\t\t\tbase(EntityLogicalName, id)");
-    b.open();
-    b.close();
-    b.spacer();
+    if (settings.generateConstructorsSansLogicalName) {
+        if (settings.addDebuggerNonUserCode) b.attr("System.Diagnostics.DebuggerNonUserCode()");
+        b.verbatim(`\t\t${access} ${className}(System.Guid id) : `, "\t\t\t\tbase(EntityLogicalName, id)");
+        b.open();
+        b.close();
+        b.spacer();
 
-    if (settings.addDebuggerNonUserCode) b.attr("System.Diagnostics.DebuggerNonUserCode()");
-    b.verbatim(`\t\t${access} ${className}(string keyName, object keyValue) : `, "\t\t\t\tbase(EntityLogicalName, keyName, keyValue)");
-    b.open();
-    b.close();
-    b.spacer();
+        if (settings.addDebuggerNonUserCode) b.attr("System.Diagnostics.DebuggerNonUserCode()");
+        b.verbatim(`\t\t${access} ${className}(string keyName, object keyValue) : `, "\t\t\t\tbase(EntityLogicalName, keyName, keyValue)");
+        b.open();
+        b.close();
+        b.spacer();
 
-    if (settings.addDebuggerNonUserCode) b.attr("System.Diagnostics.DebuggerNonUserCode()");
-    b.verbatim(`\t\t${access} ${className}(Microsoft.Xrm.Sdk.KeyAttributeCollection keyAttributes) : `, "\t\t\t\tbase(EntityLogicalName, keyAttributes)");
-    b.open();
-    b.close();
-    b.spacer();
+        if (settings.addDebuggerNonUserCode) b.attr("System.Diagnostics.DebuggerNonUserCode()");
+        b.verbatim(`\t\t${access} ${className}(Microsoft.Xrm.Sdk.KeyAttributeCollection keyAttributes) : `, "\t\t\t\tbase(EntityLogicalName, keyAttributes)");
+        b.open();
+        b.close();
+        b.spacer();
+    }
+
+    if (settings.generateAnonymousTypeConstructor) {
+        b.doc("<summary>");
+        b.doc("Constructor for populating via LINQ queries given a LINQ anonymous type");
+        b.doc(`<param name="anonymousType">LINQ anonymous type.</param>`);
+        b.doc("</summary>");
+        if (settings.addDebuggerNonUserCode) b.attr("System.Diagnostics.DebuggerNonUserCode()");
+        b.verbatim(`\t\t${access} ${className}(object anonymousType) : `, "\t\t\t\tthis()");
+        b.open();
+        b.verbatim(
+            [
+                `            foreach (var p in anonymousType.GetType().GetProperties())`,
+                `            {`,
+                `                var value = p.GetValue(anonymousType, null);`,
+                `                var name = p.Name.ToLower();`,
+                `            `,
+                `                if (value != null && name.EndsWith("enum") && value.GetType().BaseType == typeof(System.Enum))`,
+                `                {`,
+                `                    value = new Microsoft.Xrm.Sdk.OptionSetValue((int) value);`,
+                `                    name = name.Remove(name.Length - "enum".Length);`,
+                `                }`,
+                `            `,
+                `                switch (name)`,
+                `                {`,
+                `                    case "id":`,
+                `                        base.Id = (System.Guid)value;`,
+                `                        Attributes["${entity.PrimaryIdAttribute}"] = base.Id;`,
+                `                        break;`,
+                `                    case "${entity.PrimaryIdAttribute}":`,
+                `                        var id = (System.Nullable<System.Guid>) value;`,
+                `                        if(id == null){ continue; }`,
+                `                        base.Id = id.Value;`,
+                `                        Attributes[name] = base.Id;`,
+                `                        break;`,
+                `                    case "formattedvalues":`,
+                `                        // Add Support for FormattedValues`,
+                `                        FormattedValues.AddRange((Microsoft.Xrm.Sdk.FormattedValueCollection)value);`,
+                `                        break;`,
+                `                    default:`,
+                `                        Attributes[name] = value;`,
+                `                        break;`,
+                `                }`,
+                `            }`,
+            ].join("\n"),
+        );
+        b.close();
+        b.spacer();
+    }
 
     // Constants
     if (entity.Keys && entity.Keys.length > 0) {
