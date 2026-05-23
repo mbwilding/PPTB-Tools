@@ -142,8 +142,8 @@ describe("optionSetGenerator", () => {
     });
 
     describe("collectOptionSets", () => {
-        it("collects local and deduplicates global option sets", () => {
-            const settings = makeSettings({ generateGlobalOptionSets: true });
+        it("collects referenced global option sets and deduplicates them (default settings)", () => {
+            const settings = makeSettings();
             const filter = buildFilterService(settings);
 
             const entityWithGlobal = {
@@ -165,6 +165,34 @@ describe("optionSetGenerator", () => {
                         LogicalName: "contoso_priority2",
                         SchemaName: "contoso_Priority2",
                         DisplayName: { LocalizedLabels: [{ Label: "Priority 2", LanguageCode: 1033 as const }] },
+                        AttributeType: "Picklist" as const,
+                        IsValidForCreate: true,
+                        IsValidForUpdate: true,
+                        IsValidForRead: true,
+                        OptionSet: globalOptionSet,
+                    },
+                ],
+            };
+
+            const collected = collectOptionSets([entityWithGlobal], settings, filter);
+            const globalCount = collected.filter((c) => c.optionSet.IsGlobal).length;
+
+            // referenced globals are always collected regardless of generateGlobalOptionSets
+            expect(globalCount).toBe(1);
+        });
+
+        it("collects referenced global option sets even when generateGlobalOptionSets is false", () => {
+            const settings = makeSettings({ generateGlobalOptionSets: false });
+            const filter = buildFilterService(settings);
+
+            const entityWithGlobal = {
+                ...contactEntity,
+                Attributes: [
+                    ...contactEntity.Attributes,
+                    {
+                        LogicalName: "contoso_priority",
+                        SchemaName: "contoso_Priority",
+                        DisplayName: { LocalizedLabels: [{ Label: "Priority", LanguageCode: 1033 as const }] },
                         AttributeType: "Picklist" as const,
                         IsValidForCreate: true,
                         IsValidForUpdate: true,

@@ -124,7 +124,6 @@ export function collectOptionSets(entities: EntityMetadata[], settings: EbgSetti
             if (!settings.emitEntityETC && (attr.LogicalName === "record1objecttypecode" || attr.LogicalName === "record2objecttypecode")) continue;
 
             if (os.IsGlobal) {
-                if (!settings.generateGlobalOptionSets) continue;
                 const key = os.MetadataId ?? os.Name;
                 const alreadySeen = globalSeen.has(key);
 

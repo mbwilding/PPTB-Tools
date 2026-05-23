@@ -268,7 +268,15 @@ function buildPlainTypeBlock(
     return b.toString();
 }
 
-function buildRelationshipPropertyBlock(relType: "1:N" | "N:1" | "N:N", schemaName: string, propName: string, targetEntityName: string, isCollection: boolean, settings: EbgSettings, extraAttribute?: string): string {
+function buildRelationshipPropertyBlock(
+    relType: "1:N" | "N:1" | "N:N",
+    schemaName: string,
+    propName: string,
+    targetEntityName: string,
+    isCollection: boolean,
+    settings: EbgSettings,
+    extraAttribute?: string,
+): string {
     const b = new CodeBuilder(2);
     const access = settings.generateTypesAsInternal ? "internal" : "public";
     const nullable = settings.makeReferenceTypesNullable ? "?" : "";
@@ -322,27 +330,29 @@ export function generateEntityFile(entity: EntityMetadata, allEntities: Map<stri
     if (!settings.suppressGeneratedCodeAttribute) {
         b.attrArgs("System.CodeDom.Compiler.GeneratedCodeAttribute", `"${CODEGEN_TOOL_NAME}", "${CODEGEN_TOOL_VERSION}"`);
     }
-    b.open(`${settings.generateTypesAsInternal ? "internal" : "public"} partial class ${className} : Microsoft.Xrm.Sdk.Entity${settings.generateINotifyPattern ? ", System.ComponentModel.INotifyPropertyChanging, System.ComponentModel.INotifyPropertyChanged" : ""}`);
+    b.open(
+        `${settings.generateTypesAsInternal ? "internal" : "public"} partial class ${className} : Microsoft.Xrm.Sdk.Entity${settings.generateINotifyPattern ? ", System.ComponentModel.INotifyPropertyChanging, System.ComponentModel.INotifyPropertyChanged" : ""}`,
+    );
     b.spacer();
 
     const access = settings.generateTypesAsInternal ? "internal" : "public";
 
     if (settings.generateINotifyPattern) {
-        b.line(`public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;`);
+        b.line("public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;");
         b.spacer();
-        b.line(`public event System.ComponentModel.PropertyChangingEventHandler PropertyChanging;`);
+        b.line("public event System.ComponentModel.PropertyChangingEventHandler PropertyChanging;");
         b.spacer();
         if (settings.addDebuggerNonUserCode) b.attr("System.Diagnostics.DebuggerNonUserCode()");
-        b.open(`private void OnPropertyChanged(string propertyName)`);
-        b.open(`if ((this.PropertyChanged != null))`);
-        b.line(`this.PropertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));`);
+        b.open("private void OnPropertyChanged(string propertyName)");
+        b.open("if ((this.PropertyChanged != null))");
+        b.line("this.PropertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));");
         b.close();
         b.close();
         b.spacer();
         if (settings.addDebuggerNonUserCode) b.attr("System.Diagnostics.DebuggerNonUserCode()");
-        b.open(`private void OnPropertyChanging(string propertyName)`);
-        b.open(`if ((this.PropertyChanging != null))`);
-        b.line(`this.PropertyChanging(this, new System.ComponentModel.PropertyChangingEventArgs(propertyName));`);
+        b.open("private void OnPropertyChanging(string propertyName)");
+        b.open("if ((this.PropertyChanging != null))");
+        b.line("this.PropertyChanging(this, new System.ComponentModel.PropertyChangingEventArgs(propertyName));");
         b.close();
         b.close();
         b.spacer();
@@ -381,45 +391,45 @@ export function generateEntityFile(entity: EntityMetadata, allEntities: Map<stri
     if (settings.generateAnonymousTypeConstructor) {
         b.doc("<summary>");
         b.doc("Constructor for populating via LINQ queries given a LINQ anonymous type");
-        b.doc(`<param name="anonymousType">LINQ anonymous type.</param>`);
+        b.doc('<param name="anonymousType">LINQ anonymous type.</param>');
         b.doc("</summary>");
         if (settings.addDebuggerNonUserCode) b.attr("System.Diagnostics.DebuggerNonUserCode()");
         b.verbatim(`\t\t${access} ${className}(object anonymousType) : `, "\t\t\t\tthis()");
         b.open();
         b.verbatim(
             [
-                `            foreach (var p in anonymousType.GetType().GetProperties())`,
-                `            {`,
-                `                var value = p.GetValue(anonymousType, null);`,
-                `                var name = p.Name.ToLower();`,
-                `            `,
-                `                if (value != null && name.EndsWith("enum") && value.GetType().BaseType == typeof(System.Enum))`,
-                `                {`,
-                `                    value = new Microsoft.Xrm.Sdk.OptionSetValue((int) value);`,
-                `                    name = name.Remove(name.Length - "enum".Length);`,
-                `                }`,
-                `            `,
-                `                switch (name)`,
-                `                {`,
-                `                    case "id":`,
-                `                        base.Id = (System.Guid)value;`,
+                "            foreach (var p in anonymousType.GetType().GetProperties())",
+                "            {",
+                "                var value = p.GetValue(anonymousType, null);",
+                "                var name = p.Name.ToLower();",
+                "            ",
+                '                if (value != null && name.EndsWith("enum") && value.GetType().BaseType == typeof(System.Enum))',
+                "                {",
+                "                    value = new Microsoft.Xrm.Sdk.OptionSetValue((int) value);",
+                '                    name = name.Remove(name.Length - "enum".Length);',
+                "                }",
+                "            ",
+                "                switch (name)",
+                "                {",
+                '                    case "id":',
+                "                        base.Id = (System.Guid)value;",
                 `                        Attributes["${entity.PrimaryIdAttribute}"] = base.Id;`,
-                `                        break;`,
+                "                        break;",
                 `                    case "${entity.PrimaryIdAttribute}":`,
-                `                        var id = (System.Nullable<System.Guid>) value;`,
-                `                        if(id == null){ continue; }`,
-                `                        base.Id = id.Value;`,
-                `                        Attributes[name] = base.Id;`,
-                `                        break;`,
-                `                    case "formattedvalues":`,
-                `                        // Add Support for FormattedValues`,
-                `                        FormattedValues.AddRange((Microsoft.Xrm.Sdk.FormattedValueCollection)value);`,
-                `                        break;`,
-                `                    default:`,
-                `                        Attributes[name] = value;`,
-                `                        break;`,
-                `                }`,
-                `            }`,
+                "                        var id = (System.Nullable<System.Guid>) value;",
+                "                        if(id == null){ continue; }",
+                "                        base.Id = id.Value;",
+                "                        Attributes[name] = base.Id;",
+                "                        break;",
+                '                    case "formattedvalues":',
+                "                        // Add Support for FormattedValues",
+                "                        FormattedValues.AddRange((Microsoft.Xrm.Sdk.FormattedValueCollection)value);",
+                "                        break;",
+                "                    default:",
+                "                        Attributes[name] = value;",
+                "                        break;",
+                "                }",
+                "            }",
             ].join("\n"),
         );
         b.close();
@@ -619,7 +629,7 @@ function generatePropertyBlock(entity: EntityMetadata, attr: AttributeMetadata, 
     }
 
     const csTypeRaw = effectiveTypeInfo.csType;
-    const csType = (effectiveTypeInfo.nullable && settings.makeReferenceTypesNullable) ? `${csTypeRaw}?` : csTypeRaw;
+    const csType = effectiveTypeInfo.nullable && settings.makeReferenceTypesNullable ? `${csTypeRaw}?` : csTypeRaw;
     return buildPlainTypeBlock(attr, logicalName, propName, csType, csTypeRaw, optionSetExcluded, summary, readonly_, settings);
 }
 
