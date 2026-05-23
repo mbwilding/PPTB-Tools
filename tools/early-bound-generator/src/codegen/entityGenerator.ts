@@ -95,7 +95,7 @@ function buildNameAttributeBlock(attr: AttributeMetadata, logicalName: string, p
     const parentLogical = attr.AttributeOf!;
     const b = new CodeBuilder(2);
     pushAttributePreamble(b, attr, logicalName, summary, settings);
-    b.open(`public string? ${propName}`);
+    b.open(`${settings.generateTypesAsInternal ? "internal" : "public"} string${settings.makeReferenceTypesNullable ? "?" : ""} ${propName}`);
     b.getter(() => {
         b.open(`if (this.FormattedValues.Contains("${parentLogical}"))`);
         b.line(`return this.FormattedValues["${parentLogical}"];`);
@@ -103,11 +103,11 @@ function buildNameAttributeBlock(attr: AttributeMetadata, logicalName: string, p
         b.open("else");
         b.line("return default(string);");
         b.close();
-    });
+    }, settings.addDebuggerNonUserCode);
     if (settings.makeAllFieldsEditable) {
         b.setter(() => {
             b.line(`this.FormattedValues["${parentLogical}"] = value;`);
-        });
+        }, settings.addDebuggerNonUserCode);
     }
     b.close();
     return b.toString();
@@ -119,11 +119,11 @@ function buildMultiSelectEnumBlock(attr: AttributeMetadata, logicalName: string,
     b.open(`public virtual System.Collections.Generic.IEnumerable<${enumName}> ${propName}`);
     b.getter(() => {
         b.line(`return EntityOptionSetEnum.GetMultiEnum<${enumName}>(this, "${logicalName}");`);
-    });
+    }, settings.addDebuggerNonUserCode);
     if (!readonly_) {
         b.setter(() => {
             b.line(`this.SetAttributeValue("${logicalName}", EntityOptionSetEnum.GetMultiEnum(this, "${logicalName}", value));`);
-        });
+        }, settings.addDebuggerNonUserCode);
     }
     b.close();
     return b.toString();
@@ -136,11 +136,11 @@ function buildStateCodeBlock(attr: AttributeMetadata, logicalName: string, propN
     b.open(`public virtual ${entityStateType}? ${propName}`);
     b.getter(() => {
         b.line(`return ((${entityStateType}?)(EntityOptionSetEnum.GetEnum(this, "${logicalName}")));`);
-    });
+    }, settings.addDebuggerNonUserCode);
     if (!readonly_) {
         b.setter(() => {
             b.line(`this.SetAttributeValue("${logicalName}", value.HasValue ? new Microsoft.Xrm.Sdk.OptionSetValue((int)value) : null);`);
-        });
+        }, settings.addDebuggerNonUserCode);
     }
     b.close();
     return b.toString();
@@ -160,11 +160,11 @@ function buildEnumWithBothPropertiesBlock(
     b.open(`public virtual Microsoft.Xrm.Sdk.OptionSetValue? ${propName}`);
     b.getter(() => {
         b.line(`return this.GetAttributeValue<Microsoft.Xrm.Sdk.OptionSetValue>("${logicalName}");`);
-    });
+    }, settings.addDebuggerNonUserCode);
     if (!readonly_) {
         b.setter(() => {
             b.line(`this.SetAttributeValue("${logicalName}", value);`);
-        });
+        }, settings.addDebuggerNonUserCode);
     }
     b.close();
     b.spacer();
@@ -177,11 +177,11 @@ function buildEnumWithBothPropertiesBlock(
     b.open(`public virtual ${enumName}? ${propName}Enum`);
     b.getter(() => {
         b.line(`return ((${enumName}?)(EntityOptionSetEnum.GetEnum(this, "${logicalName}")));`);
-    });
+    }, settings.addDebuggerNonUserCode);
     if (!readonly_) {
         b.setter(() => {
             b.line(`this.SetAttributeValue("${logicalName}", value.HasValue ? new Microsoft.Xrm.Sdk.OptionSetValue((int)value) : null);`);
-        });
+        }, settings.addDebuggerNonUserCode);
     }
     b.close();
     return b.toString();
@@ -193,11 +193,11 @@ function buildEnumReplaceBlock(attr: AttributeMetadata, logicalName: string, pro
     b.open(`public virtual ${enumName}? ${propName}`);
     b.getter(() => {
         b.line(`return ((${enumName}?)(EntityOptionSetEnum.GetEnum(this, "${logicalName}")));`);
-    });
+    }, settings.addDebuggerNonUserCode);
     if (!readonly_) {
         b.setter(() => {
             b.line(`this.SetAttributeValue("${logicalName}", value.HasValue ? new Microsoft.Xrm.Sdk.OptionSetValue((int)value) : null);`);
-        });
+        }, settings.addDebuggerNonUserCode);
     }
     b.close();
     return b.toString();
@@ -209,7 +209,7 @@ function buildPrimaryIdBlock(attr: AttributeMetadata, logicalName: string, propN
     b.open(`public System.Nullable<System.Guid> ${propName}`);
     b.getter(() => {
         b.line(`return this.GetAttributeValue<System.Nullable<System.Guid>>("${logicalName}");`);
-    });
+    }, settings.addDebuggerNonUserCode);
     b.setter(() => {
         b.line(`this.SetAttributeValue("${logicalName}", value);`);
         b.open("if (value.HasValue)");
@@ -218,7 +218,7 @@ function buildPrimaryIdBlock(attr: AttributeMetadata, logicalName: string, propN
         b.open("else");
         b.line("base.Id = System.Guid.Empty;");
         b.close();
-    });
+    }, settings.addDebuggerNonUserCode);
     b.close();
     b.spacer();
 
@@ -226,10 +226,10 @@ function buildPrimaryIdBlock(attr: AttributeMetadata, logicalName: string, propN
     b.open("public override System.Guid Id");
     b.getter(() => {
         b.line("return base.Id;");
-    });
+    }, settings.addDebuggerNonUserCode);
     b.setter(() => {
         b.line(`this.${propName} = value;`);
-    });
+    }, settings.addDebuggerNonUserCode);
     b.close();
     return b.toString();
 }
@@ -258,18 +258,20 @@ function buildPlainTypeBlock(
         } else {
             b.line(`return this.GetAttributeValue<${csTypeRaw}>("${logicalName}");`);
         }
-    });
+    }, settings.addDebuggerNonUserCode);
     if (!readonly_) {
         b.setter(() => {
             b.line(`this.SetAttributeValue("${logicalName}", value);`);
-        });
+        }, settings.addDebuggerNonUserCode);
     }
     b.close();
     return b.toString();
 }
 
-function buildRelationshipPropertyBlock(relType: "1:N" | "N:1" | "N:N", schemaName: string, propName: string, targetEntityName: string, isCollection: boolean, extraAttribute?: string): string {
+function buildRelationshipPropertyBlock(relType: "1:N" | "N:1" | "N:N", schemaName: string, propName: string, targetEntityName: string, isCollection: boolean, settings: EbgSettings, extraAttribute?: string): string {
     const b = new CodeBuilder(2);
+    const access = settings.generateTypesAsInternal ? "internal" : "public";
+    const nullable = settings.makeReferenceTypesNullable ? "?" : "";
     b.doc("<summary>");
     b.doc(`${relType} ${schemaName}`);
     b.doc("</summary>");
@@ -279,9 +281,9 @@ function buildRelationshipPropertyBlock(relType: "1:N" | "N:1" | "N:N", schemaNa
     b.attrArgs("Microsoft.Xrm.Sdk.RelationshipSchemaNameAttribute", `"${schemaName}"`);
 
     if (isCollection) {
-        b.open(`public System.Collections.Generic.IEnumerable<${targetEntityName}>? ${propName}`);
+        b.open(`${access} System.Collections.Generic.IEnumerable<${targetEntityName}>${nullable} ${propName}`);
     } else {
-        b.open(`public ${targetEntityName}? ${propName}`);
+        b.open(`${access} ${targetEntityName}${nullable} ${propName}`);
     }
 
     b.getter(() => {
@@ -290,7 +292,7 @@ function buildRelationshipPropertyBlock(relType: "1:N" | "N:1" | "N:N", schemaNa
         } else {
             b.line(`return this.GetRelatedEntity<${targetEntityName}>("${schemaName}", null);`);
         }
-    });
+    }, settings.addDebuggerNonUserCode);
     b.setter(() => {
         b.line(`this.OnPropertyChanging("${propName}");`);
         if (isCollection) {
@@ -299,7 +301,7 @@ function buildRelationshipPropertyBlock(relType: "1:N" | "N:1" | "N:N", schemaNa
             b.line(`this.SetRelatedEntity<${targetEntityName}>("${schemaName}", null, value);`);
         }
         b.line(`this.OnPropertyChanged("${propName}");`);
-    });
+    }, settings.addDebuggerNonUserCode);
     b.close();
     return b.toString();
 }
@@ -320,33 +322,35 @@ export function generateEntityFile(entity: EntityMetadata, allEntities: Map<stri
     if (!settings.suppressGeneratedCodeAttribute) {
         b.attrArgs("System.CodeDom.Compiler.GeneratedCodeAttribute", `"${CODEGEN_TOOL_NAME}", "${CODEGEN_TOOL_VERSION}"`);
     }
-    b.open(`public partial class ${className} : Microsoft.Xrm.Sdk.Entity`);
+    b.open(`${settings.generateTypesAsInternal ? "internal" : "public"} partial class ${className} : Microsoft.Xrm.Sdk.Entity`);
     b.spacer();
+
+    const access = settings.generateTypesAsInternal ? "internal" : "public";
 
     // Constructors
     b.doc("<summary>");
     b.doc("Default Constructor.");
     b.doc("</summary>");
-    b.attr("System.Diagnostics.DebuggerNonUserCode()");
-    b.verbatim(`\t\tpublic ${className}() : `, "\t\t\t\tbase(EntityLogicalName)");
+    if (settings.addDebuggerNonUserCode) b.attr("System.Diagnostics.DebuggerNonUserCode()");
+    b.verbatim(`\t\t${access} ${className}() : `, "\t\t\t\tbase(EntityLogicalName)");
     b.open();
     b.close();
     b.spacer();
 
-    b.attr("System.Diagnostics.DebuggerNonUserCode()");
-    b.verbatim(`\t\tpublic ${className}(System.Guid id) : `, "\t\t\t\tbase(EntityLogicalName, id)");
+    if (settings.addDebuggerNonUserCode) b.attr("System.Diagnostics.DebuggerNonUserCode()");
+    b.verbatim(`\t\t${access} ${className}(System.Guid id) : `, "\t\t\t\tbase(EntityLogicalName, id)");
     b.open();
     b.close();
     b.spacer();
 
-    b.attr("System.Diagnostics.DebuggerNonUserCode()");
-    b.verbatim(`\t\tpublic ${className}(string keyName, object keyValue) : `, "\t\t\t\tbase(EntityLogicalName, keyName, keyValue)");
+    if (settings.addDebuggerNonUserCode) b.attr("System.Diagnostics.DebuggerNonUserCode()");
+    b.verbatim(`\t\t${access} ${className}(string keyName, object keyValue) : `, "\t\t\t\tbase(EntityLogicalName, keyName, keyValue)");
     b.open();
     b.close();
     b.spacer();
 
-    b.attr("System.Diagnostics.DebuggerNonUserCode()");
-    b.verbatim(`\t\tpublic ${className}(Microsoft.Xrm.Sdk.KeyAttributeCollection keyAttributes) : `, "\t\t\t\tbase(EntityLogicalName, keyAttributes)");
+    if (settings.addDebuggerNonUserCode) b.attr("System.Diagnostics.DebuggerNonUserCode()");
+    b.verbatim(`\t\t${access} ${className}(Microsoft.Xrm.Sdk.KeyAttributeCollection keyAttributes) : `, "\t\t\t\tbase(EntityLogicalName, keyAttributes)");
     b.open();
     b.close();
     b.spacer();
@@ -409,7 +413,7 @@ export function generateEntityFile(entity: EntityMetadata, allEntities: Map<stri
 
     // Relationship navigation properties
     if (settings.generateEntityRelationships) {
-        const relProps = generateRelationshipProperties(entity, allEntities, namingService);
+        const relProps = generateRelationshipProperties(entity, allEntities, namingService, settings);
         for (const rp of relProps) {
             b.verbatim(rp);
             b.spacer();
@@ -544,11 +548,11 @@ function generatePropertyBlock(entity: EntityMetadata, attr: AttributeMetadata, 
     }
 
     const csTypeRaw = effectiveTypeInfo.csType;
-    const csType = effectiveTypeInfo.nullable ? `${csTypeRaw}?` : csTypeRaw;
+    const csType = (effectiveTypeInfo.nullable && settings.makeReferenceTypesNullable) ? `${csTypeRaw}?` : csTypeRaw;
     return buildPlainTypeBlock(attr, logicalName, propName, csType, csTypeRaw, optionSetExcluded, summary, readonly_, settings);
 }
 
-function generateRelationshipProperties(entity: EntityMetadata, allEntities: Map<string, EntityMetadata>, namingService: NamingService): string[] {
+function generateRelationshipProperties(entity: EntityMetadata, allEntities: Map<string, EntityMetadata>, namingService: NamingService, settings: EbgSettings): string[] {
     const result: string[] = [];
 
     const resolveEntityNameOrRaw = (logicalName: string | undefined): string => {
@@ -566,21 +570,21 @@ function generateRelationshipProperties(entity: EntityMetadata, allEntities: Map
     for (const rel of entity.OneToManyRelationships ?? []) {
         const propName = rel.ReferencedEntityNavigationPropertyName ?? rel.SchemaName;
         const targetEntityName = resolveEntityNameOrRaw(rel.ReferencingEntity);
-        result.push(buildRelationshipPropertyBlock("1:N", rel.SchemaName, propName, targetEntityName, true));
+        result.push(buildRelationshipPropertyBlock("1:N", rel.SchemaName, propName, targetEntityName, true, settings));
     }
 
     for (const rel of entity.ManyToOneRelationships ?? []) {
         const propName = rel.ReferencingEntityNavigationPropertyName ?? rel.SchemaName;
         const targetEntityName = resolveEntityNameOrRaw(rel.ReferencedEntity);
         const extraAttr = `[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("${rel.SchemaName}")]`;
-        result.push(buildRelationshipPropertyBlock("N:1", rel.SchemaName, propName, targetEntityName, false, extraAttr));
+        result.push(buildRelationshipPropertyBlock("N:1", rel.SchemaName, propName, targetEntityName, false, settings, extraAttr));
     }
 
     for (const rel of entity.ManyToManyRelationships ?? []) {
         const otherEntityLogical = rel.Entity1LogicalName === entity.LogicalName ? rel.Entity2LogicalName : rel.Entity1LogicalName;
         const targetEntityName = resolveEntityNameOrBase(otherEntityLogical);
         const propName = rel.Entity1LogicalName === entity.LogicalName ? (rel.Entity1NavigationPropertyName ?? rel.SchemaName) : (rel.Entity2NavigationPropertyName ?? rel.SchemaName);
-        result.push(buildRelationshipPropertyBlock("N:N", rel.SchemaName, propName, targetEntityName, true));
+        result.push(buildRelationshipPropertyBlock("N:N", rel.SchemaName, propName, targetEntityName, true, settings));
     }
 
     return result;

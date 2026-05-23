@@ -19,7 +19,7 @@ export function generateEnumDeclaration(entity: EntityMetadata | null, optionSet
     if (!settings.suppressGeneratedCodeAttribute) {
         b.attrArgs("System.CodeDom.Compiler.GeneratedCodeAttribute", `"${CODEGEN_TOOL_NAME}", "${CODEGEN_TOOL_VERSION}"`);
     }
-    b.open(`public enum ${enumName}`);
+    b.open(`${settings.generateTypesAsInternal ? "internal" : "public"} enum ${enumName}`);
 
     const metadataOrderByValue = new Map<number, number>();
     optionSet.Options.forEach((opt, i) => {
@@ -124,6 +124,7 @@ export function collectOptionSets(entities: EntityMetadata[], settings: EbgSetti
             if (!settings.emitEntityETC && (attr.LogicalName === "record1objecttypecode" || attr.LogicalName === "record2objecttypecode")) continue;
 
             if (os.IsGlobal) {
+                if (!settings.generateGlobalOptionSets) continue;
                 const key = os.MetadataId ?? os.Name;
                 const alreadySeen = globalSeen.has(key);
 

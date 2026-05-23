@@ -128,7 +128,7 @@ namespace RWWA.CrmBridge.CrmSdk
 		}
 		
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("fullname")]
-		public string? FullName
+		public string FullName
 		{
 			[System.Diagnostics.DebuggerNonUserCode()]
 			get
@@ -138,7 +138,7 @@ namespace RWWA.CrmBridge.CrmSdk
 		}
 		
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("firstname")]
-		public string? FirstName
+		public string FirstName
 		{
 			[System.Diagnostics.DebuggerNonUserCode()]
 			get
@@ -153,7 +153,7 @@ namespace RWWA.CrmBridge.CrmSdk
 		}
 		
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("description")]
-		public string? Description
+		public string Description
 		{
 			[System.Diagnostics.DebuggerNonUserCode()]
 			get
@@ -183,7 +183,7 @@ namespace RWWA.CrmBridge.CrmSdk
 		}
 		
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("annualincome")]
-		public Microsoft.Xrm.Sdk.Money? AnnualIncome
+		public Microsoft.Xrm.Sdk.Money AnnualIncome
 		{
 			[System.Diagnostics.DebuggerNonUserCode()]
 			get
@@ -228,7 +228,7 @@ namespace RWWA.CrmBridge.CrmSdk
 		}
 		
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("parentcustomerid")]
-		public Microsoft.Xrm.Sdk.EntityReference? ParentCustomerId
+		public Microsoft.Xrm.Sdk.EntityReference ParentCustomerId
 		{
 			[System.Diagnostics.DebuggerNonUserCode()]
 			get
@@ -243,7 +243,7 @@ namespace RWWA.CrmBridge.CrmSdk
 		}
 		
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("parentcustomeridname")]
-		public string? ParentCustomerIdName
+		public string ParentCustomerIdName
 		{
 			[System.Diagnostics.DebuggerNonUserCode()]
 			get
@@ -260,52 +260,52 @@ namespace RWWA.CrmBridge.CrmSdk
 		}
 		
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("gendercode")]
-		public virtual Contact_GenderCode? GenderCode
+		public Microsoft.Xrm.Sdk.OptionSetValue GenderCode
 		{
 			[System.Diagnostics.DebuggerNonUserCode()]
 			get
 			{
-				return ((Contact_GenderCode?)(EntityOptionSetEnum.GetEnum(this, "gendercode")));
+				return this.GetAttributeValue<Microsoft.Xrm.Sdk.OptionSetValue>("gendercode");
 			}
 			[System.Diagnostics.DebuggerNonUserCode()]
 			set
 			{
-				this.SetAttributeValue("gendercode", value.HasValue ? new Microsoft.Xrm.Sdk.OptionSetValue((int)value) : null);
+				this.SetAttributeValue("gendercode", value);
 			}
 		}
 		
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("statecode")]
-		public virtual Contact_StateCode? StateCode
+		public Microsoft.Xrm.Sdk.OptionSetValue StateCode
 		{
 			[System.Diagnostics.DebuggerNonUserCode()]
 			get
 			{
-				return ((Contact_StateCode?)(EntityOptionSetEnum.GetEnum(this, "statecode")));
+				return this.GetAttributeValue<Microsoft.Xrm.Sdk.OptionSetValue>("statecode");
 			}
 			[System.Diagnostics.DebuggerNonUserCode()]
 			set
 			{
-				this.SetAttributeValue("statecode", value.HasValue ? new Microsoft.Xrm.Sdk.OptionSetValue((int)value) : null);
+				this.SetAttributeValue("statecode", value);
 			}
 		}
 		
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("statuscode")]
-		public virtual Contact_StatusCode? StatusCode
+		public Microsoft.Xrm.Sdk.OptionSetValue StatusCode
 		{
 			[System.Diagnostics.DebuggerNonUserCode()]
 			get
 			{
-				return ((Contact_StatusCode?)(EntityOptionSetEnum.GetEnum(this, "statuscode")));
+				return this.GetAttributeValue<Microsoft.Xrm.Sdk.OptionSetValue>("statuscode");
 			}
 			[System.Diagnostics.DebuggerNonUserCode()]
 			set
 			{
-				this.SetAttributeValue("statuscode", value.HasValue ? new Microsoft.Xrm.Sdk.OptionSetValue((int)value) : null);
+				this.SetAttributeValue("statuscode", value);
 			}
 		}
 		
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("aging30")]
-		public Microsoft.Xrm.Sdk.Money? Aging30
+		public Microsoft.Xrm.Sdk.Money Aging30
 		{
 			[System.Diagnostics.DebuggerNonUserCode()]
 			get
@@ -318,7 +318,7 @@ namespace RWWA.CrmBridge.CrmSdk
 		/// 1:N contact_customer_contacts
 		/// </summary>
 		[Microsoft.Xrm.Sdk.RelationshipSchemaNameAttribute("contact_customer_contacts")]
-		public System.Collections.Generic.IEnumerable<Contact>? contact_customer_contacts
+		public System.Collections.Generic.IEnumerable<Contact> contact_customer_contacts
 		{
 			[System.Diagnostics.DebuggerNonUserCode()]
 			get
@@ -339,7 +339,7 @@ namespace RWWA.CrmBridge.CrmSdk
 		/// </summary>
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("contact_owning_user")]
 		[Microsoft.Xrm.Sdk.RelationshipSchemaNameAttribute("contact_owning_user")]
-		public SystemUser? owninguser
+		public SystemUser owninguser
 		{
 			[System.Diagnostics.DebuggerNonUserCode()]
 			get
@@ -359,7 +359,7 @@ namespace RWWA.CrmBridge.CrmSdk
 		/// N:N contactleads_association
 		/// </summary>
 		[Microsoft.Xrm.Sdk.RelationshipSchemaNameAttribute("contactleads_association")]
-		public System.Collections.Generic.IEnumerable<Microsoft.Xrm.Sdk.Entity>? contactleads_association
+		public System.Collections.Generic.IEnumerable<Microsoft.Xrm.Sdk.Entity> contactleads_association
 		{
 			[System.Diagnostics.DebuggerNonUserCode()]
 			get
@@ -508,7 +508,7 @@ namespace DataverseModel
 		}
 		
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("fullname")]
-		public string? FullName
+		public string FullName
 		{
 			[System.Diagnostics.DebuggerNonUserCode()]
 			get
@@ -518,7 +518,7 @@ namespace DataverseModel
 		}
 		
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("firstname")]
-		public string? FirstName
+		public string FirstName
 		{
 			[System.Diagnostics.DebuggerNonUserCode()]
 			get
@@ -533,7 +533,7 @@ namespace DataverseModel
 		}
 		
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("description")]
-		public string? Description
+		public string Description
 		{
 			[System.Diagnostics.DebuggerNonUserCode()]
 			get
@@ -563,7 +563,7 @@ namespace DataverseModel
 		}
 		
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("annualincome")]
-		public Microsoft.Xrm.Sdk.Money? AnnualIncome
+		public Microsoft.Xrm.Sdk.Money AnnualIncome
 		{
 			[System.Diagnostics.DebuggerNonUserCode()]
 			get
@@ -608,7 +608,7 @@ namespace DataverseModel
 		}
 		
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("parentcustomerid")]
-		public Microsoft.Xrm.Sdk.EntityReference? ParentCustomerId
+		public Microsoft.Xrm.Sdk.EntityReference ParentCustomerId
 		{
 			[System.Diagnostics.DebuggerNonUserCode()]
 			get
@@ -623,7 +623,7 @@ namespace DataverseModel
 		}
 		
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("parentcustomeridname")]
-		public string? ParentCustomerIdName
+		public string ParentCustomerIdName
 		{
 			[System.Diagnostics.DebuggerNonUserCode()]
 			get
@@ -640,52 +640,52 @@ namespace DataverseModel
 		}
 		
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("gendercode")]
-		public virtual Contact_GenderCode? GenderCode
+		public Microsoft.Xrm.Sdk.OptionSetValue GenderCode
 		{
 			[System.Diagnostics.DebuggerNonUserCode()]
 			get
 			{
-				return ((Contact_GenderCode?)(EntityOptionSetEnum.GetEnum(this, "gendercode")));
+				return this.GetAttributeValue<Microsoft.Xrm.Sdk.OptionSetValue>("gendercode");
 			}
 			[System.Diagnostics.DebuggerNonUserCode()]
 			set
 			{
-				this.SetAttributeValue("gendercode", value.HasValue ? new Microsoft.Xrm.Sdk.OptionSetValue((int)value) : null);
+				this.SetAttributeValue("gendercode", value);
 			}
 		}
 		
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("statecode")]
-		public virtual Contact_StateCode? StateCode
+		public Microsoft.Xrm.Sdk.OptionSetValue StateCode
 		{
 			[System.Diagnostics.DebuggerNonUserCode()]
 			get
 			{
-				return ((Contact_StateCode?)(EntityOptionSetEnum.GetEnum(this, "statecode")));
+				return this.GetAttributeValue<Microsoft.Xrm.Sdk.OptionSetValue>("statecode");
 			}
 			[System.Diagnostics.DebuggerNonUserCode()]
 			set
 			{
-				this.SetAttributeValue("statecode", value.HasValue ? new Microsoft.Xrm.Sdk.OptionSetValue((int)value) : null);
+				this.SetAttributeValue("statecode", value);
 			}
 		}
 		
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("statuscode")]
-		public virtual Contact_StatusCode? StatusCode
+		public Microsoft.Xrm.Sdk.OptionSetValue StatusCode
 		{
 			[System.Diagnostics.DebuggerNonUserCode()]
 			get
 			{
-				return ((Contact_StatusCode?)(EntityOptionSetEnum.GetEnum(this, "statuscode")));
+				return this.GetAttributeValue<Microsoft.Xrm.Sdk.OptionSetValue>("statuscode");
 			}
 			[System.Diagnostics.DebuggerNonUserCode()]
 			set
 			{
-				this.SetAttributeValue("statuscode", value.HasValue ? new Microsoft.Xrm.Sdk.OptionSetValue((int)value) : null);
+				this.SetAttributeValue("statuscode", value);
 			}
 		}
 		
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("aging30")]
-		public Microsoft.Xrm.Sdk.Money? Aging30
+		public Microsoft.Xrm.Sdk.Money Aging30
 		{
 			[System.Diagnostics.DebuggerNonUserCode()]
 			get
@@ -698,7 +698,7 @@ namespace DataverseModel
 		/// 1:N contact_customer_contacts
 		/// </summary>
 		[Microsoft.Xrm.Sdk.RelationshipSchemaNameAttribute("contact_customer_contacts")]
-		public System.Collections.Generic.IEnumerable<Contact>? contact_customer_contacts
+		public System.Collections.Generic.IEnumerable<Contact> contact_customer_contacts
 		{
 			[System.Diagnostics.DebuggerNonUserCode()]
 			get
@@ -719,7 +719,7 @@ namespace DataverseModel
 		/// </summary>
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("contact_owning_user")]
 		[Microsoft.Xrm.Sdk.RelationshipSchemaNameAttribute("contact_owning_user")]
-		public SystemUser? owninguser
+		public SystemUser owninguser
 		{
 			[System.Diagnostics.DebuggerNonUserCode()]
 			get
@@ -739,7 +739,7 @@ namespace DataverseModel
 		/// N:N contactleads_association
 		/// </summary>
 		[Microsoft.Xrm.Sdk.RelationshipSchemaNameAttribute("contactleads_association")]
-		public System.Collections.Generic.IEnumerable<Microsoft.Xrm.Sdk.Entity>? contactleads_association
+		public System.Collections.Generic.IEnumerable<Microsoft.Xrm.Sdk.Entity> contactleads_association
 		{
 			[System.Diagnostics.DebuggerNonUserCode()]
 			get
@@ -888,7 +888,7 @@ namespace DataverseModel
 		}
 		
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("fullname")]
-		public string? FullName
+		public string FullName
 		{
 			[System.Diagnostics.DebuggerNonUserCode()]
 			get
@@ -898,7 +898,7 @@ namespace DataverseModel
 		}
 		
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("firstname")]
-		public string? FirstName
+		public string FirstName
 		{
 			[System.Diagnostics.DebuggerNonUserCode()]
 			get
@@ -913,7 +913,7 @@ namespace DataverseModel
 		}
 		
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("description")]
-		public string? Description
+		public string Description
 		{
 			[System.Diagnostics.DebuggerNonUserCode()]
 			get
@@ -943,7 +943,7 @@ namespace DataverseModel
 		}
 		
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("annualincome")]
-		public Microsoft.Xrm.Sdk.Money? AnnualIncome
+		public Microsoft.Xrm.Sdk.Money AnnualIncome
 		{
 			[System.Diagnostics.DebuggerNonUserCode()]
 			get
@@ -988,7 +988,7 @@ namespace DataverseModel
 		}
 		
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("parentcustomerid")]
-		public Microsoft.Xrm.Sdk.EntityReference? ParentCustomerId
+		public Microsoft.Xrm.Sdk.EntityReference ParentCustomerId
 		{
 			[System.Diagnostics.DebuggerNonUserCode()]
 			get
@@ -1003,7 +1003,7 @@ namespace DataverseModel
 		}
 		
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("parentcustomeridname")]
-		public string? ParentCustomerIdName
+		public string ParentCustomerIdName
 		{
 			[System.Diagnostics.DebuggerNonUserCode()]
 			get
@@ -1020,52 +1020,52 @@ namespace DataverseModel
 		}
 		
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("gendercode")]
-		public virtual ContactRecord_GenderCode? GenderCode
+		public Microsoft.Xrm.Sdk.OptionSetValue GenderCode
 		{
 			[System.Diagnostics.DebuggerNonUserCode()]
 			get
 			{
-				return ((ContactRecord_GenderCode?)(EntityOptionSetEnum.GetEnum(this, "gendercode")));
+				return this.GetAttributeValue<Microsoft.Xrm.Sdk.OptionSetValue>("gendercode");
 			}
 			[System.Diagnostics.DebuggerNonUserCode()]
 			set
 			{
-				this.SetAttributeValue("gendercode", value.HasValue ? new Microsoft.Xrm.Sdk.OptionSetValue((int)value) : null);
+				this.SetAttributeValue("gendercode", value);
 			}
 		}
 		
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("statecode")]
-		public virtual Contact_StateCode? StateCode
+		public Microsoft.Xrm.Sdk.OptionSetValue StateCode
 		{
 			[System.Diagnostics.DebuggerNonUserCode()]
 			get
 			{
-				return ((Contact_StateCode?)(EntityOptionSetEnum.GetEnum(this, "statecode")));
+				return this.GetAttributeValue<Microsoft.Xrm.Sdk.OptionSetValue>("statecode");
 			}
 			[System.Diagnostics.DebuggerNonUserCode()]
 			set
 			{
-				this.SetAttributeValue("statecode", value.HasValue ? new Microsoft.Xrm.Sdk.OptionSetValue((int)value) : null);
+				this.SetAttributeValue("statecode", value);
 			}
 		}
 		
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("statuscode")]
-		public virtual ContactRecord_StatusCode? StatusCode
+		public Microsoft.Xrm.Sdk.OptionSetValue StatusCode
 		{
 			[System.Diagnostics.DebuggerNonUserCode()]
 			get
 			{
-				return ((ContactRecord_StatusCode?)(EntityOptionSetEnum.GetEnum(this, "statuscode")));
+				return this.GetAttributeValue<Microsoft.Xrm.Sdk.OptionSetValue>("statuscode");
 			}
 			[System.Diagnostics.DebuggerNonUserCode()]
 			set
 			{
-				this.SetAttributeValue("statuscode", value.HasValue ? new Microsoft.Xrm.Sdk.OptionSetValue((int)value) : null);
+				this.SetAttributeValue("statuscode", value);
 			}
 		}
 		
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("aging30")]
-		public Microsoft.Xrm.Sdk.Money? Aging30
+		public Microsoft.Xrm.Sdk.Money Aging30
 		{
 			[System.Diagnostics.DebuggerNonUserCode()]
 			get
@@ -1078,7 +1078,7 @@ namespace DataverseModel
 		/// 1:N contact_customer_contacts
 		/// </summary>
 		[Microsoft.Xrm.Sdk.RelationshipSchemaNameAttribute("contact_customer_contacts")]
-		public System.Collections.Generic.IEnumerable<ContactRecord>? contact_customer_contacts
+		public System.Collections.Generic.IEnumerable<ContactRecord> contact_customer_contacts
 		{
 			[System.Diagnostics.DebuggerNonUserCode()]
 			get
@@ -1099,7 +1099,7 @@ namespace DataverseModel
 		/// </summary>
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("contact_owning_user")]
 		[Microsoft.Xrm.Sdk.RelationshipSchemaNameAttribute("contact_owning_user")]
-		public SystemUser? owninguser
+		public SystemUser owninguser
 		{
 			[System.Diagnostics.DebuggerNonUserCode()]
 			get
@@ -1119,7 +1119,7 @@ namespace DataverseModel
 		/// N:N contactleads_association
 		/// </summary>
 		[Microsoft.Xrm.Sdk.RelationshipSchemaNameAttribute("contactleads_association")]
-		public System.Collections.Generic.IEnumerable<Microsoft.Xrm.Sdk.Entity>? contactleads_association
+		public System.Collections.Generic.IEnumerable<Microsoft.Xrm.Sdk.Entity> contactleads_association
 		{
 			[System.Diagnostics.DebuggerNonUserCode()]
 			get
@@ -1269,7 +1269,7 @@ namespace DataverseModel
 		}
 		
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("fullname")]
-		public string? FullName
+		public string FullName
 		{
 			[System.Diagnostics.DebuggerNonUserCode()]
 			get
@@ -1279,7 +1279,7 @@ namespace DataverseModel
 		}
 		
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("firstname")]
-		public string? FirstName
+		public string FirstName
 		{
 			[System.Diagnostics.DebuggerNonUserCode()]
 			get
@@ -1294,7 +1294,7 @@ namespace DataverseModel
 		}
 		
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("description")]
-		public string? Description
+		public string Description
 		{
 			[System.Diagnostics.DebuggerNonUserCode()]
 			get
@@ -1324,7 +1324,7 @@ namespace DataverseModel
 		}
 		
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("annualincome")]
-		public Microsoft.Xrm.Sdk.Money? AnnualIncome
+		public Microsoft.Xrm.Sdk.Money AnnualIncome
 		{
 			[System.Diagnostics.DebuggerNonUserCode()]
 			get
@@ -1369,7 +1369,7 @@ namespace DataverseModel
 		}
 		
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("parentcustomerid")]
-		public Microsoft.Xrm.Sdk.EntityReference? ParentCustomerId
+		public Microsoft.Xrm.Sdk.EntityReference ParentCustomerId
 		{
 			[System.Diagnostics.DebuggerNonUserCode()]
 			get
@@ -1384,7 +1384,7 @@ namespace DataverseModel
 		}
 		
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("parentcustomeridname")]
-		public string? ParentCustomerIdName
+		public string ParentCustomerIdName
 		{
 			[System.Diagnostics.DebuggerNonUserCode()]
 			get
@@ -1401,52 +1401,52 @@ namespace DataverseModel
 		}
 		
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("gendercode")]
-		public virtual Contact_GenderCode? GenderCode
+		public Microsoft.Xrm.Sdk.OptionSetValue GenderCode
 		{
 			[System.Diagnostics.DebuggerNonUserCode()]
 			get
 			{
-				return ((Contact_GenderCode?)(EntityOptionSetEnum.GetEnum(this, "gendercode")));
+				return this.GetAttributeValue<Microsoft.Xrm.Sdk.OptionSetValue>("gendercode");
 			}
 			[System.Diagnostics.DebuggerNonUserCode()]
 			set
 			{
-				this.SetAttributeValue("gendercode", value.HasValue ? new Microsoft.Xrm.Sdk.OptionSetValue((int)value) : null);
+				this.SetAttributeValue("gendercode", value);
 			}
 		}
 		
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("statecode")]
-		public virtual Contact_StateCode? StateCode
+		public Microsoft.Xrm.Sdk.OptionSetValue StateCode
 		{
 			[System.Diagnostics.DebuggerNonUserCode()]
 			get
 			{
-				return ((Contact_StateCode?)(EntityOptionSetEnum.GetEnum(this, "statecode")));
+				return this.GetAttributeValue<Microsoft.Xrm.Sdk.OptionSetValue>("statecode");
 			}
 			[System.Diagnostics.DebuggerNonUserCode()]
 			set
 			{
-				this.SetAttributeValue("statecode", value.HasValue ? new Microsoft.Xrm.Sdk.OptionSetValue((int)value) : null);
+				this.SetAttributeValue("statecode", value);
 			}
 		}
 		
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("statuscode")]
-		public virtual Contact_StatusCode? StatusCode
+		public Microsoft.Xrm.Sdk.OptionSetValue StatusCode
 		{
 			[System.Diagnostics.DebuggerNonUserCode()]
 			get
 			{
-				return ((Contact_StatusCode?)(EntityOptionSetEnum.GetEnum(this, "statuscode")));
+				return this.GetAttributeValue<Microsoft.Xrm.Sdk.OptionSetValue>("statuscode");
 			}
 			[System.Diagnostics.DebuggerNonUserCode()]
 			set
 			{
-				this.SetAttributeValue("statuscode", value.HasValue ? new Microsoft.Xrm.Sdk.OptionSetValue((int)value) : null);
+				this.SetAttributeValue("statuscode", value);
 			}
 		}
 		
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("aging30")]
-		public Microsoft.Xrm.Sdk.Money? Aging30
+		public Microsoft.Xrm.Sdk.Money Aging30
 		{
 			[System.Diagnostics.DebuggerNonUserCode()]
 			get
@@ -1459,7 +1459,7 @@ namespace DataverseModel
 		/// 1:N contact_customer_contacts
 		/// </summary>
 		[Microsoft.Xrm.Sdk.RelationshipSchemaNameAttribute("contact_customer_contacts")]
-		public System.Collections.Generic.IEnumerable<Contact>? contact_customer_contacts
+		public System.Collections.Generic.IEnumerable<Contact> contact_customer_contacts
 		{
 			[System.Diagnostics.DebuggerNonUserCode()]
 			get
@@ -1480,7 +1480,7 @@ namespace DataverseModel
 		/// </summary>
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("contact_owning_user")]
 		[Microsoft.Xrm.Sdk.RelationshipSchemaNameAttribute("contact_owning_user")]
-		public SystemUser? owninguser
+		public SystemUser owninguser
 		{
 			[System.Diagnostics.DebuggerNonUserCode()]
 			get
@@ -1500,7 +1500,7 @@ namespace DataverseModel
 		/// N:N contactleads_association
 		/// </summary>
 		[Microsoft.Xrm.Sdk.RelationshipSchemaNameAttribute("contactleads_association")]
-		public System.Collections.Generic.IEnumerable<Microsoft.Xrm.Sdk.Entity>? contactleads_association
+		public System.Collections.Generic.IEnumerable<Microsoft.Xrm.Sdk.Entity> contactleads_association
 		{
 			[System.Diagnostics.DebuggerNonUserCode()]
 			get
@@ -1630,7 +1630,7 @@ namespace DataverseModel
 		}
 		
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("fullname")]
-		public string? FullName
+		public string FullName
 		{
 			[System.Diagnostics.DebuggerNonUserCode()]
 			get
@@ -1640,7 +1640,7 @@ namespace DataverseModel
 		}
 		
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("firstname")]
-		public string? FirstName
+		public string FirstName
 		{
 			[System.Diagnostics.DebuggerNonUserCode()]
 			get
@@ -1655,7 +1655,7 @@ namespace DataverseModel
 		}
 		
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("description")]
-		public string? Description
+		public string Description
 		{
 			[System.Diagnostics.DebuggerNonUserCode()]
 			get
@@ -1685,7 +1685,7 @@ namespace DataverseModel
 		}
 		
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("annualincome")]
-		public Microsoft.Xrm.Sdk.Money? AnnualIncome
+		public Microsoft.Xrm.Sdk.Money AnnualIncome
 		{
 			[System.Diagnostics.DebuggerNonUserCode()]
 			get
@@ -1730,7 +1730,7 @@ namespace DataverseModel
 		}
 		
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("parentcustomerid")]
-		public Microsoft.Xrm.Sdk.EntityReference? ParentCustomerId
+		public Microsoft.Xrm.Sdk.EntityReference ParentCustomerId
 		{
 			[System.Diagnostics.DebuggerNonUserCode()]
 			get
@@ -1745,7 +1745,7 @@ namespace DataverseModel
 		}
 		
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("parentcustomeridname")]
-		public string? ParentCustomerIdName
+		public string ParentCustomerIdName
 		{
 			[System.Diagnostics.DebuggerNonUserCode()]
 			get
@@ -1762,52 +1762,52 @@ namespace DataverseModel
 		}
 		
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("gendercode")]
-		public virtual Contact_GenderCode? GenderCode
+		public Microsoft.Xrm.Sdk.OptionSetValue GenderCode
 		{
 			[System.Diagnostics.DebuggerNonUserCode()]
 			get
 			{
-				return ((Contact_GenderCode?)(EntityOptionSetEnum.GetEnum(this, "gendercode")));
+				return this.GetAttributeValue<Microsoft.Xrm.Sdk.OptionSetValue>("gendercode");
 			}
 			[System.Diagnostics.DebuggerNonUserCode()]
 			set
 			{
-				this.SetAttributeValue("gendercode", value.HasValue ? new Microsoft.Xrm.Sdk.OptionSetValue((int)value) : null);
+				this.SetAttributeValue("gendercode", value);
 			}
 		}
 		
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("statecode")]
-		public virtual Contact_StateCode? StateCode
+		public Microsoft.Xrm.Sdk.OptionSetValue StateCode
 		{
 			[System.Diagnostics.DebuggerNonUserCode()]
 			get
 			{
-				return ((Contact_StateCode?)(EntityOptionSetEnum.GetEnum(this, "statecode")));
+				return this.GetAttributeValue<Microsoft.Xrm.Sdk.OptionSetValue>("statecode");
 			}
 			[System.Diagnostics.DebuggerNonUserCode()]
 			set
 			{
-				this.SetAttributeValue("statecode", value.HasValue ? new Microsoft.Xrm.Sdk.OptionSetValue((int)value) : null);
+				this.SetAttributeValue("statecode", value);
 			}
 		}
 		
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("statuscode")]
-		public virtual Contact_StatusCode? StatusCode
+		public Microsoft.Xrm.Sdk.OptionSetValue StatusCode
 		{
 			[System.Diagnostics.DebuggerNonUserCode()]
 			get
 			{
-				return ((Contact_StatusCode?)(EntityOptionSetEnum.GetEnum(this, "statuscode")));
+				return this.GetAttributeValue<Microsoft.Xrm.Sdk.OptionSetValue>("statuscode");
 			}
 			[System.Diagnostics.DebuggerNonUserCode()]
 			set
 			{
-				this.SetAttributeValue("statuscode", value.HasValue ? new Microsoft.Xrm.Sdk.OptionSetValue((int)value) : null);
+				this.SetAttributeValue("statuscode", value);
 			}
 		}
 		
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("aging30")]
-		public Microsoft.Xrm.Sdk.Money? Aging30
+		public Microsoft.Xrm.Sdk.Money Aging30
 		{
 			[System.Diagnostics.DebuggerNonUserCode()]
 			get
@@ -1820,7 +1820,7 @@ namespace DataverseModel
 		/// 1:N contact_customer_contacts
 		/// </summary>
 		[Microsoft.Xrm.Sdk.RelationshipSchemaNameAttribute("contact_customer_contacts")]
-		public System.Collections.Generic.IEnumerable<Contact>? contact_customer_contacts
+		public System.Collections.Generic.IEnumerable<Contact> contact_customer_contacts
 		{
 			[System.Diagnostics.DebuggerNonUserCode()]
 			get
@@ -1841,7 +1841,7 @@ namespace DataverseModel
 		/// </summary>
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("contact_owning_user")]
 		[Microsoft.Xrm.Sdk.RelationshipSchemaNameAttribute("contact_owning_user")]
-		public SystemUser? owninguser
+		public SystemUser owninguser
 		{
 			[System.Diagnostics.DebuggerNonUserCode()]
 			get
@@ -1861,7 +1861,7 @@ namespace DataverseModel
 		/// N:N contactleads_association
 		/// </summary>
 		[Microsoft.Xrm.Sdk.RelationshipSchemaNameAttribute("contactleads_association")]
-		public System.Collections.Generic.IEnumerable<Microsoft.Xrm.Sdk.Entity>? contactleads_association
+		public System.Collections.Generic.IEnumerable<Microsoft.Xrm.Sdk.Entity> contactleads_association
 		{
 			[System.Diagnostics.DebuggerNonUserCode()]
 			get
@@ -2010,7 +2010,7 @@ namespace DataverseModel
 		}
 		
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("fullname")]
-		public string? FullName
+		public string FullName
 		{
 			[System.Diagnostics.DebuggerNonUserCode()]
 			get
@@ -2020,7 +2020,7 @@ namespace DataverseModel
 		}
 		
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("firstname")]
-		public string? FirstName
+		public string FirstName
 		{
 			[System.Diagnostics.DebuggerNonUserCode()]
 			get
@@ -2035,7 +2035,7 @@ namespace DataverseModel
 		}
 		
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("description")]
-		public string? Description
+		public string Description
 		{
 			[System.Diagnostics.DebuggerNonUserCode()]
 			get
@@ -2065,7 +2065,7 @@ namespace DataverseModel
 		}
 		
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("annualincome")]
-		public Microsoft.Xrm.Sdk.Money? AnnualIncome
+		public Microsoft.Xrm.Sdk.Money AnnualIncome
 		{
 			[System.Diagnostics.DebuggerNonUserCode()]
 			get
@@ -2110,7 +2110,7 @@ namespace DataverseModel
 		}
 		
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("parentcustomerid")]
-		public Microsoft.Xrm.Sdk.EntityReference? ParentCustomerId
+		public Microsoft.Xrm.Sdk.EntityReference ParentCustomerId
 		{
 			[System.Diagnostics.DebuggerNonUserCode()]
 			get
@@ -2125,7 +2125,7 @@ namespace DataverseModel
 		}
 		
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("parentcustomeridname")]
-		public string? ParentCustomerIdName
+		public string ParentCustomerIdName
 		{
 			[System.Diagnostics.DebuggerNonUserCode()]
 			get
@@ -2142,7 +2142,7 @@ namespace DataverseModel
 		}
 		
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("gendercode")]
-		public Microsoft.Xrm.Sdk.OptionSetValue? GenderCode
+		public Microsoft.Xrm.Sdk.OptionSetValue GenderCode
 		{
 			[System.Diagnostics.DebuggerNonUserCode()]
 			get
@@ -2157,7 +2157,7 @@ namespace DataverseModel
 		}
 		
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("statecode")]
-		public Microsoft.Xrm.Sdk.OptionSetValue? StateCode
+		public Microsoft.Xrm.Sdk.OptionSetValue StateCode
 		{
 			[System.Diagnostics.DebuggerNonUserCode()]
 			get
@@ -2172,7 +2172,7 @@ namespace DataverseModel
 		}
 		
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("statuscode")]
-		public Microsoft.Xrm.Sdk.OptionSetValue? StatusCode
+		public Microsoft.Xrm.Sdk.OptionSetValue StatusCode
 		{
 			[System.Diagnostics.DebuggerNonUserCode()]
 			get
@@ -2187,7 +2187,7 @@ namespace DataverseModel
 		}
 		
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("aging30")]
-		public Microsoft.Xrm.Sdk.Money? Aging30
+		public Microsoft.Xrm.Sdk.Money Aging30
 		{
 			[System.Diagnostics.DebuggerNonUserCode()]
 			get
@@ -2200,7 +2200,7 @@ namespace DataverseModel
 		/// 1:N contact_customer_contacts
 		/// </summary>
 		[Microsoft.Xrm.Sdk.RelationshipSchemaNameAttribute("contact_customer_contacts")]
-		public System.Collections.Generic.IEnumerable<Contact>? contact_customer_contacts
+		public System.Collections.Generic.IEnumerable<Contact> contact_customer_contacts
 		{
 			[System.Diagnostics.DebuggerNonUserCode()]
 			get
@@ -2221,7 +2221,7 @@ namespace DataverseModel
 		/// </summary>
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("contact_owning_user")]
 		[Microsoft.Xrm.Sdk.RelationshipSchemaNameAttribute("contact_owning_user")]
-		public SystemUser? owninguser
+		public SystemUser owninguser
 		{
 			[System.Diagnostics.DebuggerNonUserCode()]
 			get
@@ -2241,7 +2241,7 @@ namespace DataverseModel
 		/// N:N contactleads_association
 		/// </summary>
 		[Microsoft.Xrm.Sdk.RelationshipSchemaNameAttribute("contactleads_association")]
-		public System.Collections.Generic.IEnumerable<Microsoft.Xrm.Sdk.Entity>? contactleads_association
+		public System.Collections.Generic.IEnumerable<Microsoft.Xrm.Sdk.Entity> contactleads_association
 		{
 			[System.Diagnostics.DebuggerNonUserCode()]
 			get
@@ -2383,7 +2383,7 @@ namespace DataverseModel
 		}
 		
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("fullname")]
-		public string? FullName
+		public string FullName
 		{
 			[System.Diagnostics.DebuggerNonUserCode()]
 			get
@@ -2393,7 +2393,7 @@ namespace DataverseModel
 		}
 		
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("firstname")]
-		public string? FirstName
+		public string FirstName
 		{
 			[System.Diagnostics.DebuggerNonUserCode()]
 			get
@@ -2408,7 +2408,7 @@ namespace DataverseModel
 		}
 		
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("description")]
-		public string? Description
+		public string Description
 		{
 			[System.Diagnostics.DebuggerNonUserCode()]
 			get
@@ -2438,7 +2438,7 @@ namespace DataverseModel
 		}
 		
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("annualincome")]
-		public Microsoft.Xrm.Sdk.Money? AnnualIncome
+		public Microsoft.Xrm.Sdk.Money AnnualIncome
 		{
 			[System.Diagnostics.DebuggerNonUserCode()]
 			get
@@ -2483,7 +2483,7 @@ namespace DataverseModel
 		}
 		
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("parentcustomerid")]
-		public Microsoft.Xrm.Sdk.EntityReference? ParentCustomerId
+		public Microsoft.Xrm.Sdk.EntityReference ParentCustomerId
 		{
 			[System.Diagnostics.DebuggerNonUserCode()]
 			get
@@ -2498,7 +2498,7 @@ namespace DataverseModel
 		}
 		
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("parentcustomeridname")]
-		public string? ParentCustomerIdName
+		public string ParentCustomerIdName
 		{
 			[System.Diagnostics.DebuggerNonUserCode()]
 			get
@@ -2515,52 +2515,52 @@ namespace DataverseModel
 		}
 		
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("gendercode")]
-		public virtual Contact_GenderCode? GenderCode
+		public Microsoft.Xrm.Sdk.OptionSetValue GenderCode
 		{
 			[System.Diagnostics.DebuggerNonUserCode()]
 			get
 			{
-				return ((Contact_GenderCode?)(EntityOptionSetEnum.GetEnum(this, "gendercode")));
+				return this.GetAttributeValue<Microsoft.Xrm.Sdk.OptionSetValue>("gendercode");
 			}
 			[System.Diagnostics.DebuggerNonUserCode()]
 			set
 			{
-				this.SetAttributeValue("gendercode", value.HasValue ? new Microsoft.Xrm.Sdk.OptionSetValue((int)value) : null);
+				this.SetAttributeValue("gendercode", value);
 			}
 		}
 		
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("statecode")]
-		public virtual Contact_StateCode? StateCode
+		public Microsoft.Xrm.Sdk.OptionSetValue StateCode
 		{
 			[System.Diagnostics.DebuggerNonUserCode()]
 			get
 			{
-				return ((Contact_StateCode?)(EntityOptionSetEnum.GetEnum(this, "statecode")));
+				return this.GetAttributeValue<Microsoft.Xrm.Sdk.OptionSetValue>("statecode");
 			}
 			[System.Diagnostics.DebuggerNonUserCode()]
 			set
 			{
-				this.SetAttributeValue("statecode", value.HasValue ? new Microsoft.Xrm.Sdk.OptionSetValue((int)value) : null);
+				this.SetAttributeValue("statecode", value);
 			}
 		}
 		
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("statuscode")]
-		public virtual Contact_StatusCode? StatusCode
+		public Microsoft.Xrm.Sdk.OptionSetValue StatusCode
 		{
 			[System.Diagnostics.DebuggerNonUserCode()]
 			get
 			{
-				return ((Contact_StatusCode?)(EntityOptionSetEnum.GetEnum(this, "statuscode")));
+				return this.GetAttributeValue<Microsoft.Xrm.Sdk.OptionSetValue>("statuscode");
 			}
 			[System.Diagnostics.DebuggerNonUserCode()]
 			set
 			{
-				this.SetAttributeValue("statuscode", value.HasValue ? new Microsoft.Xrm.Sdk.OptionSetValue((int)value) : null);
+				this.SetAttributeValue("statuscode", value);
 			}
 		}
 		
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("aging30")]
-		public Microsoft.Xrm.Sdk.Money? Aging30
+		public Microsoft.Xrm.Sdk.Money Aging30
 		{
 			[System.Diagnostics.DebuggerNonUserCode()]
 			get

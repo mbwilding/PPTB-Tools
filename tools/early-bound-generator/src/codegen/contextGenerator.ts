@@ -5,13 +5,14 @@ import { NamingService } from "./naming";
 import { codeFileHeader } from "../utils/codeBuilder";
 import { CodeBuilder } from "../utils/codeBuilder";
 
-const OPTION_SET_METADATA_ATTRIBUTE_LINES: string[] = [
+function optionSetMetadataAttributeLines(access: string): string[] {
+    return [
     "\t",
     "\t/// <summary>",
     "\t/// Attribute to handle storing the OptionSet's Metadata.",
     "\t/// </summary>",
     "\t[System.AttributeUsageAttribute(System.AttributeTargets.Field)]",
-    "\tpublic sealed class OptionSetMetadataAttribute : System.Attribute",
+    `\t${access} sealed class OptionSetMetadataAttribute : System.Attribute`,
     "\t{",
     "\t\t",
     "\t\tprivate object[] _nameObjects;",
@@ -95,14 +96,16 @@ const OPTION_SET_METADATA_ATTRIBUTE_LINES: string[] = [
     "\t\t\treturn names;",
     "\t\t}",
     "\t}",
-];
+    ];
+}
 
-const OPTION_SET_EXTENSION_LINES: string[] = [
+function optionSetExtensionLines(access: string): string[] {
+    return [
     "\t",
     "\t/// <summary>",
     "\t/// Extension class to handle retrieving of OptionSetMetadataAttribute.",
     "\t/// </summary>",
-    "\tpublic static class OptionSetExtension",
+    `\t${access} static class OptionSetExtension`,
     "\t{",
     "\t\t",
     "\t\t/// <summary>",
@@ -131,7 +134,8 @@ const OPTION_SET_EXTENSION_LINES: string[] = [
     '\t\t\tthrow new System.ArgumentException("T must be an enum adorned with an OptionSetMetadataAttribute!");',
     "\t\t}",
     "\t}",
-];
+    ];
+}
 
 export function generateContextFile(entities: EntityMetadata[], namingService: NamingService, settings: EbgSettings): string {
     const ns = settings.namespace;
@@ -152,15 +156,17 @@ export function generateContextFile(entities: EntityMetadata[], namingService: N
     b.verbatim(`namespace ${ns}`, "{");
     b.depth = 1;
 
+    const access = settings.generateTypesAsInternal ? "internal" : "public";
+
     b.spacer();
     b.spacer();
     b.summary("Represents a source of entities bound to a Dataverse service. It tracks and manages changes made to the retrieved entities.");
     b.attrArgs("System.CodeDom.Compiler.GeneratedCodeAttribute", `"${CODEGEN_TOOL_NAME}", "${CODEGEN_TOOL_VERSION}"`);
-    b.open(`public partial class ${contextName} : Microsoft.Xrm.Sdk.Client.OrganizationServiceContext`);
+    b.open(`${access} partial class ${contextName} : Microsoft.Xrm.Sdk.Client.OrganizationServiceContext`);
     b.spacer();
 
     b.summary("Constructor.");
-    b.verbatim(`\t\tpublic ${contextName}(Microsoft.Xrm.Sdk.IOrganizationService service) : `, "\t\t\t\tbase(service)");
+    b.verbatim(`\t\t${access} ${contextName}(Microsoft.Xrm.Sdk.IOrganizationService service) : `, "\t\t\t\tbase(service)");
     b.open();
     b.close();
 
@@ -181,8 +187,8 @@ export function generateContextFile(entities: EntityMetadata[], namingService: N
     b.close();
 
     b.depth = 0;
-    b.verbatim(...OPTION_SET_METADATA_ATTRIBUTE_LINES);
-    b.verbatim(...OPTION_SET_EXTENSION_LINES);
+    b.verbatim(...optionSetMetadataAttributeLines(access));
+    b.verbatim(...optionSetExtensionLines(access));
     b.verbatim("}", "#pragma warning restore CS1591");
 
     return b.toStringWithNewline();

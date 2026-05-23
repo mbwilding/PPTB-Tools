@@ -109,7 +109,7 @@ namespace DataverseModel
 		}
 		
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("name")]
-		public string? Name
+		public string Name
 		{
 			[System.Diagnostics.DebuggerNonUserCode()]
 			get
@@ -124,7 +124,7 @@ namespace DataverseModel
 		}
 		
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("emailaddress")]
-		public string? EmailAddress
+		public string EmailAddress
 		{
 			[System.Diagnostics.DebuggerNonUserCode()]
 			get
@@ -140,7 +140,7 @@ namespace DataverseModel
 		
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("businessunitid")]
 		[System.ObsoleteAttribute()]
-		public Microsoft.Xrm.Sdk.EntityReference? BusinessUnitId
+		public Microsoft.Xrm.Sdk.EntityReference BusinessUnitId
 		{
 			[System.Diagnostics.DebuggerNonUserCode()]
 			get
@@ -156,7 +156,7 @@ namespace DataverseModel
 		
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("primaryuserid")]
 		[System.ObsoleteAttribute()]
-		public Microsoft.Xrm.Sdk.EntityReference? PrimaryUserId
+		public Microsoft.Xrm.Sdk.EntityReference PrimaryUserId
 		{
 			[System.Diagnostics.DebuggerNonUserCode()]
 			get

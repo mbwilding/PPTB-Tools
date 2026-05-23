@@ -116,7 +116,7 @@ export class CodeBuilder {
      * Emit a `[DebuggerNonUserCode()] get { body }` accessor block.
      * Pass `debuggerNonUserCode: false` to omit the attribute (used in message generator).
      */
-    getter(body: () => void, debuggerNonUserCode = true): this {
+    getter(body: () => void, debuggerNonUserCode: boolean): this {
         if (debuggerNonUserCode) this.attr("System.Diagnostics.DebuggerNonUserCode()");
         this.open("get");
         body();
@@ -125,7 +125,7 @@ export class CodeBuilder {
     }
 
     /** Emit a `[DebuggerNonUserCode()] set { body }` accessor block. */
-    setter(body: () => void, debuggerNonUserCode = true): this {
+    setter(body: () => void, debuggerNonUserCode: boolean): this {
         if (debuggerNonUserCode) this.attr("System.Diagnostics.DebuggerNonUserCode()");
         this.open("set");
         body();

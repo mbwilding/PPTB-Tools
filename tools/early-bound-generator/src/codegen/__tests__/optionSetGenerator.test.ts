@@ -143,7 +143,7 @@ describe("optionSetGenerator", () => {
 
     describe("collectOptionSets", () => {
         it("collects local and deduplicates global option sets", () => {
-            const settings = makeSettings();
+            const settings = makeSettings({ generateGlobalOptionSets: true });
             const filter = buildFilterService(settings);
 
             const entityWithGlobal = {

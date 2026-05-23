@@ -33,6 +33,7 @@ export function generateMessageFile(messagePair: SdkMessagePair, settings: EbgSe
     const responseName = className + "Response";
 
     const b = codeFileHeader(settings.namespace);
+    const access = settings.generateTypesAsInternal ? "internal" : "public";
 
     b.spacer();
     b.spacer();
@@ -41,11 +42,11 @@ export function generateMessageFile(messagePair: SdkMessagePair, settings: EbgSe
     if (!settings.suppressGeneratedCodeAttribute) {
         b.attrArgs("System.CodeDom.Compiler.GeneratedCodeAttribute", `"${CODEGEN_TOOL_NAME}", "${CODEGEN_TOOL_VERSION}"`);
     }
-    b.open(`public partial class ${requestName} : Microsoft.Xrm.Sdk.OrganizationRequest`);
+    b.open(`${access} partial class ${requestName} : Microsoft.Xrm.Sdk.OrganizationRequest`);
     b.spacer();
 
     if (settings.generateMessageAttributeNameConsts) {
-        b.open("public static class Fields");
+        b.open(`${access} static class Fields`);
         for (const field of sortedRequestFields) {
             const constName = naming.camelCase(field.Name);
             b.line(`public const string ${constName} = "${field.Name}";`);
@@ -95,7 +96,7 @@ export function generateMessageFile(messagePair: SdkMessagePair, settings: EbgSe
     if (!settings.suppressGeneratedCodeAttribute) {
         b.attrArgs("System.CodeDom.Compiler.GeneratedCodeAttribute", `"${CODEGEN_TOOL_NAME}", "${CODEGEN_TOOL_VERSION}"`);
     }
-    b.open(`public partial class ${responseName} : Microsoft.Xrm.Sdk.OrganizationResponse`);
+    b.open(`${access} partial class ${responseName} : Microsoft.Xrm.Sdk.OrganizationResponse`);
     b.spacer();
     b.line(`public const string ActionLogicalName = "${logicalName}";`);
     b.spacer();
