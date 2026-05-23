@@ -209,7 +209,6 @@ function App() {
             <SettingsToolbar
                 isGenerating={isGenerating}
                 settingsPath={settingsDir ? joinPath(settingsDir, settingsFileName) : ""}
-                onGenerate={handleGenerate}
                 onOpenSettings={handleOpenSettings}
                 onSaveSettings={handleSaveSettings}
             />
@@ -713,6 +712,19 @@ function App() {
                         void window.toolboxAPI?.utils.copyToClipboard(terminalOutput);
                     }}
                 />
+            </div>
+
+            <div className="bottom-bar">
+                <button className="toolbar-btn primary" onClick={handleGenerate} disabled={isGenerating} title="Generate early-bound classes">
+                    {isGenerating ? (
+                        <>
+                            <span className="toolbar-spinner" />
+                            Generating...
+                        </>
+                    ) : (
+                        "Generate"
+                    )}
+                </button>
             </div>
 
             <EntityPickerDialog

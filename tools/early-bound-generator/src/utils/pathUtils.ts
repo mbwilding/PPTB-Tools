@@ -1,7 +1,8 @@
 export function joinPath(...parts: string[]): string {
     return parts
         .filter(Boolean)
-        .map((p) => p.replace(/\\/g, "/"))
+        .map((p) => p.replace(/\\/g, "/").replace(/\/+$/, ""))
+        .filter(Boolean)
         .join("/")
         .replace(/\/+/g, "/");
 }
