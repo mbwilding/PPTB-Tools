@@ -1,38 +1,20 @@
 {
     "name": "@mbwilding/tool-early-bound-generator",
     "displayName": "Early Bound Generator",
-    "description": "Generate strongly-typed C# early-bound classes for Dataverse entities, option sets, and messages",
-    "main": "index.html",
     "version": "0.0.4",
-    "license": "GPL-2.0",
+    "description": "Generate strongly-typed C# early-bound classes for Dataverse entities, option sets, and messages",
+    "icon": "icons/ebg.svg",
     "contributors": [
         {
             "name": "Matthew Wilding",
             "url": "https://github.com/mbwilding"
         }
     ],
-    "icon": "icons/ebg.svg",
+    "license": "GPL-2.0",
     "configurations": {
         "repository": "https://github.com/mbwilding/PPTB-Tools/tree/main/tools/early-bound-generator",
-        "readmeUrl": "https://raw.githubusercontent.com/mbwilding/PPTB-Tools/refs/heads/main/tools/early-bound-generator/README.md",
-        "website": "https://github.com/mbwilding/PPTB-Tools/tree/main/tools/early-bound-generator"
+        "readmeUrl": "https://raw.githubusercontent.com/mbwilding/PPTB-Tools/refs/heads/main/tools/early-bound-generator/README.md"
     },
-    "homepage": "https://github.com/mbwilding/PPTB-Tools/tree/main/tools/early-bound-generator",
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/mbwilding/PPTB-Tools.git"
-    },
-    "bugs": {
-        "url": "https://github.com/mbwilding/PPTB-Tools/issues"
-    },
-    "keywords": [
-        "powerplatform",
-        "dataverse",
-        "toolbox",
-        "early-bound",
-        "code-gen",
-        "source-gen"
-    ],
     "type": "module",
     "scripts": {
         "build": "npm run typecheck && vite build",
@@ -47,6 +29,14 @@
     "files": [
         "dist",
         "npm-shrinkwrap.json"
+    ],
+    "keywords": [
+        "powerplatform",
+        "dataverse",
+        "toolbox",
+        "early-bound",
+        "code-gen",
+        "source-gen"
     ],
     "dependencies": {
         "react": "^18.3.1",
