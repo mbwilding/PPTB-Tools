@@ -389,7 +389,8 @@ export async function runCodegen(settings: EbgSettings, settingsDir: string, out
                 log(`--- Messages (${messagePairs.length}) ---`);
                 for (const pair of messagePairs) {
                     const content = generateMessageFile(pair, settings, appVersion);
-                    await writeTextWithPermission(joinPath(messageDir, `${pair.Request.Name}.cs`), content, log);
+                    const messageFileName = naming.camelCase(pair.Request.Name);
+                    await writeTextWithPermission(joinPath(messageDir, `${messageFileName}.cs`), content, log);
                 }
             } else {
                 log("--- Messages (combined) ---");
@@ -434,19 +435,23 @@ function buildMessageODataFilter(settings: EbgSettings): string {
     return "autotransact eq true";
 }
 
-async function fetchMessagePair(messageName: string, _messageId: string): Promise<SdkMessagePair | null> {
+async function fetchMessagePair(messageName: string, messageId: string): Promise<SdkMessagePair | null> {
     try {
-        const reqResult = await window.dataverseAPI.queryData(`sdkmessagerequests?$select=sdkmessagerequestid&$filter=sdkmessageid/name eq '${messageName.replace(/'/g, "''")}'&$top=1`);
+        const pairResult = await window.dataverseAPI.queryData(`sdkmessagepairs?$select=sdkmessagepairid&$filter=_sdkmessageid_value eq ${messageId}&$top=1`);
+        const pairs = pairResult.value as Record<string, unknown>[];
+        if (!pairs.length) return null;
+
+        const pairId = pairs[0]["sdkmessagepairid"] as string;
+
+        const reqResult = await window.dataverseAPI.queryData(`sdkmessagerequests?$select=sdkmessagerequestid&$filter=_sdkmessagepairid_value eq ${pairId}&$top=1`);
         const requests = reqResult.value as Record<string, unknown>[];
         if (!requests.length) return null;
 
         const requestId = requests[0]["sdkmessagerequestid"] as string;
 
-        const reqFields = await window.dataverseAPI.queryData(
-            `sdkmessagerequestfields?$select=name,clrformatter,optional,position&$filter=_sdkmessagerequestid_value eq ${requestId}&$orderby=position`,
-        );
+        const reqFields = await window.dataverseAPI.queryData(`sdkmessagerequestfields?$select=name,clrparser,optional,position&$filter=_sdkmessagerequestid_value eq ${requestId}&$orderby=position`);
 
-        const respResult = await window.dataverseAPI.queryData(`sdkmessageresponses?$select=sdkmessageresponseid&$filter=sdkmessagerequestid/sdkmessagerequestid eq ${requestId}&$top=1`);
+        const respResult = await window.dataverseAPI.queryData(`sdkmessageresponses?$select=sdkmessageresponseid&$filter=_sdkmessagerequestid_value eq ${requestId}&$top=1`);
         const responses = respResult.value as Record<string, unknown>[];
         let responseFields: Record<string, unknown>[] = [];
 
@@ -463,7 +468,7 @@ async function fetchMessagePair(messageName: string, _messageId: string): Promis
                 Name: messageName,
                 Fields: (reqFields.value as Record<string, unknown>[]).map((f) => ({
                     Name: (f["name"] as string) ?? "",
-                    ClrFormatter: f["clrformatter"] as string | undefined,
+                    ClrFormatter: f["clrparser"] as string | undefined,
                     IsOptional: (f["optional"] as boolean | undefined) ?? false,
                     Index: f["position"] as number | undefined,
                 })),
