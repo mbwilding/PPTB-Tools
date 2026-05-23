@@ -223,7 +223,7 @@ export async function runCodegen(settings: EbgSettings, settingsDir: string, out
     log("Loading dictionary...");
     const sortedOverrides = [...settings.tokenCapitalizationOverrides].sort((a, b) => b.length - a.length);
     const loadBuiltIn = async (): Promise<string> => {
-        const resp = await fetch("/dictionary.txt");
+        const resp = await fetch("/DLaB.Dictionary.txt");
         if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
         return resp.text();
     };

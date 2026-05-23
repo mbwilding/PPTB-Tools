@@ -28,14 +28,14 @@ Unlike the original XrmToolBox plugin, **code generation is implemented entirely
 
 ### Basic Usage
 
-1. Click **Open Settings** to browse to an existing `settings.xml` file, or select a folder to create a new one
+1. Click **Open Settings** to browse to an existing `DLaB.EarlyBoundGeneratorV2.DefaultSettings.xml` file, or select a folder to create a new one
 2. Configure the output directory under **Global → Output Relative Directory**
 3. Select the entities to generate under **Entities → Entities Whitelist**
 4. Click **Generate**
 
 ## Settings
 
-Settings are stored in a `settings.xml` file on disk, using the same format as XrmToolBox EarlyBoundGeneratorV2. Existing settings files from XrmToolBox can be opened directly.
+Settings are stored in a `DLaB.EarlyBoundGeneratorV2.DefaultSettings.xml` file on disk, using the same format as XrmToolBox EarlyBoundGeneratorV2. Existing settings files from XrmToolBox can be opened directly.
 
 ### Global
 

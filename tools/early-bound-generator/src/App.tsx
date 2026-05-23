@@ -18,7 +18,7 @@ import "./styles.css";
 
 type EntityPickerTarget = "entitiesWhitelist" | "entitiesToSkip";
 
-const SETTINGS_FILENAME = "settings.xml";
+const SETTINGS_FILENAME = "DLaB.EarlyBoundGeneratorV2.DefaultSettings.xml";
 
 function App() {
     const [settings, setSettings] = useState<EbgSettings>(DEFAULT_SETTINGS);
