@@ -1,7 +1,7 @@
 {
     "name": "@mbwilding/tool-early-bound-generator",
     "displayName": "Early Bound Generator",
-    "version": "0.0.8",
+    "version": "0.0.9",
     "description": "Generate strongly-typed C# early-bound classes for Dataverse entities, option sets, and messages",
     "icon": "icons/ebg.svg",
     "contributors": [
@@ -28,6 +28,7 @@
         "test:watch": "vitest",
         "validate": "pptb-validate",
         "finalize-package": "npm shrinkwrap",
+        "lint": "eslint --fix .",
         "pretty": "prettier --write ."
     },
     "files": [
@@ -51,11 +52,15 @@
         "@types/node": "^20.19.21",
         "@types/react": "^18.3.1",
         "@types/react-dom": "^18.3.0",
+        "@typescript-eslint/eslint-plugin": "^8.59.4",
+        "@typescript-eslint/parser": "^8.59.4",
         "@vitejs/plugin-react": "^4.3.4",
+        "eslint": "^10.4.0",
+        "eslint-config-prettier": "^10.1.8",
         "happy-dom": "^20.9.0",
+        "prettier": "^3.8.3",
         "typescript": "^5.9.3",
         "vite": "^6.0.7",
-        "vitest": "^4.1.7",
-        "prettier": "^3.8.3"
+        "vitest": "^4.1.7"
     }
 }

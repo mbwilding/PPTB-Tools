@@ -2,7 +2,135 @@ import type { EbgSettings } from "../models/interfaces";
 import type { EntityMetadata } from "./types";
 import { CODEGEN_TOOL_NAME } from "./types";
 import { NamingService } from "./naming";
-import { T, T2, T3, T4, T5, codeFileHeader } from "./helpers";
+import { codeFileHeader } from "./helpers";
+
+const OPTION_SET_METADATA_ATTRIBUTE_LINES: string[] = [
+    "\t",
+    "\t/// <summary>",
+    "\t/// Attribute to handle storing the OptionSet's Metadata.",
+    "\t/// </summary>",
+    "\t[System.AttributeUsageAttribute(System.AttributeTargets.Field)]",
+    "\tpublic sealed class OptionSetMetadataAttribute : System.Attribute",
+    "\t{",
+    "\t\t",
+    "\t\tprivate object[] _nameObjects;",
+    "\t\t",
+    "\t\tprivate System.Collections.Generic.Dictionary<int, string> _names;",
+    "\t\t",
+    "\t\t/// <summary>",
+    "\t\t/// Color of the OptionSetValue.",
+    "\t\t/// </summary>",
+    "\t\tpublic string Color { get; set; }",
+    "\t\t",
+    "\t\t/// <summary>",
+    "\t\t/// Description of the OptionSetValue.",
+    "\t\t/// </summary>",
+    "\t\tpublic string Description { get; set; }",
+    "\t\t",
+    "\t\t/// <summary>",
+    "\t\t/// Display order index of the OptionSetValue.",
+    "\t\t/// </summary>",
+    "\t\tpublic int DisplayIndex { get; set; }",
+    "\t\t",
+    "\t\t/// <summary>",
+    "\t\t/// External value of the OptionSetValue.",
+    "\t\t/// </summary>",
+    "\t\tpublic string ExternalValue { get; set; }",
+    "\t\t",
+    "\t\t/// <summary>",
+    "\t\t/// Name of the OptionSetValue.",
+    "\t\t/// </summary>",
+    "\t\tpublic string Name { get; set; }",
+    "\t\t",
+    "\t\t/// <summary>",
+    "\t\t/// Names of the OptionSetValue.",
+    "\t\t/// </summary>",
+    "\t\tpublic System.Collections.Generic.Dictionary<int, string> Names",
+    "\t\t{",
+    "\t\t\tget",
+    "\t\t\t{",
+    "\t\t\t\treturn _names ?? (_names = CreateNames());",
+    "\t\t\t} ",
+    "\t\t\tset",
+    "\t\t\t{",
+    "\t\t\t\t_names = value;",
+    "\t\t\t\tif (value == null)",
+    "\t\t\t\t{",
+    "\t\t\t\t    _nameObjects = new object[0];",
+    "\t\t\t\t}",
+    "\t\t\t\telse",
+    "\t\t\t\t{",
+    "\t\t\t\t    _nameObjects = null;",
+    "\t\t\t\t}",
+    "\t\t\t}",
+    "\t\t}",
+    "\t\t",
+    "\t\t/// <summary>",
+    '\t\t/// Initializes a new instance of the <see cref="OptionSetMetadataAttribute"/> class.',
+    "\t\t/// </summary>",
+    '\t\t/// <param name="name">Name of the value.</param>',
+    '\t\t/// <param name="displayIndex">Display order index of the value.</param>',
+    '\t\t/// <param name="color">Color of the value.</param>',
+    '\t\t/// <param name="description">Description of the value.</param>',
+    '\t\t/// <param name="externalValue">External value of the value.</param>',
+    '\t\t/// <param name="names">Names of the value.</param>',
+    "\t\tpublic OptionSetMetadataAttribute(string name, int displayIndex, string color = null, string description = null, string externalValue = null, params object[] names)",
+    "\t\t{",
+    "\t\t\tthis.Color = color;",
+    "\t\t\tthis.Description = description;",
+    "\t\t\tthis._nameObjects = names;",
+    "\t\t\tthis.ExternalValue = externalValue;",
+    "\t\t\tthis.DisplayIndex = displayIndex;",
+    "\t\t\tthis.Name = name;",
+    "\t\t}",
+    "\t\t",
+    "\t\tprivate System.Collections.Generic.Dictionary<int, string> CreateNames()",
+    "\t\t{",
+    "\t\t\tSystem.Collections.Generic.Dictionary<int, string> names = new System.Collections.Generic.Dictionary<int, string>();",
+    "\t\t\tfor (int i = 0; (i < _nameObjects.Length); i = (i + 2))",
+    "\t\t\t{",
+    "\t\t\t\tnames.Add(((int)(_nameObjects[i])), ((string)(_nameObjects[(i + 1)])));",
+    "\t\t\t}",
+    "\t\t\treturn names;",
+    "\t\t}",
+    "\t}",
+];
+
+const OPTION_SET_EXTENSION_LINES: string[] = [
+    "\t",
+    "\t/// <summary>",
+    "\t/// Extension class to handle retrieving of OptionSetMetadataAttribute.",
+    "\t/// </summary>",
+    "\tpublic static class OptionSetExtension",
+    "\t{",
+    "\t\t",
+    "\t\t/// <summary>",
+    "\t\t/// Returns the OptionSetMetadataAttribute for the given enum value",
+    "\t\t/// </summary>",
+    '\t\t/// <typeparam name="T">OptionSet Enum Type</typeparam>',
+    '\t\t/// <param name="value">Enum Value with OptionSetMetadataAttribute</param>',
+    "\t\tpublic static OptionSetMetadataAttribute GetMetadata<T>(this T value)",
+    "\t\t\twhere T :  struct, System.IConvertible",
+    "\t\t{",
+    "\t\t\tSystem.Type enumType = typeof(T);",
+    "\t\t\tif (!enumType.IsEnum)",
+    "\t\t\t{",
+    '\t\t\t\tthrow new System.ArgumentException("T must be an enum!");',
+    "\t\t\t}",
+    "\t\t\tSystem.Reflection.MemberInfo[] members = enumType.GetMember(value.ToString());",
+    "\t\t\tfor (int i = 0; (i < members.Length); i++",
+    "\t\t\t)",
+    "\t\t\t{",
+    "\t\t\t\tSystem.Attribute attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute(members[i], typeof(OptionSetMetadataAttribute));",
+    "\t\t\t\tif (attribute != null)",
+    "\t\t\t\t{",
+    "\t\t\t\t\treturn ((OptionSetMetadataAttribute)(attribute));",
+    "\t\t\t\t}",
+    "\t\t\t}",
+    '\t\t\tthrow new System.ArgumentException("T must be an enum adorned with an OptionSetMetadataAttribute!");',
+    "\t\t}",
+    "\t}",
+];
 
 export function generateContextFile(entities: EntityMetadata[], namingService: NamingService, settings: EbgSettings, appVersion: string): string {
     const ns = settings.namespace;
@@ -15,168 +143,46 @@ export function generateContextFile(entities: EntityMetadata[], namingService: N
     lines.push("");
     lines.push(`namespace ${ns}`);
     lines.push("{");
-    lines.push(`${T}`);
-    lines.push(`${T}`);
+    lines.push("\t");
+    lines.push("\t");
 
-    lines.push(`${T}/// <summary>`);
-    lines.push(`${T}/// Represents a source of entities bound to a Dataverse service. It tracks and manages changes made to the retrieved entities.`);
-    lines.push(`${T}/// </summary>`);
-    lines.push(`${T}[System.CodeDom.Compiler.GeneratedCodeAttribute("${CODEGEN_TOOL_NAME}", "${appVersion}")]`);
-    lines.push(`${T}public partial class ${contextName} : Microsoft.Xrm.Sdk.Client.OrganizationServiceContext`);
-    lines.push(`${T}{`);
-    lines.push(`${T2}`);
+    lines.push("\t/// <summary>");
+    lines.push("\t/// Represents a source of entities bound to a Dataverse service. It tracks and manages changes made to the retrieved entities.");
+    lines.push("\t/// </summary>");
+    lines.push(`\t[System.CodeDom.Compiler.GeneratedCodeAttribute("${CODEGEN_TOOL_NAME}", "${appVersion}")]`);
+    lines.push(`\tpublic partial class ${contextName} : Microsoft.Xrm.Sdk.Client.OrganizationServiceContext`);
+    lines.push("\t{");
+    lines.push("\t\t");
 
-    lines.push(`${T2}/// <summary>`);
-    lines.push(`${T2}/// Constructor.`);
-    lines.push(`${T2}/// </summary>`);
-    lines.push(`${T2}public ${contextName}(Microsoft.Xrm.Sdk.IOrganizationService service) : `);
-    lines.push(`				base(service)`);
-    lines.push(`${T2}{`);
-    lines.push(`${T2}}`);
+    lines.push("\t\t/// <summary>");
+    lines.push("\t\t/// Constructor.");
+    lines.push("\t\t/// </summary>");
+    lines.push(`\t\tpublic ${contextName}(Microsoft.Xrm.Sdk.IOrganizationService service) : `);
+    lines.push("\t\t\t\tbase(service)");
+    lines.push("\t\t{");
+    lines.push("\t\t}");
 
     for (const entity of entities) {
         const className = namingService.getNameForEntity(entity);
         const propName = `${className}Set`;
         const qualifiedName = `${ns}.${className}`;
 
-        lines.push(`${T2}`);
-        lines.push(`${T2}/// <summary>`);
-        lines.push(`${T2}/// Gets a binding to the set of all <see cref="${qualifiedName}"/> entities.`);
-        lines.push(`${T2}/// </summary>`);
-        lines.push(`${T2}public System.Linq.IQueryable<${qualifiedName}> ${propName}`);
-        lines.push(`${T2}{`);
-        lines.push(`${T3}get`);
-        lines.push(`${T3}{`);
-        lines.push(`${T4}return this.CreateQuery<${qualifiedName}>();`);
-        lines.push(`${T3}}`);
-        lines.push(`${T2}}`);
+        lines.push("\t\t");
+        lines.push("\t\t/// <summary>");
+        lines.push(`\t\t/// Gets a binding to the set of all <see cref="${qualifiedName}"/> entities.`);
+        lines.push("\t\t/// </summary>");
+        lines.push(`\t\tpublic System.Linq.IQueryable<${qualifiedName}> ${propName}`);
+        lines.push("\t\t{");
+        lines.push("\t\t\tget");
+        lines.push("\t\t\t{");
+        lines.push(`\t\t\t\treturn this.CreateQuery<${qualifiedName}>();`);
+        lines.push("\t\t\t}");
+        lines.push("\t\t}");
     }
 
-    lines.push(`${T}}`);
-
-    lines.push(`${T}`);
-    lines.push(`${T}/// <summary>`);
-    lines.push(`${T}/// Attribute to handle storing the OptionSet's Metadata.`);
-    lines.push(`${T}/// </summary>`);
-    lines.push(`${T}[System.AttributeUsageAttribute(System.AttributeTargets.Field)]`);
-    lines.push(`${T}public sealed class OptionSetMetadataAttribute : System.Attribute`);
-    lines.push(`${T}{`);
-    lines.push(`${T2}`);
-    lines.push(`${T2}private object[] _nameObjects;`);
-    lines.push(`${T2}`);
-    lines.push(`${T2}private System.Collections.Generic.Dictionary<int, string> _names;`);
-    lines.push(`${T2}`);
-    lines.push(`${T2}/// <summary>`);
-    lines.push(`${T2}/// Color of the OptionSetValue.`);
-    lines.push(`${T2}/// </summary>`);
-    lines.push(`${T2}public string Color { get; set; }`);
-    lines.push(`${T2}`);
-    lines.push(`${T2}/// <summary>`);
-    lines.push(`${T2}/// Description of the OptionSetValue.`);
-    lines.push(`${T2}/// </summary>`);
-    lines.push(`${T2}public string Description { get; set; }`);
-    lines.push(`${T2}`);
-    lines.push(`${T2}/// <summary>`);
-    lines.push(`${T2}/// Display order index of the OptionSetValue.`);
-    lines.push(`${T2}/// </summary>`);
-    lines.push(`${T2}public int DisplayIndex { get; set; }`);
-    lines.push(`${T2}`);
-    lines.push(`${T2}/// <summary>`);
-    lines.push(`${T2}/// External value of the OptionSetValue.`);
-    lines.push(`${T2}/// </summary>`);
-    lines.push(`${T2}public string ExternalValue { get; set; }`);
-    lines.push(`${T2}`);
-    lines.push(`${T2}/// <summary>`);
-    lines.push(`${T2}/// Name of the OptionSetValue.`);
-    lines.push(`${T2}/// </summary>`);
-    lines.push(`${T2}public string Name { get; set; }`);
-    lines.push(`${T2}`);
-    lines.push(`${T2}/// <summary>`);
-    lines.push(`${T2}/// Names of the OptionSetValue.`);
-    lines.push(`${T2}/// </summary>`);
-    lines.push(`${T2}public System.Collections.Generic.Dictionary<int, string> Names`);
-    lines.push(`${T2}{`);
-    lines.push(`${T3}get`);
-    lines.push(`${T3}{`);
-    lines.push(`${T4}return _names ?? (_names = CreateNames());`);
-    lines.push(`${T3}} `);
-    lines.push(`${T3}set`);
-    lines.push(`${T3}{`);
-    lines.push(`${T4}_names = value;`);
-    lines.push(`${T4}if (value == null)`);
-    lines.push(`${T4}{`);
-    lines.push(`${T4}    _nameObjects = new object[0];`);
-    lines.push(`${T4}}`);
-    lines.push(`${T4}else`);
-    lines.push(`${T4}{`);
-    lines.push(`${T4}    _nameObjects = null;`);
-    lines.push(`${T4}}`);
-    lines.push(`${T3}}`);
-    lines.push(`${T2}}`);
-    lines.push(`${T2}`);
-    lines.push(`${T2}/// <summary>`);
-    lines.push(`${T2}/// Initializes a new instance of the <see cref="OptionSetMetadataAttribute"/> class.`);
-    lines.push(`${T2}/// </summary>`);
-    lines.push(`${T2}/// <param name="name">Name of the value.</param>`);
-    lines.push(`${T2}/// <param name="displayIndex">Display order index of the value.</param>`);
-    lines.push(`${T2}/// <param name="color">Color of the value.</param>`);
-    lines.push(`${T2}/// <param name="description">Description of the value.</param>`);
-    lines.push(`${T2}/// <param name="externalValue">External value of the value.</param>`);
-    lines.push(`${T2}/// <param name="names">Names of the value.</param>`);
-    lines.push(`${T2}public OptionSetMetadataAttribute(string name, int displayIndex, string color = null, string description = null, string externalValue = null, params object[] names)`);
-    lines.push(`${T2}{`);
-    lines.push(`${T3}this.Color = color;`);
-    lines.push(`${T3}this.Description = description;`);
-    lines.push(`${T3}this._nameObjects = names;`);
-    lines.push(`${T3}this.ExternalValue = externalValue;`);
-    lines.push(`${T3}this.DisplayIndex = displayIndex;`);
-    lines.push(`${T3}this.Name = name;`);
-    lines.push(`${T2}}`);
-    lines.push(`${T2}`);
-    lines.push(`${T2}private System.Collections.Generic.Dictionary<int, string> CreateNames()`);
-    lines.push(`${T2}{`);
-    lines.push(`${T3}System.Collections.Generic.Dictionary<int, string> names = new System.Collections.Generic.Dictionary<int, string>();`);
-    lines.push(`${T3}for (int i = 0; (i < _nameObjects.Length); i = (i + 2))`);
-    lines.push(`${T3}{`);
-    lines.push(`${T4}names.Add(((int)(_nameObjects[i])), ((string)(_nameObjects[(i + 1)])));`);
-    lines.push(`${T3}}`);
-    lines.push(`${T3}return names;`);
-    lines.push(`${T2}}`);
-    lines.push(`${T}}`);
-
-    lines.push(`${T}`);
-    lines.push(`${T}/// <summary>`);
-    lines.push(`${T}/// Extension class to handle retrieving of OptionSetMetadataAttribute.`);
-    lines.push(`${T}/// </summary>`);
-    lines.push(`${T}public static class OptionSetExtension`);
-    lines.push(`${T}{`);
-    lines.push(`${T2}`);
-    lines.push(`${T2}/// <summary>`);
-    lines.push(`${T2}/// Returns the OptionSetMetadataAttribute for the given enum value`);
-    lines.push(`${T2}/// </summary>`);
-    lines.push(`${T2}/// <typeparam name="T">OptionSet Enum Type</typeparam>`);
-    lines.push(`${T2}/// <param name="value">Enum Value with OptionSetMetadataAttribute</param>`);
-    lines.push(`${T2}public static OptionSetMetadataAttribute GetMetadata<T>(this T value)`);
-    lines.push(`${T3}where T :  struct, System.IConvertible`);
-    lines.push(`${T2}{`);
-    lines.push(`${T3}System.Type enumType = typeof(T);`);
-    lines.push(`${T3}if (!enumType.IsEnum)`);
-    lines.push(`${T3}{`);
-    lines.push(`${T4}throw new System.ArgumentException("T must be an enum!");`);
-    lines.push(`${T3}}`);
-    lines.push(`${T3}System.Reflection.MemberInfo[] members = enumType.GetMember(value.ToString());`);
-    lines.push(`${T3}for (int i = 0; (i < members.Length); i++`);
-    lines.push(`${T3})`);
-    lines.push(`${T3}{`);
-    lines.push(`${T4}System.Attribute attribute = System.Reflection.CustomAttributeExtensions.GetCustomAttribute(members[i], typeof(OptionSetMetadataAttribute));`);
-    lines.push(`${T4}if (attribute != null)`);
-    lines.push(`${T4}{`);
-    lines.push(`${T5}return ((OptionSetMetadataAttribute)(attribute));`);
-    lines.push(`${T4}}`);
-    lines.push(`${T3}}`);
-    lines.push(`${T3}throw new System.ArgumentException("T must be an enum adorned with an OptionSetMetadataAttribute!");`);
-    lines.push(`${T2}}`);
-    lines.push(`${T}}`);
+    lines.push("\t}");
+    lines.push(...OPTION_SET_METADATA_ATTRIBUTE_LINES);
+    lines.push(...OPTION_SET_EXTENSION_LINES);
     lines.push("}");
     lines.push("#pragma warning restore CS1591");
 

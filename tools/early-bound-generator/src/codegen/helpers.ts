@@ -1,9 +1,3 @@
-export const T = "\t";
-export const T2 = "\t\t";
-export const T3 = "\t\t\t";
-export const T4 = "\t\t\t\t";
-export const T5 = "\t\t\t\t\t";
-
 export function escapeXmlComment(text: string): string {
     return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }

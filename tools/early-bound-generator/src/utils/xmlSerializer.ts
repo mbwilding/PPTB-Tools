@@ -66,7 +66,7 @@ function eliAttrSpecified(name: string, record: Record<string, string[]>): strin
 // ── serialise ────────────────────────────────────────────────────────────────
 
 export function settingsToXml(s: EbgSettings, appVersion: string): string {
-    let xml = `<?xml version="1.0" encoding="utf-8"?>\n`;
+    let xml = '<?xml version="1.0" encoding="utf-8"?>\n';
     xml += `<Config xmlns:xsd="${XSD}" xmlns:xsi="${XSI}">\n`;
 
     // Top-level fields that come before ExtensionConfig alphabetically:
@@ -81,7 +81,7 @@ export function settingsToXml(s: EbgSettings, appVersion: string): string {
     xml += el("EntityTypesFolder", esc(s.entityTypesFolder));
 
     // ExtensionConfig block (comes between EntityTypesFolder and GenerateMessages alphabetically)
-    xml += `  <ExtensionConfig>\n`;
+    xml += "  <ExtensionConfig>\n";
     xml += eliList("ActionPrefixesWhitelist", s.messagePrefixesWhitelist);
     xml += eliList("ActionsWhitelist", s.messagesWhitelist);
     xml += eliList("ActionsToSkip", s.messagesToSkip);
@@ -145,7 +145,7 @@ export function settingsToXml(s: EbgSettings, appVersion: string): string {
     xml += eliBool("UseEnumForStateCodes", s.useEnumForStateCodes);
     xml += eliBool("UseLogicalNames", s.useLogicalNames);
     xml += eliBool("WaitForAttachedDebugger", s.waitForAttachedDebugger);
-    xml += `  </ExtensionConfig>\n`;
+    xml += "  </ExtensionConfig>\n";
 
     // Remaining top-level fields alphabetically after ExtensionConfig:
     // GenerateMessages, IncludeCommandLine, MessageTypesFolder, Metadata*, NamingService,
@@ -165,7 +165,7 @@ export function settingsToXml(s: EbgSettings, appVersion: string): string {
     xml += elBool("UpdateBuilderSettingsJson", s.updateBuilderSettingsJson);
     xml += el("Version", appVersion);
 
-    xml += `</Config>`;
+    xml += "</Config>";
     return xml;
 }
 
