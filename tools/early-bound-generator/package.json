@@ -25,7 +25,14 @@
     "bugs": {
         "url": "https://github.com/mbwilding/PPTB-Tools/issues"
     },
-    "keywords": ["powerplatform", "dataverse", "toolbox", "early-bound", "code-gen", "source-gen"],
+    "keywords": [
+        "powerplatform",
+        "dataverse",
+        "toolbox",
+        "early-bound",
+        "code-gen",
+        "source-gen"
+    ],
     "type": "module",
     "scripts": {
         "build": "npm run typecheck && vite build",
