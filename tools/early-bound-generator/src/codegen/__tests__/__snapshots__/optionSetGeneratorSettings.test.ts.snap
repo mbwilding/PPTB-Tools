@@ -1,0 +1,58 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`adjustCasingForEnumOptions = false > option names use validCSharpName (stripped, no title-casing) instead of nameFromLabel (snapshot) 1`] = `
+"	
+	/// <summary>
+	/// Specifies the gender:
+	/// Male
+	/// Female
+	/// </summary>
+	[System.Runtime.Serialization.DataContractAttribute()]
+	public enum Contact_GenderCode
+	{
+		
+		[System.Runtime.Serialization.EnumMemberAttribute()]
+		[OptionSetMetadataAttribute("Female", 1)]
+		Female = 2,
+		
+		[System.Runtime.Serialization.EnumMemberAttribute()]
+		[OptionSetMetadataAttribute("Male", 0)]
+		Male = 1,
+	}"
+`;
+
+exports[`duplicate option label disambiguation > duplicate labels in a Status option set are disambiguated with _Active / _Inactive (snapshot) 1`] = `
+"	
+	[System.Runtime.Serialization.DataContractAttribute()]
+	public enum Contact_StatusCode
+	{
+		
+		[System.Runtime.Serialization.EnumMemberAttribute()]
+		[OptionSetMetadataAttribute("Active", 0)]
+		Active_Active = 1,
+		
+		[System.Runtime.Serialization.EnumMemberAttribute()]
+		[OptionSetMetadataAttribute("Active", 1)]
+		Active_Inactive = 2,
+		
+		[System.Runtime.Serialization.EnumMemberAttribute()]
+		[OptionSetMetadataAttribute("Inactive", 2)]
+		Inactive = 3,
+	}"
+`;
+
+exports[`useCrmSvcUtilStateEnumNamingConvention = true > State option set is named <EntityName>State (snapshot) 1`] = `
+"	
+	[System.Runtime.Serialization.DataContractAttribute()]
+	public enum ContactState
+	{
+		
+		[System.Runtime.Serialization.EnumMemberAttribute()]
+		[OptionSetMetadataAttribute("Active", 0)]
+		Active = 0,
+		
+		[System.Runtime.Serialization.EnumMemberAttribute()]
+		[OptionSetMetadataAttribute("Inactive", 1)]
+		Inactive = 1,
+	}"
+`;

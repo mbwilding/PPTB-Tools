@@ -36,6 +36,8 @@ function App() {
     const [searchQuery, setSearchQuery] = useState("");
     const searchInputRef = useRef<HTMLInputElement>(null);
 
+    const [connectionId, setConnectionId] = useState<string | null>(null);
+
     const updateSetting = (update: Partial<EbgSettings>) => {
         setSettings((prev) => ({ ...prev, ...update }));
     };
@@ -88,11 +90,43 @@ function App() {
                 return;
             }
 
+            const conn = await window.toolboxAPI.connections.getActiveConnection();
+            const id = conn?.id ?? null;
+            setConnectionId(id);
+
+            if (id) {
+                const lastDir = (await window.toolboxAPI.settings.get(`lastSettingsDir:${id}`)) as string | null | undefined;
+                if (lastDir) {
+                    const dir = await window.toolboxAPI.fileSystem.selectPath({
+                        type: "folder",
+                        title: "Reload last settings folder",
+                        defaultPath: lastDir,
+                    });
+                    if (dir) await loadSettingsFromDir(dir);
+                }
+            }
+
             setInitializing(false);
         };
 
         void init();
     }, [loadSettingsFromDir]);
+
+    useEffect(() => {
+        if (!settingsDir || !connectionId || !window.toolboxAPI) return;
+        void window.toolboxAPI.settings.set(`lastSettingsDir:${connectionId}`, settingsDir);
+    }, [settingsDir, connectionId]);
+
+    const handleResetSettings = async () => {
+        setSettings(DEFAULT_SETTINGS);
+        setSettingsDir("");
+        setSettingsFileName(SETTINGS_FILENAME);
+        setXmlCandidates([]);
+        setError("");
+        if (window.toolboxAPI && connectionId) {
+            await window.toolboxAPI.settings.set(`lastSettingsDir:${connectionId}`, "");
+        }
+    };
 
     const handleOpenSettings = async () => {
         if (!window.toolboxAPI) return;
@@ -216,6 +250,7 @@ function App() {
                 settingsPath={settingsDir ? joinPath(settingsDir, settingsFileName) : ""}
                 onOpenSettings={handleOpenSettings}
                 onSaveSettings={handleSaveSettings}
+                onResetSettings={handleResetSettings}
             />
             {error && <div className="error-banner">{error}</div>}
             <div className="content-area">

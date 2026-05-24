@@ -174,6 +174,23 @@ namespace DataverseModel
 	}
 	
 	[System.Runtime.Serialization.DataContractAttribute()]
+	public enum Contact_PreferredContactMethodsCode
+	{
+		
+		[System.Runtime.Serialization.EnumMemberAttribute()]
+		[OptionSetMetadataAttribute("Any", 0)]
+		Any = 1,
+		
+		[System.Runtime.Serialization.EnumMemberAttribute()]
+		[OptionSetMetadataAttribute("Email", 1)]
+		Email = 2,
+		
+		[System.Runtime.Serialization.EnumMemberAttribute()]
+		[OptionSetMetadataAttribute("Phone", 2)]
+		Phone = 3,
+	}
+	
+	[System.Runtime.Serialization.DataContractAttribute()]
 	public enum Contact_StateCode
 	{
 		

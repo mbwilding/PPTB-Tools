@@ -1,13 +1,12 @@
 export class DataverseClient {
     async fetchAllEntities(): Promise<Array<{ logicalName: string; displayName: string }>> {
         try {
-            const response = await window.dataverseAPI.queryData("EntityDefinitions?$select=LogicalName,DisplayName&$orderby=LogicalName");
-            return (response.value as Record<string, unknown>[]).map((e) => {
-                const dn = e["DisplayName"] as Record<string, unknown> | null;
-                const label = (dn?.["UserLocalizedLabel"] as Record<string, unknown> | null)?.["Label"] as string | undefined;
+            const response = await window.dataverseAPI.getAllEntitiesMetadata(["LogicalName", "DisplayName"]);
+            return response.value.map((e) => {
+                const label = e.DisplayName?.LocalizedLabels.find((l) => l.LanguageCode === 1033)?.Label ?? e.DisplayName?.LocalizedLabels[0]?.Label ?? "";
                 return {
-                    logicalName: (e["LogicalName"] as string) ?? "",
-                    displayName: label ?? "",
+                    logicalName: e.LogicalName.toLowerCase(),
+                    displayName: label,
                 };
             });
         } catch (error: unknown) {

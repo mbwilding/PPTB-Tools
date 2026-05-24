@@ -43,3 +43,40 @@ export const noFieldsMessage: SdkMessagePair = {
         Fields: [],
     },
 };
+
+/**
+ * Message with CLR alias types in response fields -- exercises the CLR_TYPE_ALIASES
+ * map and verifies System.String -> string, System.Boolean -> bool, System.Int32 -> int.
+ */
+export const clrAliasMessage: SdkMessagePair = {
+    Request: {
+        Name: "contoso_CheckEligibility",
+        Fields: [
+            {
+                Name: "ContactId",
+                ClrFormatter: "System.Guid",
+                IsOptional: false,
+                Index: 0,
+            },
+        ],
+    },
+    Response: {
+        Fields: [
+            {
+                Name: "IsEligible",
+                ClrFormatter: "System.Boolean",
+                Index: 0,
+            },
+            {
+                Name: "Reason",
+                ClrFormatter: "System.String",
+                Index: 1,
+            },
+            {
+                Name: "Score",
+                ClrFormatter: "System.Int32",
+                Index: 2,
+            },
+        ],
+    },
+};

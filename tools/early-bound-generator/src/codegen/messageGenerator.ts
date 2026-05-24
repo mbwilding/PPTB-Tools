@@ -1,7 +1,7 @@
 import type { EbgSettings } from "../models/interfaces";
-import type { SdkMessagePair } from "./types";
+import type { SdkMessagePair, SdkMessageResponseField } from "./types";
 import { CODEGEN_TOOL_NAME, CODEGEN_TOOL_VERSION } from "./types";
-import { codeFileHeader, extractNamespaceBody } from "../utils/codeBuilder";
+import { codeFileHeader, extractNamespaceBody, CodeBuilder } from "../utils/codeBuilder";
 import type { NamingService } from "./naming";
 
 const DATA_CONTRACT_NS = 'Namespace="http://schemas.microsoft.com/xrm/2011/new/"';
@@ -29,6 +29,7 @@ export function generateMessageFile(messagePair: SdkMessagePair, settings: EbgSe
     const logicalName = messagePair.Request.Name;
     const className = naming.camelCase(logicalName);
     const sortedRequestFields = [...messagePair.Request.Fields].sort((a, b) => naming.camelCase(a.Name).localeCompare(naming.camelCase(b.Name)));
+    const sortedResponseFields = [...(messagePair.Response.Fields ?? [])].sort((a, b) => naming.camelCase(a.Name).localeCompare(naming.camelCase(b.Name)));
     const requestName = className + "Request";
     const responseName = className + "Response";
 
@@ -98,14 +99,53 @@ export function generateMessageFile(messagePair: SdkMessagePair, settings: EbgSe
     }
     b.open(`${access} partial class ${responseName} : Microsoft.Xrm.Sdk.OrganizationResponse`);
     b.spacer();
+
+    if (settings.generateMessageAttributeNameConsts && sortedResponseFields.length > 0) {
+        b.open(`${access} static class Fields`);
+        for (const field of sortedResponseFields) {
+            const constName = naming.camelCase(field.Name);
+            b.line(`public const string ${constName} = "${field.Name}";`);
+        }
+        b.close();
+        b.spacer();
+    }
+
     b.line(`public const string ActionLogicalName = "${logicalName}";`);
     b.spacer();
+
+    for (const field of sortedResponseFields) {
+        b.verbatim(buildResponseFieldBlock(field, naming, settings));
+        b.spacer();
+    }
+
     b.open(`public ${responseName}()`);
     b.close();
     b.close();
 
     b.verbatim("}", "#pragma warning restore CS1591", "");
 
+    return b.toString();
+}
+
+function buildResponseFieldBlock(field: SdkMessageResponseField, naming: NamingService, settings: EbgSettings): string {
+    const csType = parseClrType(field.ClrFormatter);
+    const propName = naming.camelCase(field.Name);
+    const b = new CodeBuilder(2);
+    b.open(`public ${csType}? ${propName}`);
+    b.getter(() => {
+        b.open(`if (this.Results.Contains("${field.Name}"))`);
+        b.line(`return ((${csType})(this.Results["${field.Name}"]));`);
+        b.close();
+        b.open("else");
+        b.line(`return default(${csType});`);
+        b.close();
+    }, false);
+    if (settings.makeResponseMessagesEditable) {
+        b.setter(() => {
+            b.line(`this.Results["${field.Name}"] = value;`);
+        }, false);
+    }
+    b.close();
     return b.toString();
 }
 

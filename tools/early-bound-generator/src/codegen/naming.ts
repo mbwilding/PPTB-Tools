@@ -65,6 +65,11 @@ const CASING_BY_GLOBAL_OPTION_SET: Readonly<Record<string, string>> = {
     workflowlog_objecttypecode: "WorkflowLog_ObjectTypeCode",
 };
 
+/** Returns true if a Dataverse status reason option is in the Active state. State 0 = Active, any other value = Inactive. */
+function isActiveState(state: number | undefined): boolean {
+    return (state ?? 1) === 0;
+}
+
 export class NamingService {
     private readonly settings: EbgSettings;
     private readonly caser: CamelCaser;
@@ -247,7 +252,7 @@ export class NamingService {
             nameValueDups.set(name, nameValueDups.has(name));
 
             if (optionSet.OptionSetType === "Status") {
-                const stateAppended = name + "_" + (((opt as { State?: number }).State ?? 1) === 0 ? "Active" : "Inactive");
+                const stateAppended = name + "_" + (isActiveState(opt.State) ? "Active" : "Inactive");
                 nameValueDups.set(stateAppended, nameValueDups.has(stateAppended));
             }
         }
@@ -264,8 +269,8 @@ export class NamingService {
 
         if (optionSet.OptionSetType === "Status") {
             const option = (optionSet.Options ?? []).find((o) => o.Value === value);
-            const state = option ? ((option as { State?: number }).State ?? 1) : 1;
-            const withState = name + "_" + (state === 0 ? "Active" : "Inactive");
+            const state = option ? (option.State ?? 1) : 1;
+            const withState = name + "_" + (isActiveState(state) ? "Active" : "Inactive");
             if (!dupMap.get(withState)) {
                 return withState;
             }

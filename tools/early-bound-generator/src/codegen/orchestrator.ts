@@ -32,7 +32,7 @@ async function fetchEntityMetadataFull(logicalName: string, log?: LogFn): Promis
 
     const optionSetByLogicalName = new Map<string, OptionSetMetadata>();
     for (const result of typedResults) {
-        for (const item of result.value as Record<string, unknown>[]) {
+        for (const item of result.value) {
             const logName = item["LogicalName"] as string;
             const optRaw = item["OptionSet"] as Record<string, unknown> | null;
             if (logName && optRaw) {
@@ -133,7 +133,7 @@ function parseRelationships(raw: unknown): EntityMetadata["OneToManyRelationship
     if (!Array.isArray(raw)) return [];
     return (raw as Record<string, unknown>[]).map((r) => ({
         SchemaName: (r["SchemaName"] as string) ?? "",
-        RelationshipType: r["RelationshipType"] as string as "OneToManyRelationship" | "ManyToManyRelationship",
+        RelationshipType: r["RelationshipType"] as "OneToManyRelationship" | "ManyToManyRelationship",
         ReferencedEntity: r["ReferencedEntity"] as string | undefined,
         ReferencingEntity: r["ReferencingEntity"] as string | undefined,
         ReferencedEntityNavigationPropertyName: r["ReferencedEntityNavigationPropertyName"] as string | undefined,
@@ -195,12 +195,12 @@ export async function captureMetadata(settings: EbgSettings, outputDir: string, 
     log("Fetching entity list...");
     const allEntitiesList = await window.dataverseAPI.getAllEntitiesMetadata(["LogicalName", "SchemaName", "DisplayName"]);
     await writeTextWithPermission(joinPath(snapshotDir, "entities-list.json"), JSON.stringify(allEntitiesList, null, 2), log);
-    log(`\tSaved entities-list.json (${(allEntitiesList.value as unknown[]).length} entities)`);
+    log(`\tSaved entities-list.json (${allEntitiesList.value.length} entities)`);
 
     const filter = new FilterService(settings);
-    const toGenerate = (allEntitiesList.value as Record<string, unknown>[])
+    const toGenerate = allEntitiesList.value
         .map((e) => ({
-            logicalName: ((e["LogicalName"] as string) ?? "").toLowerCase(),
+            logicalName: (e.LogicalName ?? "").toLowerCase(),
             schemaName: (e["SchemaName"] as string) ?? "",
         }))
         .filter((e) =>
@@ -268,8 +268,8 @@ export async function runCodegen(settings: EbgSettings, settingsDir: string, out
     log("Fetching entity list...");
     const allEntitiesList = await window.dataverseAPI.getAllEntitiesMetadata(["LogicalName", "SchemaName", "DisplayName"]);
     const allEntitySummaries = allEntitiesList.value.map((e) => ({
-        logicalName: ((e as unknown as Record<string, unknown>)["LogicalName"] as string).toLowerCase(),
-        schemaName: ((e as unknown as Record<string, unknown>)["SchemaName"] as string) ?? "",
+        logicalName: (e.LogicalName ?? "").toLowerCase(),
+        schemaName: (e["SchemaName"] as string) ?? "",
     }));
 
     const toGenerate = allEntitySummaries.filter((e) =>
@@ -413,7 +413,7 @@ async function fetchSdkMessages(settings: EbgSettings, filter: FilterService, lo
         const msgFilter = buildMessageODataFilter(settings);
         const query = `sdkmessages?$select=name,sdkmessageid&$filter=${encodeURIComponent(msgFilter)}&$top=500`;
         const result = await window.dataverseAPI.queryData(query);
-        const messages = result.value as Record<string, unknown>[];
+        const messages = result.value;
 
         const pairs: SdkMessagePair[] = [];
         for (const msg of messages) {
@@ -441,13 +441,13 @@ function buildMessageODataFilter(settings: EbgSettings): string {
 async function fetchMessagePair(messageName: string, messageId: string): Promise<SdkMessagePair | null> {
     try {
         const pairResult = await window.dataverseAPI.queryData(`sdkmessagepairs?$select=sdkmessagepairid&$filter=_sdkmessageid_value eq ${messageId}&$top=1`);
-        const pairs = pairResult.value as Record<string, unknown>[];
+        const pairs = pairResult.value;
         if (!pairs.length) return null;
 
         const pairId = pairs[0]["sdkmessagepairid"] as string;
 
         const reqResult = await window.dataverseAPI.queryData(`sdkmessagerequests?$select=sdkmessagerequestid&$filter=_sdkmessagepairid_value eq ${pairId}&$top=1`);
-        const requests = reqResult.value as Record<string, unknown>[];
+        const requests = reqResult.value;
         if (!requests.length) return null;
 
         const requestId = requests[0]["sdkmessagerequestid"] as string;
@@ -455,7 +455,7 @@ async function fetchMessagePair(messageName: string, messageId: string): Promise
         const reqFields = await window.dataverseAPI.queryData(`sdkmessagerequestfields?$select=name,clrparser,optional,position&$filter=_sdkmessagerequestid_value eq ${requestId}&$orderby=position`);
 
         const respResult = await window.dataverseAPI.queryData(`sdkmessageresponses?$select=sdkmessageresponseid&$filter=_sdkmessagerequestid_value eq ${requestId}&$top=1`);
-        const responses = respResult.value as Record<string, unknown>[];
+        const responses = respResult.value;
         let responseFields: Record<string, unknown>[] = [];
 
         if (responses.length) {
@@ -463,13 +463,13 @@ async function fetchMessagePair(messageName: string, messageId: string): Promise
             const respFields = await window.dataverseAPI.queryData(
                 `sdkmessageresponsefields?$select=name,clrformatter,position&$filter=_sdkmessageresponseid_value eq ${responseId}&$orderby=position`,
             );
-            responseFields = respFields.value as Record<string, unknown>[];
+            responseFields = respFields.value;
         }
 
         return {
             Request: {
                 Name: messageName,
-                Fields: (reqFields.value as Record<string, unknown>[]).map((f) => ({
+                Fields: reqFields.value.map((f) => ({
                     Name: (f["name"] as string) ?? "",
                     ClrFormatter: f["clrparser"] as string | undefined,
                     IsOptional: (f["optional"] as boolean | undefined) ?? false,

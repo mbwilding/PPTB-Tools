@@ -18,14 +18,20 @@ const resolveTheme = async () => {
     }
 };
 
-const themeEventHandler = (_event: unknown, payload: unknown) => {
-    const p = payload as { event?: string; data?: { theme?: string } };
-    if (p.event !== "settings:updated") return;
-    const theme = p.data?.theme;
-    if (theme) {
-        applyThemeClass(theme);
-    } else {
-        void resolveTheme();
+const themeEventHandler = (_event: ToolBoxAPI.ToolBoxEvent, payload: ToolBoxAPI.ToolBoxEventPayload) => {
+    if (payload.event === "settings:updated") {
+        const data = payload.data as { theme?: string } | null;
+        const theme = data?.theme;
+        if (theme) {
+            applyThemeClass(theme);
+        } else {
+            void resolveTheme();
+        }
+        return;
+    }
+
+    if (payload.event === "connection:created" || payload.event === "connection:updated" || payload.event === "connection:deleted") {
+        window.dispatchEvent(new CustomEvent("pptb:event", { detail: "connection:changed" }));
     }
 };
 

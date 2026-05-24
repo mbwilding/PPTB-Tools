@@ -17,6 +17,8 @@ export interface OptionMetadata {
     Description?: Label;
     Color?: string;
     DisplayOrder?: number;
+    /** State for status reason options: 0 = Active, 1+ = Inactive. Only present on Status option set options. */
+    State?: number;
 }
 
 export interface OptionSetMetadata {

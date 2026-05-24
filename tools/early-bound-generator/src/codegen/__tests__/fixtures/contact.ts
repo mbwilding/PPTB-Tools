@@ -192,6 +192,146 @@ export const contactEntity: EntityMetadata = {
             IsValidForUpdate: false,
             IsValidForRead: true,
         },
+
+        // --- Additional attribute types for coverage ---
+
+        {
+            LogicalName: "versionnumber",
+            SchemaName: "VersionNumber",
+            DisplayName: { LocalizedLabels: [{ Label: "Version Number", LanguageCode: 1033 }] },
+            AttributeType: "BigInt",
+            IsValidForCreate: false,
+            IsValidForUpdate: false,
+            IsValidForRead: true,
+        },
+
+        {
+            LogicalName: "creditlimit",
+            SchemaName: "CreditLimit",
+            DisplayName: { LocalizedLabels: [{ Label: "Credit Limit", LanguageCode: 1033 }] },
+            AttributeType: "Decimal",
+            IsValidForCreate: true,
+            IsValidForUpdate: true,
+            IsValidForRead: true,
+        },
+
+        {
+            LogicalName: "exchangerate",
+            SchemaName: "ExchangeRate",
+            DisplayName: { LocalizedLabels: [{ Label: "Exchange Rate", LanguageCode: 1033 }] },
+            AttributeType: "Double",
+            IsValidForCreate: false,
+            IsValidForUpdate: false,
+            IsValidForRead: true,
+        },
+
+        {
+            LogicalName: "ownerid",
+            SchemaName: "OwnerId",
+            DisplayName: { LocalizedLabels: [{ Label: "Owner", LanguageCode: 1033 }] },
+            AttributeType: "Owner",
+            Targets: ["systemuser", "team"],
+            IsValidForCreate: true,
+            IsValidForUpdate: true,
+            IsValidForRead: true,
+        },
+
+        {
+            LogicalName: "activityparties",
+            SchemaName: "ActivityParties",
+            DisplayName: { LocalizedLabels: [{ Label: "Activity Parties", LanguageCode: 1033 }] },
+            AttributeType: "PartyList",
+            IsValidForCreate: true,
+            IsValidForUpdate: true,
+            IsValidForRead: true,
+        },
+
+        {
+            LogicalName: "entityimage",
+            SchemaName: "EntityImage",
+            DisplayName: { LocalizedLabels: [{ Label: "Entity Image", LanguageCode: 1033 }] },
+            AttributeType: "Virtual",
+            AttributeTypeName: { Value: "ImageType" },
+            IsValidForCreate: true,
+            IsValidForUpdate: true,
+            IsValidForRead: true,
+        },
+
+        {
+            LogicalName: "document",
+            SchemaName: "Document",
+            DisplayName: { LocalizedLabels: [{ Label: "Document", LanguageCode: 1033 }] },
+            AttributeType: "File",
+            IsValidForCreate: true,
+            IsValidForUpdate: true,
+            IsValidForRead: true,
+        },
+
+        {
+            LogicalName: "isbackofficecustomer",
+            SchemaName: "IsBackofficeCustomer",
+            DisplayName: { LocalizedLabels: [{ Label: "Back Office Customer", LanguageCode: 1033 }] },
+            AttributeType: "ManagedProperty",
+            IsValidForCreate: true,
+            IsValidForUpdate: true,
+            IsValidForRead: true,
+        },
+
+        {
+            LogicalName: "preferredcontactmethodscode",
+            SchemaName: "PreferredContactMethodsCode",
+            DisplayName: { LocalizedLabels: [{ Label: "Preferred Method of Contact", LanguageCode: 1033 }] },
+            AttributeType: "MultiSelectPicklist",
+            AttributeTypeName: { Value: "MultiSelectPicklistType" },
+            IsValidForCreate: true,
+            IsValidForUpdate: true,
+            IsValidForRead: true,
+            OptionSet: {
+                MetadataId: "aaa00004-0000-0000-0000-000000000001",
+                Name: "contact_preferredcontactmethodscode",
+                DisplayName: { LocalizedLabels: [{ Label: "Preferred Method of Contact", LanguageCode: 1033 }] },
+                OptionSetType: "Picklist",
+                IsGlobal: false,
+                Options: [
+                    { Value: 1, Label: { LocalizedLabels: [{ Label: "Any", LanguageCode: 1033 }] } },
+                    { Value: 2, Label: { LocalizedLabels: [{ Label: "Email", LanguageCode: 1033 }] } },
+                    { Value: 3, Label: { LocalizedLabels: [{ Label: "Phone", LanguageCode: 1033 }] } },
+                ],
+            },
+        },
+
+        // Readonly system fields (for makeReadonlyFieldsEditable coverage)
+        {
+            LogicalName: "createdby",
+            SchemaName: "CreatedBy",
+            DisplayName: { LocalizedLabels: [{ Label: "Created By", LanguageCode: 1033 }] },
+            AttributeType: "Lookup",
+            Targets: ["systemuser"],
+            IsValidForCreate: false,
+            IsValidForUpdate: false,
+            IsValidForRead: true,
+        },
+
+        {
+            LogicalName: "createdon",
+            SchemaName: "CreatedOn",
+            DisplayName: { LocalizedLabels: [{ Label: "Created On", LanguageCode: 1033 }] },
+            AttributeType: "DateTime",
+            IsValidForCreate: false,
+            IsValidForUpdate: false,
+            IsValidForRead: true,
+        },
+
+        // Attribute whose SchemaName matches the entity class name -- triggers __Member suffix
+        {
+            LogicalName: "contact",
+            SchemaName: "Contact",
+            DisplayName: { LocalizedLabels: [{ Label: "Contact Self Reference", LanguageCode: 1033 }] },
+            AttributeType: "String",
+            IsValidForCreate: true,
+            IsValidForUpdate: true,
+            IsValidForRead: true,
+        },
     ],
     OneToManyRelationships: [
         {
@@ -252,6 +392,112 @@ export const systemUserEntity: EntityMetadata = {
             AttributeType: "String",
             IsPrimaryName: true,
             IsValidForCreate: false,
+            IsValidForUpdate: false,
+            IsValidForRead: true,
+        },
+    ],
+    OneToManyRelationships: [],
+    ManyToOneRelationships: [],
+    ManyToManyRelationships: [],
+};
+
+/** Entity with AlternateKeys populated (two-key composite alternate key). */
+export const accountEntity: EntityMetadata = {
+    LogicalName: "account",
+    SchemaName: "Account",
+    DisplayName: { LocalizedLabels: [{ Label: "Account", LanguageCode: 1033 }] },
+    LogicalCollectionName: "accounts",
+    EntitySetName: "accounts",
+    PrimaryIdAttribute: "accountid",
+    PrimaryNameAttribute: "name",
+    Keys: [{ KeyAttributes: ["accountnumber", "name"] }],
+    Attributes: [
+        {
+            LogicalName: "accountid",
+            SchemaName: "AccountId",
+            DisplayName: { LocalizedLabels: [{ Label: "Account", LanguageCode: 1033 }] },
+            AttributeType: "Uniqueidentifier",
+            IsPrimaryId: true,
+            IsValidForCreate: true,
+            IsValidForUpdate: false,
+            IsValidForRead: true,
+        },
+        {
+            LogicalName: "name",
+            SchemaName: "Name",
+            DisplayName: { LocalizedLabels: [{ Label: "Account Name", LanguageCode: 1033 }] },
+            AttributeType: "String",
+            IsPrimaryName: true,
+            IsValidForCreate: true,
+            IsValidForUpdate: true,
+            IsValidForRead: true,
+        },
+        {
+            LogicalName: "accountnumber",
+            SchemaName: "AccountNumber",
+            DisplayName: { LocalizedLabels: [{ Label: "Account Number", LanguageCode: 1033 }] },
+            AttributeType: "String",
+            IsValidForCreate: true,
+            IsValidForUpdate: true,
+            IsValidForRead: true,
+        },
+    ],
+    OneToManyRelationships: [],
+    ManyToOneRelationships: [],
+    ManyToManyRelationships: [],
+};
+
+/**
+ * Option set with duplicate option labels -- tests appendValueForDuplicateOptionSetValueNames.
+ * Both values have label "Active" at different states, triggering _Active / _Inactive dedup.
+ */
+export const statusWithDuplicateLabelsOptionSet = {
+    MetadataId: "ccc00001-0000-0000-0000-000000000001",
+    Name: "contact_dupstatuscode",
+    DisplayName: { LocalizedLabels: [{ Label: "Dup Status", LanguageCode: 1033 }] },
+    OptionSetType: "Status" as const,
+    IsGlobal: false,
+    Options: [
+        { Value: 1, State: 0, Label: { LocalizedLabels: [{ Label: "Active", LanguageCode: 1033 }] } },
+        { Value: 2, State: 1, Label: { LocalizedLabels: [{ Label: "Active", LanguageCode: 1033 }] } },
+        { Value: 3, State: 1, Label: { LocalizedLabels: [{ Label: "Inactive", LanguageCode: 1033 }] } },
+    ],
+};
+
+/**
+ * Status option set where options carry State values --
+ * exercises isActiveState path in duplicate-name resolution.
+ */
+export const statusWithStateOptionSet = {
+    MetadataId: "ccc00002-0000-0000-0000-000000000001",
+    Name: "contact_statuscode",
+    DisplayName: { LocalizedLabels: [{ Label: "Status Reason", LanguageCode: 1033 }] },
+    OptionSetType: "Status" as const,
+    IsGlobal: false,
+    Options: [
+        { Value: 1, State: 0, Label: { LocalizedLabels: [{ Label: "Active", LanguageCode: 1033 }] } },
+        { Value: 2, State: 1, Label: { LocalizedLabels: [{ Label: "Inactive", LanguageCode: 1033 }] } },
+    ],
+};
+
+/** BPF entity -- schema name contains _bpf_{guid} segment. */
+export const bpfEntity: EntityMetadata = {
+    LogicalName: "contoso_bpf_1a2b3c4d5e6f7890abcdef1234567890_onboarding",
+    SchemaName: "contoso_bpf_1a2b3c4d5e6f7890abcdef1234567890_onboarding",
+    DisplayName: { LocalizedLabels: [{ Label: "Employee Onboarding", LanguageCode: 1033 }] },
+    LogicalCollectionName: "contoso_bpf_1a2b3c4d5e6f7890abcdef1234567890_onboardings",
+    EntitySetName: "contoso_bpf_1a2b3c4d5e6f7890abcdef1234567890_onboardings",
+    PrimaryIdAttribute: "businessprocessflowinstanceid",
+    PrimaryNameAttribute: "bpf_name",
+    Keys: [],
+    Attributes: [
+        {
+            LogicalName: "businessprocessflowinstanceid",
+            SchemaName: "BusinessProcessFlowInstanceId",
+            DisplayName: { LocalizedLabels: [{ Label: "BPF Instance", LanguageCode: 1033 }] },
+            AttributeType: "Uniqueidentifier",
+            IsPrimaryId: true,
+            IsValidForCreate: true,
             IsValidForUpdate: false,
             IsValidForRead: true,
         },

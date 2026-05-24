@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`entityGenerator > generates Contact with INotify pattern 1`] = `
+exports[`addDebuggerNonUserCode = false > no DebuggerNonUserCode attributes anywhere (snapshot) 1`] = `
 "#nullable enable
 #pragma warning disable CS1591
 //------------------------------------------------------------------------------
@@ -21,647 +21,27 @@ namespace DataverseModel
 	/// </summary>
 	[System.Runtime.Serialization.DataContractAttribute()]
 	[Microsoft.Xrm.Sdk.Client.EntityLogicalNameAttribute("contact")]
-	public partial class Contact : Microsoft.Xrm.Sdk.Entity, System.ComponentModel.INotifyPropertyChanging, System.ComponentModel.INotifyPropertyChanged
-	{
-		
-		public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-		
-		public event System.ComponentModel.PropertyChangingEventHandler PropertyChanging;
-		
-		[System.Diagnostics.DebuggerNonUserCode()]
-		private void OnPropertyChanged(string propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-			}
-		}
-		
-		[System.Diagnostics.DebuggerNonUserCode()]
-		private void OnPropertyChanging(string propertyName)
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, new System.ComponentModel.PropertyChangingEventArgs(propertyName));
-			}
-		}
-		
-		/// <summary>
-		/// Default Constructor.
-		/// </summary>
-		[System.Diagnostics.DebuggerNonUserCode()]
-		public Contact() : 
-				base(EntityLogicalName)
-		{
-		}
-		
-		[System.Diagnostics.DebuggerNonUserCode()]
-		public Contact(System.Guid id) : 
-				base(EntityLogicalName, id)
-		{
-		}
-		
-		[System.Diagnostics.DebuggerNonUserCode()]
-		public Contact(string keyName, object keyValue) : 
-				base(EntityLogicalName, keyName, keyValue)
-		{
-		}
-		
-		[System.Diagnostics.DebuggerNonUserCode()]
-		public Contact(Microsoft.Xrm.Sdk.KeyAttributeCollection keyAttributes) : 
-				base(EntityLogicalName, keyAttributes)
-		{
-		}
-		
-		/// <summary>
-		/// Constructor for populating via LINQ queries given a LINQ anonymous type
-		/// <param name="anonymousType">LINQ anonymous type.</param>
-		/// </summary>
-		[System.Diagnostics.DebuggerNonUserCode()]
-		public Contact(object anonymousType) : 
-				this()
-		{
-            foreach (var p in anonymousType.GetType().GetProperties())
-            {
-                var value = p.GetValue(anonymousType, null);
-                var name = p.Name.ToLower();
-            
-                if (value != null && name.EndsWith("enum") && value.GetType().BaseType == typeof(System.Enum))
-                {
-                    value = new Microsoft.Xrm.Sdk.OptionSetValue((int) value);
-                    name = name.Remove(name.Length - "enum".Length);
-                }
-            
-                switch (name)
-                {
-                    case "id":
-                        base.Id = (System.Guid)value;
-                        Attributes["contactid"] = base.Id;
-                        break;
-                    case "contactid":
-                        var id = (System.Nullable<System.Guid>) value;
-                        if(id == null){ continue; }
-                        base.Id = id.Value;
-                        Attributes[name] = base.Id;
-                        break;
-                    case "formattedvalues":
-                        // Add Support for FormattedValues
-                        FormattedValues.AddRange((Microsoft.Xrm.Sdk.FormattedValueCollection)value);
-                        break;
-                    default:
-                        Attributes[name] = value;
-                        break;
-                }
-            }
-		}
-		
-		public const string EntityLogicalName = "contact";
-		
-		public const string PrimaryIdAttribute = "contactid";
-		
-		public const string PrimaryNameAttribute = "fullname";
-		
-		public const string EntitySchemaName = "Contact";
-		
-		public const string EntityLogicalCollectionName = "contacts";
-		
-		public const string EntitySetName = "contacts";
-		
-		public static partial class Fields
-		{
-			public const string ActivityParties = "activityparties";
-			public const string Aging30 = "aging30";
-			public const string AnnualIncome = "annualincome";
-			public const string Birthdate = "birthdate";
-			public const string Contact__Member = "contact";
-			public const string ContactId = "contactid";
-			public const string CreatedBy = "createdby";
-			public const string CreatedOn = "createdon";
-			public const string CreditLimit = "creditlimit";
-			public const string Description = "description";
-			public const string Document = "document";
-			public const string DoNotPhone = "donotphone";
-			public const string EntityImage = "entityimage";
-			public const string ExchangeRate = "exchangerate";
-			public const string FirstName = "firstname";
-			public const string FullName = "fullname";
-			public const string GenderCode = "gendercode";
-			public const string Id = "contactid";
-			public const string IsBackOfficeCustomer = "isbackofficecustomer";
-			public const string NumberOfChildren = "numberofchildren";
-			public const string OwnerId = "ownerid";
-			public const string ParentCustomerId = "parentcustomerid";
-			public const string ParentCustomerIdName = "parentcustomeridname";
-			public const string PreferredContactMethodsCode = "preferredcontactmethodscode";
-			public const string StateCode = "statecode";
-			public const string StatusCode = "statuscode";
-			public const string VersionNumber = "versionnumber";
-		}
-		
-		public static partial class Relationships
-		{
-			public const string contact_customer_contacts = "contact_customer_contacts";
-			public const string contactleads_association = "contactleads_association";
-			public const string owninguser = "contact_owning_user";
-		}
-		
-		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("contactid")]
-		public System.Nullable<System.Guid> ContactId
-		{
-			[System.Diagnostics.DebuggerNonUserCode()]
-			get
-			{
-				return this.GetAttributeValue<System.Nullable<System.Guid>>("contactid");
-			}
-			[System.Diagnostics.DebuggerNonUserCode()]
-			set
-			{
-				this.SetAttributeValue("contactid", value);
-				if (value.HasValue)
-				{
-					base.Id = value.Value;
-				}
-				else
-				{
-					base.Id = System.Guid.Empty;
-				}
-			}
-		}
-		
-		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("contactid")]
-		public override System.Guid Id
-		{
-			[System.Diagnostics.DebuggerNonUserCode()]
-			get
-			{
-				return base.Id;
-			}
-			[System.Diagnostics.DebuggerNonUserCode()]
-			set
-			{
-				this.ContactId = value;
-			}
-		}
-		
-		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("fullname")]
-		public string FullName
-		{
-			[System.Diagnostics.DebuggerNonUserCode()]
-			get
-			{
-				return this.GetAttributeValue<string>("fullname");
-			}
-		}
-		
-		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("firstname")]
-		public string FirstName
-		{
-			[System.Diagnostics.DebuggerNonUserCode()]
-			get
-			{
-				return this.GetAttributeValue<string>("firstname");
-			}
-			[System.Diagnostics.DebuggerNonUserCode()]
-			set
-			{
-				this.SetAttributeValue("firstname", value);
-			}
-		}
-		
-		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("description")]
-		public string Description
-		{
-			[System.Diagnostics.DebuggerNonUserCode()]
-			get
-			{
-				return this.GetAttributeValue<string>("description");
-			}
-			[System.Diagnostics.DebuggerNonUserCode()]
-			set
-			{
-				this.SetAttributeValue("description", value);
-			}
-		}
-		
-		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("numberofchildren")]
-		public System.Nullable<int> NumberOfChildren
-		{
-			[System.Diagnostics.DebuggerNonUserCode()]
-			get
-			{
-				return this.GetAttributeValue<System.Nullable<int>>("numberofchildren");
-			}
-			[System.Diagnostics.DebuggerNonUserCode()]
-			set
-			{
-				this.SetAttributeValue("numberofchildren", value);
-			}
-		}
-		
-		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("annualincome")]
-		public Microsoft.Xrm.Sdk.Money AnnualIncome
-		{
-			[System.Diagnostics.DebuggerNonUserCode()]
-			get
-			{
-				return this.GetAttributeValue<Microsoft.Xrm.Sdk.Money>("annualincome");
-			}
-			[System.Diagnostics.DebuggerNonUserCode()]
-			set
-			{
-				this.SetAttributeValue("annualincome", value);
-			}
-		}
-		
-		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("donotphone")]
-		public System.Nullable<bool> DoNotPhone
-		{
-			[System.Diagnostics.DebuggerNonUserCode()]
-			get
-			{
-				return this.GetAttributeValue<System.Nullable<bool>>("donotphone");
-			}
-			[System.Diagnostics.DebuggerNonUserCode()]
-			set
-			{
-				this.SetAttributeValue("donotphone", value);
-			}
-		}
-		
-		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("birthdate")]
-		public System.Nullable<System.DateTime> Birthdate
-		{
-			[System.Diagnostics.DebuggerNonUserCode()]
-			get
-			{
-				return this.GetAttributeValue<System.Nullable<System.DateTime>>("birthdate");
-			}
-			[System.Diagnostics.DebuggerNonUserCode()]
-			set
-			{
-				this.SetAttributeValue("birthdate", value);
-			}
-		}
-		
-		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("parentcustomerid")]
-		public Microsoft.Xrm.Sdk.EntityReference ParentCustomerId
-		{
-			[System.Diagnostics.DebuggerNonUserCode()]
-			get
-			{
-				return this.GetAttributeValue<Microsoft.Xrm.Sdk.EntityReference>("parentcustomerid");
-			}
-			[System.Diagnostics.DebuggerNonUserCode()]
-			set
-			{
-				this.SetAttributeValue("parentcustomerid", value);
-			}
-		}
-		
-		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("parentcustomeridname")]
-		public string ParentCustomerIdName
-		{
-			[System.Diagnostics.DebuggerNonUserCode()]
-			get
-			{
-				if (this.FormattedValues.Contains("parentcustomerid"))
-				{
-					return this.FormattedValues["parentcustomerid"];
-				}
-				else
-				{
-					return default(string);
-				}
-			}
-		}
-		
-		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("gendercode")]
-		public Microsoft.Xrm.Sdk.OptionSetValue GenderCode
-		{
-			[System.Diagnostics.DebuggerNonUserCode()]
-			get
-			{
-				return this.GetAttributeValue<Microsoft.Xrm.Sdk.OptionSetValue>("gendercode");
-			}
-			[System.Diagnostics.DebuggerNonUserCode()]
-			set
-			{
-				this.SetAttributeValue("gendercode", value);
-			}
-		}
-		
-		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("statecode")]
-		public Microsoft.Xrm.Sdk.OptionSetValue StateCode
-		{
-			[System.Diagnostics.DebuggerNonUserCode()]
-			get
-			{
-				return this.GetAttributeValue<Microsoft.Xrm.Sdk.OptionSetValue>("statecode");
-			}
-			[System.Diagnostics.DebuggerNonUserCode()]
-			set
-			{
-				this.SetAttributeValue("statecode", value);
-			}
-		}
-		
-		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("statuscode")]
-		public Microsoft.Xrm.Sdk.OptionSetValue StatusCode
-		{
-			[System.Diagnostics.DebuggerNonUserCode()]
-			get
-			{
-				return this.GetAttributeValue<Microsoft.Xrm.Sdk.OptionSetValue>("statuscode");
-			}
-			[System.Diagnostics.DebuggerNonUserCode()]
-			set
-			{
-				this.SetAttributeValue("statuscode", value);
-			}
-		}
-		
-		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("aging30")]
-		public Microsoft.Xrm.Sdk.Money Aging30
-		{
-			[System.Diagnostics.DebuggerNonUserCode()]
-			get
-			{
-				return this.GetAttributeValue<Microsoft.Xrm.Sdk.Money>("aging30");
-			}
-		}
-		
-		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("versionnumber")]
-		public System.Nullable<long> VersionNumber
-		{
-			[System.Diagnostics.DebuggerNonUserCode()]
-			get
-			{
-				return this.GetAttributeValue<System.Nullable<long>>("versionnumber");
-			}
-		}
-		
-		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("creditlimit")]
-		public System.Nullable<decimal> CreditLimit
-		{
-			[System.Diagnostics.DebuggerNonUserCode()]
-			get
-			{
-				return this.GetAttributeValue<System.Nullable<decimal>>("creditlimit");
-			}
-			[System.Diagnostics.DebuggerNonUserCode()]
-			set
-			{
-				this.SetAttributeValue("creditlimit", value);
-			}
-		}
-		
-		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("exchangerate")]
-		public System.Nullable<double> ExchangeRate
-		{
-			[System.Diagnostics.DebuggerNonUserCode()]
-			get
-			{
-				return this.GetAttributeValue<System.Nullable<double>>("exchangerate");
-			}
-		}
-		
-		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("ownerid")]
-		public Microsoft.Xrm.Sdk.EntityReference OwnerId
-		{
-			[System.Diagnostics.DebuggerNonUserCode()]
-			get
-			{
-				return this.GetAttributeValue<Microsoft.Xrm.Sdk.EntityReference>("ownerid");
-			}
-			[System.Diagnostics.DebuggerNonUserCode()]
-			set
-			{
-				this.SetAttributeValue("ownerid", value);
-			}
-		}
-		
-		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("activityparties")]
-		public System.Collections.Generic.IEnumerable<Microsoft.Xrm.Sdk.Entity> ActivityParties
-		{
-			[System.Diagnostics.DebuggerNonUserCode()]
-			get
-			{
-				return this.GetAttributeValue<System.Collections.Generic.IEnumerable<Microsoft.Xrm.Sdk.Entity>>("activityparties");
-			}
-			[System.Diagnostics.DebuggerNonUserCode()]
-			set
-			{
-				this.SetAttributeValue("activityparties", value);
-			}
-		}
-		
-		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("entityimage")]
-		public byte[] EntityImage
-		{
-			[System.Diagnostics.DebuggerNonUserCode()]
-			get
-			{
-				return this.GetAttributeValue<byte[]>("entityimage");
-			}
-			[System.Diagnostics.DebuggerNonUserCode()]
-			set
-			{
-				this.SetAttributeValue("entityimage", value);
-			}
-		}
-		
-		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("document")]
-		public byte[] Document
-		{
-			[System.Diagnostics.DebuggerNonUserCode()]
-			get
-			{
-				return this.GetAttributeValue<byte[]>("document");
-			}
-			[System.Diagnostics.DebuggerNonUserCode()]
-			set
-			{
-				this.SetAttributeValue("document", value);
-			}
-		}
-		
-		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("isbackofficecustomer")]
-		public Microsoft.Xrm.Sdk.BooleanManagedProperty IsBackOfficeCustomer
-		{
-			[System.Diagnostics.DebuggerNonUserCode()]
-			get
-			{
-				return this.GetAttributeValue<Microsoft.Xrm.Sdk.BooleanManagedProperty>("isbackofficecustomer");
-			}
-			[System.Diagnostics.DebuggerNonUserCode()]
-			set
-			{
-				this.SetAttributeValue("isbackofficecustomer", value);
-			}
-		}
-		
-		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("preferredcontactmethodscode")]
-		public Microsoft.Xrm.Sdk.OptionSetValueCollection PreferredContactMethodsCode
-		{
-			[System.Diagnostics.DebuggerNonUserCode()]
-			get
-			{
-				return this.GetAttributeValue<Microsoft.Xrm.Sdk.OptionSetValueCollection>("preferredcontactmethodscode");
-			}
-			[System.Diagnostics.DebuggerNonUserCode()]
-			set
-			{
-				this.SetAttributeValue("preferredcontactmethodscode", value);
-			}
-		}
-		
-		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("createdby")]
-		public Microsoft.Xrm.Sdk.EntityReference CreatedBy
-		{
-			[System.Diagnostics.DebuggerNonUserCode()]
-			get
-			{
-				return this.GetAttributeValue<Microsoft.Xrm.Sdk.EntityReference>("createdby");
-			}
-		}
-		
-		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("createdon")]
-		public System.Nullable<System.DateTime> CreatedOn
-		{
-			[System.Diagnostics.DebuggerNonUserCode()]
-			get
-			{
-				return this.GetAttributeValue<System.Nullable<System.DateTime>>("createdon");
-			}
-		}
-		
-		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("contact")]
-		public string Contact__Member
-		{
-			[System.Diagnostics.DebuggerNonUserCode()]
-			get
-			{
-				return this.GetAttributeValue<string>("contact");
-			}
-			[System.Diagnostics.DebuggerNonUserCode()]
-			set
-			{
-				this.SetAttributeValue("contact", value);
-			}
-		}
-		
-		/// <summary>
-		/// 1:N contact_customer_contacts
-		/// </summary>
-		[Microsoft.Xrm.Sdk.RelationshipSchemaNameAttribute("contact_customer_contacts")]
-		public System.Collections.Generic.IEnumerable<Contact> contact_customer_contacts
-		{
-			[System.Diagnostics.DebuggerNonUserCode()]
-			get
-			{
-				return this.GetRelatedEntities<Contact>("contact_customer_contacts", null);
-			}
-			[System.Diagnostics.DebuggerNonUserCode()]
-			set
-			{
-				this.OnPropertyChanging("contact_customer_contacts");
-				this.SetRelatedEntities<Contact>("contact_customer_contacts", null, value);
-				this.OnPropertyChanged("contact_customer_contacts");
-			}
-		}
-		
-		/// <summary>
-		/// N:1 contact_owning_user
-		/// </summary>
-		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("contact_owning_user")]
-		[Microsoft.Xrm.Sdk.RelationshipSchemaNameAttribute("contact_owning_user")]
-		public SystemUser owninguser
-		{
-			[System.Diagnostics.DebuggerNonUserCode()]
-			get
-			{
-				return this.GetRelatedEntity<SystemUser>("contact_owning_user", null);
-			}
-			[System.Diagnostics.DebuggerNonUserCode()]
-			set
-			{
-				this.OnPropertyChanging("owninguser");
-				this.SetRelatedEntity<SystemUser>("contact_owning_user", null, value);
-				this.OnPropertyChanged("owninguser");
-			}
-		}
-		
-		/// <summary>
-		/// N:N contactleads_association
-		/// </summary>
-		[Microsoft.Xrm.Sdk.RelationshipSchemaNameAttribute("contactleads_association")]
-		public System.Collections.Generic.IEnumerable<Microsoft.Xrm.Sdk.Entity> contactleads_association
-		{
-			[System.Diagnostics.DebuggerNonUserCode()]
-			get
-			{
-				return this.GetRelatedEntities<Microsoft.Xrm.Sdk.Entity>("contactleads_association", null);
-			}
-			[System.Diagnostics.DebuggerNonUserCode()]
-			set
-			{
-				this.OnPropertyChanging("contactleads_association");
-				this.SetRelatedEntities<Microsoft.Xrm.Sdk.Entity>("contactleads_association", null, value);
-				this.OnPropertyChanged("contactleads_association");
-			}
-		}
-	}
-}
-#pragma warning restore CS1591
-"
-`;
-
-exports[`entityGenerator > generates Contact with a custom namespace 1`] = `
-"#nullable enable
-#pragma warning disable CS1591
-//------------------------------------------------------------------------------
-// <auto-generated>
-//     This code was generated by a tool.
-//
-//     Changes to this file may cause incorrect behavior and will be lost if
-//     the code is regenerated.
-// </auto-generated>
-//------------------------------------------------------------------------------
-
-namespace RWWA.CrmBridge.CrmSdk
-{
-	
-	
-	/// <summary>
-	/// Person with whom a business unit has a relationship, such as a customer, supplier, or colleague.
-	/// </summary>
-	[System.Runtime.Serialization.DataContractAttribute()]
-	[Microsoft.Xrm.Sdk.Client.EntityLogicalNameAttribute("contact")]
 	public partial class Contact : Microsoft.Xrm.Sdk.Entity
 	{
 		
 		/// <summary>
 		/// Default Constructor.
 		/// </summary>
-		[System.Diagnostics.DebuggerNonUserCode()]
 		public Contact() : 
 				base(EntityLogicalName)
 		{
 		}
 		
-		[System.Diagnostics.DebuggerNonUserCode()]
 		public Contact(System.Guid id) : 
 				base(EntityLogicalName, id)
 		{
 		}
 		
-		[System.Diagnostics.DebuggerNonUserCode()]
 		public Contact(string keyName, object keyValue) : 
 				base(EntityLogicalName, keyName, keyValue)
 		{
 		}
 		
-		[System.Diagnostics.DebuggerNonUserCode()]
 		public Contact(Microsoft.Xrm.Sdk.KeyAttributeCollection keyAttributes) : 
 				base(EntityLogicalName, keyAttributes)
 		{
@@ -671,7 +51,6 @@ namespace RWWA.CrmBridge.CrmSdk
 		/// Constructor for populating via LINQ queries given a LINQ anonymous type
 		/// <param name="anonymousType">LINQ anonymous type.</param>
 		/// </summary>
-		[System.Diagnostics.DebuggerNonUserCode()]
 		public Contact(object anonymousType) : 
 				this()
 		{
@@ -762,12 +141,10 @@ namespace RWWA.CrmBridge.CrmSdk
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("contactid")]
 		public System.Nullable<System.Guid> ContactId
 		{
-			[System.Diagnostics.DebuggerNonUserCode()]
 			get
 			{
 				return this.GetAttributeValue<System.Nullable<System.Guid>>("contactid");
 			}
-			[System.Diagnostics.DebuggerNonUserCode()]
 			set
 			{
 				this.SetAttributeValue("contactid", value);
@@ -785,12 +162,10 @@ namespace RWWA.CrmBridge.CrmSdk
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("contactid")]
 		public override System.Guid Id
 		{
-			[System.Diagnostics.DebuggerNonUserCode()]
 			get
 			{
 				return base.Id;
 			}
-			[System.Diagnostics.DebuggerNonUserCode()]
 			set
 			{
 				this.ContactId = value;
@@ -800,7 +175,6 @@ namespace RWWA.CrmBridge.CrmSdk
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("fullname")]
 		public string FullName
 		{
-			[System.Diagnostics.DebuggerNonUserCode()]
 			get
 			{
 				return this.GetAttributeValue<string>("fullname");
@@ -810,12 +184,10 @@ namespace RWWA.CrmBridge.CrmSdk
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("firstname")]
 		public string FirstName
 		{
-			[System.Diagnostics.DebuggerNonUserCode()]
 			get
 			{
 				return this.GetAttributeValue<string>("firstname");
 			}
-			[System.Diagnostics.DebuggerNonUserCode()]
 			set
 			{
 				this.SetAttributeValue("firstname", value);
@@ -825,12 +197,10 @@ namespace RWWA.CrmBridge.CrmSdk
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("description")]
 		public string Description
 		{
-			[System.Diagnostics.DebuggerNonUserCode()]
 			get
 			{
 				return this.GetAttributeValue<string>("description");
 			}
-			[System.Diagnostics.DebuggerNonUserCode()]
 			set
 			{
 				this.SetAttributeValue("description", value);
@@ -840,12 +210,10 @@ namespace RWWA.CrmBridge.CrmSdk
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("numberofchildren")]
 		public System.Nullable<int> NumberOfChildren
 		{
-			[System.Diagnostics.DebuggerNonUserCode()]
 			get
 			{
 				return this.GetAttributeValue<System.Nullable<int>>("numberofchildren");
 			}
-			[System.Diagnostics.DebuggerNonUserCode()]
 			set
 			{
 				this.SetAttributeValue("numberofchildren", value);
@@ -855,12 +223,10 @@ namespace RWWA.CrmBridge.CrmSdk
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("annualincome")]
 		public Microsoft.Xrm.Sdk.Money AnnualIncome
 		{
-			[System.Diagnostics.DebuggerNonUserCode()]
 			get
 			{
 				return this.GetAttributeValue<Microsoft.Xrm.Sdk.Money>("annualincome");
 			}
-			[System.Diagnostics.DebuggerNonUserCode()]
 			set
 			{
 				this.SetAttributeValue("annualincome", value);
@@ -870,12 +236,10 @@ namespace RWWA.CrmBridge.CrmSdk
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("donotphone")]
 		public System.Nullable<bool> DoNotPhone
 		{
-			[System.Diagnostics.DebuggerNonUserCode()]
 			get
 			{
 				return this.GetAttributeValue<System.Nullable<bool>>("donotphone");
 			}
-			[System.Diagnostics.DebuggerNonUserCode()]
 			set
 			{
 				this.SetAttributeValue("donotphone", value);
@@ -885,12 +249,10 @@ namespace RWWA.CrmBridge.CrmSdk
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("birthdate")]
 		public System.Nullable<System.DateTime> Birthdate
 		{
-			[System.Diagnostics.DebuggerNonUserCode()]
 			get
 			{
 				return this.GetAttributeValue<System.Nullable<System.DateTime>>("birthdate");
 			}
-			[System.Diagnostics.DebuggerNonUserCode()]
 			set
 			{
 				this.SetAttributeValue("birthdate", value);
@@ -900,12 +262,10 @@ namespace RWWA.CrmBridge.CrmSdk
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("parentcustomerid")]
 		public Microsoft.Xrm.Sdk.EntityReference ParentCustomerId
 		{
-			[System.Diagnostics.DebuggerNonUserCode()]
 			get
 			{
 				return this.GetAttributeValue<Microsoft.Xrm.Sdk.EntityReference>("parentcustomerid");
 			}
-			[System.Diagnostics.DebuggerNonUserCode()]
 			set
 			{
 				this.SetAttributeValue("parentcustomerid", value);
@@ -915,7 +275,6 @@ namespace RWWA.CrmBridge.CrmSdk
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("parentcustomeridname")]
 		public string ParentCustomerIdName
 		{
-			[System.Diagnostics.DebuggerNonUserCode()]
 			get
 			{
 				if (this.FormattedValues.Contains("parentcustomerid"))
@@ -932,12 +291,10 @@ namespace RWWA.CrmBridge.CrmSdk
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("gendercode")]
 		public Microsoft.Xrm.Sdk.OptionSetValue GenderCode
 		{
-			[System.Diagnostics.DebuggerNonUserCode()]
 			get
 			{
 				return this.GetAttributeValue<Microsoft.Xrm.Sdk.OptionSetValue>("gendercode");
 			}
-			[System.Diagnostics.DebuggerNonUserCode()]
 			set
 			{
 				this.SetAttributeValue("gendercode", value);
@@ -947,12 +304,10 @@ namespace RWWA.CrmBridge.CrmSdk
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("statecode")]
 		public Microsoft.Xrm.Sdk.OptionSetValue StateCode
 		{
-			[System.Diagnostics.DebuggerNonUserCode()]
 			get
 			{
 				return this.GetAttributeValue<Microsoft.Xrm.Sdk.OptionSetValue>("statecode");
 			}
-			[System.Diagnostics.DebuggerNonUserCode()]
 			set
 			{
 				this.SetAttributeValue("statecode", value);
@@ -962,12 +317,10 @@ namespace RWWA.CrmBridge.CrmSdk
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("statuscode")]
 		public Microsoft.Xrm.Sdk.OptionSetValue StatusCode
 		{
-			[System.Diagnostics.DebuggerNonUserCode()]
 			get
 			{
 				return this.GetAttributeValue<Microsoft.Xrm.Sdk.OptionSetValue>("statuscode");
 			}
-			[System.Diagnostics.DebuggerNonUserCode()]
 			set
 			{
 				this.SetAttributeValue("statuscode", value);
@@ -977,7 +330,6 @@ namespace RWWA.CrmBridge.CrmSdk
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("aging30")]
 		public Microsoft.Xrm.Sdk.Money Aging30
 		{
-			[System.Diagnostics.DebuggerNonUserCode()]
 			get
 			{
 				return this.GetAttributeValue<Microsoft.Xrm.Sdk.Money>("aging30");
@@ -987,7 +339,6 @@ namespace RWWA.CrmBridge.CrmSdk
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("versionnumber")]
 		public System.Nullable<long> VersionNumber
 		{
-			[System.Diagnostics.DebuggerNonUserCode()]
 			get
 			{
 				return this.GetAttributeValue<System.Nullable<long>>("versionnumber");
@@ -997,12 +348,10 @@ namespace RWWA.CrmBridge.CrmSdk
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("creditlimit")]
 		public System.Nullable<decimal> CreditLimit
 		{
-			[System.Diagnostics.DebuggerNonUserCode()]
 			get
 			{
 				return this.GetAttributeValue<System.Nullable<decimal>>("creditlimit");
 			}
-			[System.Diagnostics.DebuggerNonUserCode()]
 			set
 			{
 				this.SetAttributeValue("creditlimit", value);
@@ -1012,7 +361,6 @@ namespace RWWA.CrmBridge.CrmSdk
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("exchangerate")]
 		public System.Nullable<double> ExchangeRate
 		{
-			[System.Diagnostics.DebuggerNonUserCode()]
 			get
 			{
 				return this.GetAttributeValue<System.Nullable<double>>("exchangerate");
@@ -1022,12 +370,10 @@ namespace RWWA.CrmBridge.CrmSdk
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("ownerid")]
 		public Microsoft.Xrm.Sdk.EntityReference OwnerId
 		{
-			[System.Diagnostics.DebuggerNonUserCode()]
 			get
 			{
 				return this.GetAttributeValue<Microsoft.Xrm.Sdk.EntityReference>("ownerid");
 			}
-			[System.Diagnostics.DebuggerNonUserCode()]
 			set
 			{
 				this.SetAttributeValue("ownerid", value);
@@ -1037,12 +383,10 @@ namespace RWWA.CrmBridge.CrmSdk
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("activityparties")]
 		public System.Collections.Generic.IEnumerable<Microsoft.Xrm.Sdk.Entity> ActivityParties
 		{
-			[System.Diagnostics.DebuggerNonUserCode()]
 			get
 			{
 				return this.GetAttributeValue<System.Collections.Generic.IEnumerable<Microsoft.Xrm.Sdk.Entity>>("activityparties");
 			}
-			[System.Diagnostics.DebuggerNonUserCode()]
 			set
 			{
 				this.SetAttributeValue("activityparties", value);
@@ -1052,12 +396,10 @@ namespace RWWA.CrmBridge.CrmSdk
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("entityimage")]
 		public byte[] EntityImage
 		{
-			[System.Diagnostics.DebuggerNonUserCode()]
 			get
 			{
 				return this.GetAttributeValue<byte[]>("entityimage");
 			}
-			[System.Diagnostics.DebuggerNonUserCode()]
 			set
 			{
 				this.SetAttributeValue("entityimage", value);
@@ -1067,12 +409,10 @@ namespace RWWA.CrmBridge.CrmSdk
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("document")]
 		public byte[] Document
 		{
-			[System.Diagnostics.DebuggerNonUserCode()]
 			get
 			{
 				return this.GetAttributeValue<byte[]>("document");
 			}
-			[System.Diagnostics.DebuggerNonUserCode()]
 			set
 			{
 				this.SetAttributeValue("document", value);
@@ -1082,12 +422,10 @@ namespace RWWA.CrmBridge.CrmSdk
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("isbackofficecustomer")]
 		public Microsoft.Xrm.Sdk.BooleanManagedProperty IsBackOfficeCustomer
 		{
-			[System.Diagnostics.DebuggerNonUserCode()]
 			get
 			{
 				return this.GetAttributeValue<Microsoft.Xrm.Sdk.BooleanManagedProperty>("isbackofficecustomer");
 			}
-			[System.Diagnostics.DebuggerNonUserCode()]
 			set
 			{
 				this.SetAttributeValue("isbackofficecustomer", value);
@@ -1097,12 +435,10 @@ namespace RWWA.CrmBridge.CrmSdk
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("preferredcontactmethodscode")]
 		public Microsoft.Xrm.Sdk.OptionSetValueCollection PreferredContactMethodsCode
 		{
-			[System.Diagnostics.DebuggerNonUserCode()]
 			get
 			{
 				return this.GetAttributeValue<Microsoft.Xrm.Sdk.OptionSetValueCollection>("preferredcontactmethodscode");
 			}
-			[System.Diagnostics.DebuggerNonUserCode()]
 			set
 			{
 				this.SetAttributeValue("preferredcontactmethodscode", value);
@@ -1112,7 +448,6 @@ namespace RWWA.CrmBridge.CrmSdk
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("createdby")]
 		public Microsoft.Xrm.Sdk.EntityReference CreatedBy
 		{
-			[System.Diagnostics.DebuggerNonUserCode()]
 			get
 			{
 				return this.GetAttributeValue<Microsoft.Xrm.Sdk.EntityReference>("createdby");
@@ -1122,7 +457,6 @@ namespace RWWA.CrmBridge.CrmSdk
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("createdon")]
 		public System.Nullable<System.DateTime> CreatedOn
 		{
-			[System.Diagnostics.DebuggerNonUserCode()]
 			get
 			{
 				return this.GetAttributeValue<System.Nullable<System.DateTime>>("createdon");
@@ -1132,12 +466,10 @@ namespace RWWA.CrmBridge.CrmSdk
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("contact")]
 		public string Contact__Member
 		{
-			[System.Diagnostics.DebuggerNonUserCode()]
 			get
 			{
 				return this.GetAttributeValue<string>("contact");
 			}
-			[System.Diagnostics.DebuggerNonUserCode()]
 			set
 			{
 				this.SetAttributeValue("contact", value);
@@ -1150,12 +482,10 @@ namespace RWWA.CrmBridge.CrmSdk
 		[Microsoft.Xrm.Sdk.RelationshipSchemaNameAttribute("contact_customer_contacts")]
 		public System.Collections.Generic.IEnumerable<Contact> contact_customer_contacts
 		{
-			[System.Diagnostics.DebuggerNonUserCode()]
 			get
 			{
 				return this.GetRelatedEntities<Contact>("contact_customer_contacts", null);
 			}
-			[System.Diagnostics.DebuggerNonUserCode()]
 			set
 			{
 				this.SetRelatedEntities<Contact>("contact_customer_contacts", null, value);
@@ -1169,12 +499,10 @@ namespace RWWA.CrmBridge.CrmSdk
 		[Microsoft.Xrm.Sdk.RelationshipSchemaNameAttribute("contact_owning_user")]
 		public SystemUser owninguser
 		{
-			[System.Diagnostics.DebuggerNonUserCode()]
 			get
 			{
 				return this.GetRelatedEntity<SystemUser>("contact_owning_user", null);
 			}
-			[System.Diagnostics.DebuggerNonUserCode()]
 			set
 			{
 				this.SetRelatedEntity<SystemUser>("contact_owning_user", null, value);
@@ -1187,12 +515,10 @@ namespace RWWA.CrmBridge.CrmSdk
 		[Microsoft.Xrm.Sdk.RelationshipSchemaNameAttribute("contactleads_association")]
 		public System.Collections.Generic.IEnumerable<Microsoft.Xrm.Sdk.Entity> contactleads_association
 		{
-			[System.Diagnostics.DebuggerNonUserCode()]
 			get
 			{
 				return this.GetRelatedEntities<Microsoft.Xrm.Sdk.Entity>("contactleads_association", null);
 			}
-			[System.Diagnostics.DebuggerNonUserCode()]
 			set
 			{
 				this.SetRelatedEntities<Microsoft.Xrm.Sdk.Entity>("contactleads_association", null, value);
@@ -1204,7 +530,7 @@ namespace RWWA.CrmBridge.CrmSdk
 "
 `;
 
-exports[`entityGenerator > generates Contact with anonymous type constructor 1`] = `
+exports[`emitVirtualAttributes = false > suppresses name-helper virtual attributes (snapshot) 1`] = `
 "#nullable enable
 #pragma warning disable CS1591
 //------------------------------------------------------------------------------
@@ -1500,23 +826,6 @@ namespace DataverseModel
 			}
 		}
 		
-		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("parentcustomeridname")]
-		public string ParentCustomerIdName
-		{
-			[System.Diagnostics.DebuggerNonUserCode()]
-			get
-			{
-				if (this.FormattedValues.Contains("parentcustomerid"))
-				{
-					return this.FormattedValues["parentcustomerid"];
-				}
-				else
-				{
-					return default(string);
-				}
-			}
-		}
-		
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("gendercode")]
 		public Microsoft.Xrm.Sdk.OptionSetValue GenderCode
 		{
@@ -1792,7 +1101,192 @@ namespace DataverseModel
 "
 `;
 
-exports[`entityGenerator > generates Contact with constructors sans logical name 1`] = `
+exports[`entity with AlternateKeys > emits AlternateKeys constant with sorted attributes (snapshot) 1`] = `
+"#nullable enable
+#pragma warning disable CS1591
+//------------------------------------------------------------------------------
+// <auto-generated>
+//     This code was generated by a tool.
+//
+//     Changes to this file may cause incorrect behavior and will be lost if
+//     the code is regenerated.
+// </auto-generated>
+//------------------------------------------------------------------------------
+
+namespace DataverseModel
+{
+	
+	
+	[System.Runtime.Serialization.DataContractAttribute()]
+	[Microsoft.Xrm.Sdk.Client.EntityLogicalNameAttribute("account")]
+	public partial class Account : Microsoft.Xrm.Sdk.Entity
+	{
+		
+		/// <summary>
+		/// Default Constructor.
+		/// </summary>
+		[System.Diagnostics.DebuggerNonUserCode()]
+		public Account() : 
+				base(EntityLogicalName)
+		{
+		}
+		
+		[System.Diagnostics.DebuggerNonUserCode()]
+		public Account(System.Guid id) : 
+				base(EntityLogicalName, id)
+		{
+		}
+		
+		[System.Diagnostics.DebuggerNonUserCode()]
+		public Account(string keyName, object keyValue) : 
+				base(EntityLogicalName, keyName, keyValue)
+		{
+		}
+		
+		[System.Diagnostics.DebuggerNonUserCode()]
+		public Account(Microsoft.Xrm.Sdk.KeyAttributeCollection keyAttributes) : 
+				base(EntityLogicalName, keyAttributes)
+		{
+		}
+		
+		/// <summary>
+		/// Constructor for populating via LINQ queries given a LINQ anonymous type
+		/// <param name="anonymousType">LINQ anonymous type.</param>
+		/// </summary>
+		[System.Diagnostics.DebuggerNonUserCode()]
+		public Account(object anonymousType) : 
+				this()
+		{
+            foreach (var p in anonymousType.GetType().GetProperties())
+            {
+                var value = p.GetValue(anonymousType, null);
+                var name = p.Name.ToLower();
+            
+                if (value != null && name.EndsWith("enum") && value.GetType().BaseType == typeof(System.Enum))
+                {
+                    value = new Microsoft.Xrm.Sdk.OptionSetValue((int) value);
+                    name = name.Remove(name.Length - "enum".Length);
+                }
+            
+                switch (name)
+                {
+                    case "id":
+                        base.Id = (System.Guid)value;
+                        Attributes["accountid"] = base.Id;
+                        break;
+                    case "accountid":
+                        var id = (System.Nullable<System.Guid>) value;
+                        if(id == null){ continue; }
+                        base.Id = id.Value;
+                        Attributes[name] = base.Id;
+                        break;
+                    case "formattedvalues":
+                        // Add Support for FormattedValues
+                        FormattedValues.AddRange((Microsoft.Xrm.Sdk.FormattedValueCollection)value);
+                        break;
+                    default:
+                        Attributes[name] = value;
+                        break;
+                }
+            }
+		}
+		
+		public const string AlternateKeys = "accountnumber,name";
+		
+		public const string EntityLogicalName = "account";
+		
+		public const string PrimaryIdAttribute = "accountid";
+		
+		public const string PrimaryNameAttribute = "name";
+		
+		public const string EntitySchemaName = "Account";
+		
+		public const string EntityLogicalCollectionName = "accounts";
+		
+		public const string EntitySetName = "accounts";
+		
+		public static partial class Fields
+		{
+			public const string AccountId = "accountid";
+			public const string AccountNumber = "accountnumber";
+			public const string Id = "accountid";
+			public const string Name = "name";
+		}
+		
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("accountid")]
+		public System.Nullable<System.Guid> AccountId
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return this.GetAttributeValue<System.Nullable<System.Guid>>("accountid");
+			}
+			[System.Diagnostics.DebuggerNonUserCode()]
+			set
+			{
+				this.SetAttributeValue("accountid", value);
+				if (value.HasValue)
+				{
+					base.Id = value.Value;
+				}
+				else
+				{
+					base.Id = System.Guid.Empty;
+				}
+			}
+		}
+		
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("accountid")]
+		public override System.Guid Id
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return base.Id;
+			}
+			[System.Diagnostics.DebuggerNonUserCode()]
+			set
+			{
+				this.AccountId = value;
+			}
+		}
+		
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("name")]
+		public string Name
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return this.GetAttributeValue<string>("name");
+			}
+			[System.Diagnostics.DebuggerNonUserCode()]
+			set
+			{
+				this.SetAttributeValue("name", value);
+			}
+		}
+		
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("accountnumber")]
+		public string AccountNumber
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return this.GetAttributeValue<string>("accountnumber");
+			}
+			[System.Diagnostics.DebuggerNonUserCode()]
+			set
+			{
+				this.SetAttributeValue("accountnumber", value);
+			}
+		}
+	}
+}
+#pragma warning restore CS1591
+"
+`;
+
+exports[`generateEnumProperties = true > emits dual OptionSetValue + Enum companion properties for Picklist (snapshot) 1`] = `
 "#nullable enable
 #pragma warning disable CS1591
 //------------------------------------------------------------------------------
@@ -2106,7 +1600,7 @@ namespace DataverseModel
 		}
 		
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("gendercode")]
-		public Microsoft.Xrm.Sdk.OptionSetValue GenderCode
+		public virtual Microsoft.Xrm.Sdk.OptionSetValue? GenderCode
 		{
 			[System.Diagnostics.DebuggerNonUserCode()]
 			get
@@ -2120,8 +1614,23 @@ namespace DataverseModel
 			}
 		}
 		
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("gendercode")]
+		public virtual Contact_GenderCode? GenderCodeEnum
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return ((Contact_GenderCode?)(EntityOptionSetEnum.GetEnum(this, "gendercode")));
+			}
+			[System.Diagnostics.DebuggerNonUserCode()]
+			set
+			{
+				this.SetAttributeValue("gendercode", value.HasValue ? new Microsoft.Xrm.Sdk.OptionSetValue((int)value) : null);
+			}
+		}
+		
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("statecode")]
-		public Microsoft.Xrm.Sdk.OptionSetValue StateCode
+		public virtual Microsoft.Xrm.Sdk.OptionSetValue? StateCode
 		{
 			[System.Diagnostics.DebuggerNonUserCode()]
 			get
@@ -2135,8 +1644,23 @@ namespace DataverseModel
 			}
 		}
 		
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("statecode")]
+		public virtual Contact_StateCode? StateCodeEnum
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return ((Contact_StateCode?)(EntityOptionSetEnum.GetEnum(this, "statecode")));
+			}
+			[System.Diagnostics.DebuggerNonUserCode()]
+			set
+			{
+				this.SetAttributeValue("statecode", value.HasValue ? new Microsoft.Xrm.Sdk.OptionSetValue((int)value) : null);
+			}
+		}
+		
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("statuscode")]
-		public Microsoft.Xrm.Sdk.OptionSetValue StatusCode
+		public virtual Microsoft.Xrm.Sdk.OptionSetValue? StatusCode
 		{
 			[System.Diagnostics.DebuggerNonUserCode()]
 			get
@@ -2147,6 +1671,21 @@ namespace DataverseModel
 			set
 			{
 				this.SetAttributeValue("statuscode", value);
+			}
+		}
+		
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("statuscode")]
+		public virtual Contact_StatusCode? StatusCodeEnum
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return ((Contact_StatusCode?)(EntityOptionSetEnum.GetEnum(this, "statuscode")));
+			}
+			[System.Diagnostics.DebuggerNonUserCode()]
+			set
+			{
+				this.SetAttributeValue("statuscode", value.HasValue ? new Microsoft.Xrm.Sdk.OptionSetValue((int)value) : null);
 			}
 		}
 		
@@ -2271,17 +1810,17 @@ namespace DataverseModel
 		}
 		
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("preferredcontactmethodscode")]
-		public Microsoft.Xrm.Sdk.OptionSetValueCollection PreferredContactMethodsCode
+		public virtual System.Collections.Generic.IEnumerable<Contact_PreferredContactMethodsCode> PreferredContactMethodsCode
 		{
 			[System.Diagnostics.DebuggerNonUserCode()]
 			get
 			{
-				return this.GetAttributeValue<Microsoft.Xrm.Sdk.OptionSetValueCollection>("preferredcontactmethodscode");
+				return EntityOptionSetEnum.GetMultiEnum<Contact_PreferredContactMethodsCode>(this, "preferredcontactmethodscode");
 			}
 			[System.Diagnostics.DebuggerNonUserCode()]
 			set
 			{
-				this.SetAttributeValue("preferredcontactmethodscode", value);
+				this.SetAttributeValue("preferredcontactmethodscode", EntityOptionSetEnum.GetMultiEnum(this, "preferredcontactmethodscode", value));
 			}
 		}
 		
@@ -2380,7 +1919,7 @@ namespace DataverseModel
 "
 `;
 
-exports[`entityGenerator > generates Contact with default settings 1`] = `
+exports[`generateTypesAsInternal = true > emits internal class declaration (snapshot) 1`] = `
 "#nullable enable
 #pragma warning disable CS1591
 //------------------------------------------------------------------------------
@@ -2401,32 +1940,32 @@ namespace DataverseModel
 	/// </summary>
 	[System.Runtime.Serialization.DataContractAttribute()]
 	[Microsoft.Xrm.Sdk.Client.EntityLogicalNameAttribute("contact")]
-	public partial class Contact : Microsoft.Xrm.Sdk.Entity
+	internal partial class Contact : Microsoft.Xrm.Sdk.Entity
 	{
 		
 		/// <summary>
 		/// Default Constructor.
 		/// </summary>
 		[System.Diagnostics.DebuggerNonUserCode()]
-		public Contact() : 
+		internal Contact() : 
 				base(EntityLogicalName)
 		{
 		}
 		
 		[System.Diagnostics.DebuggerNonUserCode()]
-		public Contact(System.Guid id) : 
+		internal Contact(System.Guid id) : 
 				base(EntityLogicalName, id)
 		{
 		}
 		
 		[System.Diagnostics.DebuggerNonUserCode()]
-		public Contact(string keyName, object keyValue) : 
+		internal Contact(string keyName, object keyValue) : 
 				base(EntityLogicalName, keyName, keyValue)
 		{
 		}
 		
 		[System.Diagnostics.DebuggerNonUserCode()]
-		public Contact(Microsoft.Xrm.Sdk.KeyAttributeCollection keyAttributes) : 
+		internal Contact(Microsoft.Xrm.Sdk.KeyAttributeCollection keyAttributes) : 
 				base(EntityLogicalName, keyAttributes)
 		{
 		}
@@ -2436,7 +1975,7 @@ namespace DataverseModel
 		/// <param name="anonymousType">LINQ anonymous type.</param>
 		/// </summary>
 		[System.Diagnostics.DebuggerNonUserCode()]
-		public Contact(object anonymousType) : 
+		internal Contact(object anonymousType) : 
 				this()
 		{
             foreach (var p in anonymousType.GetType().GetProperties())
@@ -2677,7 +2216,7 @@ namespace DataverseModel
 		}
 		
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("parentcustomeridname")]
-		public string ParentCustomerIdName
+		internal string ParentCustomerIdName
 		{
 			[System.Diagnostics.DebuggerNonUserCode()]
 			get
@@ -2912,7 +2451,7 @@ namespace DataverseModel
 		/// 1:N contact_customer_contacts
 		/// </summary>
 		[Microsoft.Xrm.Sdk.RelationshipSchemaNameAttribute("contact_customer_contacts")]
-		public System.Collections.Generic.IEnumerable<Contact> contact_customer_contacts
+		internal System.Collections.Generic.IEnumerable<Contact> contact_customer_contacts
 		{
 			[System.Diagnostics.DebuggerNonUserCode()]
 			get
@@ -2931,7 +2470,7 @@ namespace DataverseModel
 		/// </summary>
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("contact_owning_user")]
 		[Microsoft.Xrm.Sdk.RelationshipSchemaNameAttribute("contact_owning_user")]
-		public SystemUser owninguser
+		internal SystemUser owninguser
 		{
 			[System.Diagnostics.DebuggerNonUserCode()]
 			get
@@ -2949,7 +2488,7 @@ namespace DataverseModel
 		/// N:N contactleads_association
 		/// </summary>
 		[Microsoft.Xrm.Sdk.RelationshipSchemaNameAttribute("contactleads_association")]
-		public System.Collections.Generic.IEnumerable<Microsoft.Xrm.Sdk.Entity> contactleads_association
+		internal System.Collections.Generic.IEnumerable<Microsoft.Xrm.Sdk.Entity> contactleads_association
 		{
 			[System.Diagnostics.DebuggerNonUserCode()]
 			get
@@ -2968,7 +2507,7 @@ namespace DataverseModel
 "
 `;
 
-exports[`entityGenerator > generates Contact with entity class name override 1`] = `
+exports[`makeAllFieldsEditable = true > readonly fields gain a setter (snapshot) 1`] = `
 "#nullable enable
 #pragma warning disable CS1591
 //------------------------------------------------------------------------------
@@ -2989,595 +2528,6 @@ namespace DataverseModel
 	/// </summary>
 	[System.Runtime.Serialization.DataContractAttribute()]
 	[Microsoft.Xrm.Sdk.Client.EntityLogicalNameAttribute("contact")]
-	public partial class ContactRecord : Microsoft.Xrm.Sdk.Entity
-	{
-		
-		/// <summary>
-		/// Default Constructor.
-		/// </summary>
-		[System.Diagnostics.DebuggerNonUserCode()]
-		public ContactRecord() : 
-				base(EntityLogicalName)
-		{
-		}
-		
-		[System.Diagnostics.DebuggerNonUserCode()]
-		public ContactRecord(System.Guid id) : 
-				base(EntityLogicalName, id)
-		{
-		}
-		
-		[System.Diagnostics.DebuggerNonUserCode()]
-		public ContactRecord(string keyName, object keyValue) : 
-				base(EntityLogicalName, keyName, keyValue)
-		{
-		}
-		
-		[System.Diagnostics.DebuggerNonUserCode()]
-		public ContactRecord(Microsoft.Xrm.Sdk.KeyAttributeCollection keyAttributes) : 
-				base(EntityLogicalName, keyAttributes)
-		{
-		}
-		
-		/// <summary>
-		/// Constructor for populating via LINQ queries given a LINQ anonymous type
-		/// <param name="anonymousType">LINQ anonymous type.</param>
-		/// </summary>
-		[System.Diagnostics.DebuggerNonUserCode()]
-		public ContactRecord(object anonymousType) : 
-				this()
-		{
-            foreach (var p in anonymousType.GetType().GetProperties())
-            {
-                var value = p.GetValue(anonymousType, null);
-                var name = p.Name.ToLower();
-            
-                if (value != null && name.EndsWith("enum") && value.GetType().BaseType == typeof(System.Enum))
-                {
-                    value = new Microsoft.Xrm.Sdk.OptionSetValue((int) value);
-                    name = name.Remove(name.Length - "enum".Length);
-                }
-            
-                switch (name)
-                {
-                    case "id":
-                        base.Id = (System.Guid)value;
-                        Attributes["contactid"] = base.Id;
-                        break;
-                    case "contactid":
-                        var id = (System.Nullable<System.Guid>) value;
-                        if(id == null){ continue; }
-                        base.Id = id.Value;
-                        Attributes[name] = base.Id;
-                        break;
-                    case "formattedvalues":
-                        // Add Support for FormattedValues
-                        FormattedValues.AddRange((Microsoft.Xrm.Sdk.FormattedValueCollection)value);
-                        break;
-                    default:
-                        Attributes[name] = value;
-                        break;
-                }
-            }
-		}
-		
-		public const string EntityLogicalName = "contact";
-		
-		public const string PrimaryIdAttribute = "contactid";
-		
-		public const string PrimaryNameAttribute = "fullname";
-		
-		public const string EntitySchemaName = "Contact";
-		
-		public const string EntityLogicalCollectionName = "contacts";
-		
-		public const string EntitySetName = "contacts";
-		
-		public static partial class Fields
-		{
-			public const string ActivityParties = "activityparties";
-			public const string Aging30 = "aging30";
-			public const string AnnualIncome = "annualincome";
-			public const string Birthdate = "birthdate";
-			public const string Contact = "contact";
-			public const string ContactId = "contactid";
-			public const string CreatedBy = "createdby";
-			public const string CreatedOn = "createdon";
-			public const string CreditLimit = "creditlimit";
-			public const string Description = "description";
-			public const string Document = "document";
-			public const string DoNotPhone = "donotphone";
-			public const string EntityImage = "entityimage";
-			public const string ExchangeRate = "exchangerate";
-			public const string FirstName = "firstname";
-			public const string FullName = "fullname";
-			public const string GenderCode = "gendercode";
-			public const string Id = "contactid";
-			public const string IsBackOfficeCustomer = "isbackofficecustomer";
-			public const string NumberOfChildren = "numberofchildren";
-			public const string OwnerId = "ownerid";
-			public const string ParentCustomerId = "parentcustomerid";
-			public const string ParentCustomerIdName = "parentcustomeridname";
-			public const string PreferredContactMethodsCode = "preferredcontactmethodscode";
-			public const string StateCode = "statecode";
-			public const string StatusCode = "statuscode";
-			public const string VersionNumber = "versionnumber";
-		}
-		
-		public static partial class Relationships
-		{
-			public const string contact_customer_contacts = "contact_customer_contacts";
-			public const string contactleads_association = "contactleads_association";
-			public const string owninguser = "contact_owning_user";
-		}
-		
-		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("contactid")]
-		public System.Nullable<System.Guid> ContactId
-		{
-			[System.Diagnostics.DebuggerNonUserCode()]
-			get
-			{
-				return this.GetAttributeValue<System.Nullable<System.Guid>>("contactid");
-			}
-			[System.Diagnostics.DebuggerNonUserCode()]
-			set
-			{
-				this.SetAttributeValue("contactid", value);
-				if (value.HasValue)
-				{
-					base.Id = value.Value;
-				}
-				else
-				{
-					base.Id = System.Guid.Empty;
-				}
-			}
-		}
-		
-		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("contactid")]
-		public override System.Guid Id
-		{
-			[System.Diagnostics.DebuggerNonUserCode()]
-			get
-			{
-				return base.Id;
-			}
-			[System.Diagnostics.DebuggerNonUserCode()]
-			set
-			{
-				this.ContactId = value;
-			}
-		}
-		
-		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("fullname")]
-		public string FullName
-		{
-			[System.Diagnostics.DebuggerNonUserCode()]
-			get
-			{
-				return this.GetAttributeValue<string>("fullname");
-			}
-		}
-		
-		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("firstname")]
-		public string FirstName
-		{
-			[System.Diagnostics.DebuggerNonUserCode()]
-			get
-			{
-				return this.GetAttributeValue<string>("firstname");
-			}
-			[System.Diagnostics.DebuggerNonUserCode()]
-			set
-			{
-				this.SetAttributeValue("firstname", value);
-			}
-		}
-		
-		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("description")]
-		public string Description
-		{
-			[System.Diagnostics.DebuggerNonUserCode()]
-			get
-			{
-				return this.GetAttributeValue<string>("description");
-			}
-			[System.Diagnostics.DebuggerNonUserCode()]
-			set
-			{
-				this.SetAttributeValue("description", value);
-			}
-		}
-		
-		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("numberofchildren")]
-		public System.Nullable<int> NumberOfChildren
-		{
-			[System.Diagnostics.DebuggerNonUserCode()]
-			get
-			{
-				return this.GetAttributeValue<System.Nullable<int>>("numberofchildren");
-			}
-			[System.Diagnostics.DebuggerNonUserCode()]
-			set
-			{
-				this.SetAttributeValue("numberofchildren", value);
-			}
-		}
-		
-		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("annualincome")]
-		public Microsoft.Xrm.Sdk.Money AnnualIncome
-		{
-			[System.Diagnostics.DebuggerNonUserCode()]
-			get
-			{
-				return this.GetAttributeValue<Microsoft.Xrm.Sdk.Money>("annualincome");
-			}
-			[System.Diagnostics.DebuggerNonUserCode()]
-			set
-			{
-				this.SetAttributeValue("annualincome", value);
-			}
-		}
-		
-		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("donotphone")]
-		public System.Nullable<bool> DoNotPhone
-		{
-			[System.Diagnostics.DebuggerNonUserCode()]
-			get
-			{
-				return this.GetAttributeValue<System.Nullable<bool>>("donotphone");
-			}
-			[System.Diagnostics.DebuggerNonUserCode()]
-			set
-			{
-				this.SetAttributeValue("donotphone", value);
-			}
-		}
-		
-		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("birthdate")]
-		public System.Nullable<System.DateTime> Birthdate
-		{
-			[System.Diagnostics.DebuggerNonUserCode()]
-			get
-			{
-				return this.GetAttributeValue<System.Nullable<System.DateTime>>("birthdate");
-			}
-			[System.Diagnostics.DebuggerNonUserCode()]
-			set
-			{
-				this.SetAttributeValue("birthdate", value);
-			}
-		}
-		
-		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("parentcustomerid")]
-		public Microsoft.Xrm.Sdk.EntityReference ParentCustomerId
-		{
-			[System.Diagnostics.DebuggerNonUserCode()]
-			get
-			{
-				return this.GetAttributeValue<Microsoft.Xrm.Sdk.EntityReference>("parentcustomerid");
-			}
-			[System.Diagnostics.DebuggerNonUserCode()]
-			set
-			{
-				this.SetAttributeValue("parentcustomerid", value);
-			}
-		}
-		
-		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("parentcustomeridname")]
-		public string ParentCustomerIdName
-		{
-			[System.Diagnostics.DebuggerNonUserCode()]
-			get
-			{
-				if (this.FormattedValues.Contains("parentcustomerid"))
-				{
-					return this.FormattedValues["parentcustomerid"];
-				}
-				else
-				{
-					return default(string);
-				}
-			}
-		}
-		
-		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("gendercode")]
-		public Microsoft.Xrm.Sdk.OptionSetValue GenderCode
-		{
-			[System.Diagnostics.DebuggerNonUserCode()]
-			get
-			{
-				return this.GetAttributeValue<Microsoft.Xrm.Sdk.OptionSetValue>("gendercode");
-			}
-			[System.Diagnostics.DebuggerNonUserCode()]
-			set
-			{
-				this.SetAttributeValue("gendercode", value);
-			}
-		}
-		
-		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("statecode")]
-		public Microsoft.Xrm.Sdk.OptionSetValue StateCode
-		{
-			[System.Diagnostics.DebuggerNonUserCode()]
-			get
-			{
-				return this.GetAttributeValue<Microsoft.Xrm.Sdk.OptionSetValue>("statecode");
-			}
-			[System.Diagnostics.DebuggerNonUserCode()]
-			set
-			{
-				this.SetAttributeValue("statecode", value);
-			}
-		}
-		
-		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("statuscode")]
-		public Microsoft.Xrm.Sdk.OptionSetValue StatusCode
-		{
-			[System.Diagnostics.DebuggerNonUserCode()]
-			get
-			{
-				return this.GetAttributeValue<Microsoft.Xrm.Sdk.OptionSetValue>("statuscode");
-			}
-			[System.Diagnostics.DebuggerNonUserCode()]
-			set
-			{
-				this.SetAttributeValue("statuscode", value);
-			}
-		}
-		
-		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("aging30")]
-		public Microsoft.Xrm.Sdk.Money Aging30
-		{
-			[System.Diagnostics.DebuggerNonUserCode()]
-			get
-			{
-				return this.GetAttributeValue<Microsoft.Xrm.Sdk.Money>("aging30");
-			}
-		}
-		
-		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("versionnumber")]
-		public System.Nullable<long> VersionNumber
-		{
-			[System.Diagnostics.DebuggerNonUserCode()]
-			get
-			{
-				return this.GetAttributeValue<System.Nullable<long>>("versionnumber");
-			}
-		}
-		
-		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("creditlimit")]
-		public System.Nullable<decimal> CreditLimit
-		{
-			[System.Diagnostics.DebuggerNonUserCode()]
-			get
-			{
-				return this.GetAttributeValue<System.Nullable<decimal>>("creditlimit");
-			}
-			[System.Diagnostics.DebuggerNonUserCode()]
-			set
-			{
-				this.SetAttributeValue("creditlimit", value);
-			}
-		}
-		
-		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("exchangerate")]
-		public System.Nullable<double> ExchangeRate
-		{
-			[System.Diagnostics.DebuggerNonUserCode()]
-			get
-			{
-				return this.GetAttributeValue<System.Nullable<double>>("exchangerate");
-			}
-		}
-		
-		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("ownerid")]
-		public Microsoft.Xrm.Sdk.EntityReference OwnerId
-		{
-			[System.Diagnostics.DebuggerNonUserCode()]
-			get
-			{
-				return this.GetAttributeValue<Microsoft.Xrm.Sdk.EntityReference>("ownerid");
-			}
-			[System.Diagnostics.DebuggerNonUserCode()]
-			set
-			{
-				this.SetAttributeValue("ownerid", value);
-			}
-		}
-		
-		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("activityparties")]
-		public System.Collections.Generic.IEnumerable<Microsoft.Xrm.Sdk.Entity> ActivityParties
-		{
-			[System.Diagnostics.DebuggerNonUserCode()]
-			get
-			{
-				return this.GetAttributeValue<System.Collections.Generic.IEnumerable<Microsoft.Xrm.Sdk.Entity>>("activityparties");
-			}
-			[System.Diagnostics.DebuggerNonUserCode()]
-			set
-			{
-				this.SetAttributeValue("activityparties", value);
-			}
-		}
-		
-		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("entityimage")]
-		public byte[] EntityImage
-		{
-			[System.Diagnostics.DebuggerNonUserCode()]
-			get
-			{
-				return this.GetAttributeValue<byte[]>("entityimage");
-			}
-			[System.Diagnostics.DebuggerNonUserCode()]
-			set
-			{
-				this.SetAttributeValue("entityimage", value);
-			}
-		}
-		
-		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("document")]
-		public byte[] Document
-		{
-			[System.Diagnostics.DebuggerNonUserCode()]
-			get
-			{
-				return this.GetAttributeValue<byte[]>("document");
-			}
-			[System.Diagnostics.DebuggerNonUserCode()]
-			set
-			{
-				this.SetAttributeValue("document", value);
-			}
-		}
-		
-		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("isbackofficecustomer")]
-		public Microsoft.Xrm.Sdk.BooleanManagedProperty IsBackOfficeCustomer
-		{
-			[System.Diagnostics.DebuggerNonUserCode()]
-			get
-			{
-				return this.GetAttributeValue<Microsoft.Xrm.Sdk.BooleanManagedProperty>("isbackofficecustomer");
-			}
-			[System.Diagnostics.DebuggerNonUserCode()]
-			set
-			{
-				this.SetAttributeValue("isbackofficecustomer", value);
-			}
-		}
-		
-		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("preferredcontactmethodscode")]
-		public Microsoft.Xrm.Sdk.OptionSetValueCollection PreferredContactMethodsCode
-		{
-			[System.Diagnostics.DebuggerNonUserCode()]
-			get
-			{
-				return this.GetAttributeValue<Microsoft.Xrm.Sdk.OptionSetValueCollection>("preferredcontactmethodscode");
-			}
-			[System.Diagnostics.DebuggerNonUserCode()]
-			set
-			{
-				this.SetAttributeValue("preferredcontactmethodscode", value);
-			}
-		}
-		
-		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("createdby")]
-		public Microsoft.Xrm.Sdk.EntityReference CreatedBy
-		{
-			[System.Diagnostics.DebuggerNonUserCode()]
-			get
-			{
-				return this.GetAttributeValue<Microsoft.Xrm.Sdk.EntityReference>("createdby");
-			}
-		}
-		
-		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("createdon")]
-		public System.Nullable<System.DateTime> CreatedOn
-		{
-			[System.Diagnostics.DebuggerNonUserCode()]
-			get
-			{
-				return this.GetAttributeValue<System.Nullable<System.DateTime>>("createdon");
-			}
-		}
-		
-		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("contact")]
-		public string Contact
-		{
-			[System.Diagnostics.DebuggerNonUserCode()]
-			get
-			{
-				return this.GetAttributeValue<string>("contact");
-			}
-			[System.Diagnostics.DebuggerNonUserCode()]
-			set
-			{
-				this.SetAttributeValue("contact", value);
-			}
-		}
-		
-		/// <summary>
-		/// 1:N contact_customer_contacts
-		/// </summary>
-		[Microsoft.Xrm.Sdk.RelationshipSchemaNameAttribute("contact_customer_contacts")]
-		public System.Collections.Generic.IEnumerable<ContactRecord> contact_customer_contacts
-		{
-			[System.Diagnostics.DebuggerNonUserCode()]
-			get
-			{
-				return this.GetRelatedEntities<ContactRecord>("contact_customer_contacts", null);
-			}
-			[System.Diagnostics.DebuggerNonUserCode()]
-			set
-			{
-				this.SetRelatedEntities<ContactRecord>("contact_customer_contacts", null, value);
-			}
-		}
-		
-		/// <summary>
-		/// N:1 contact_owning_user
-		/// </summary>
-		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("contact_owning_user")]
-		[Microsoft.Xrm.Sdk.RelationshipSchemaNameAttribute("contact_owning_user")]
-		public SystemUser owninguser
-		{
-			[System.Diagnostics.DebuggerNonUserCode()]
-			get
-			{
-				return this.GetRelatedEntity<SystemUser>("contact_owning_user", null);
-			}
-			[System.Diagnostics.DebuggerNonUserCode()]
-			set
-			{
-				this.SetRelatedEntity<SystemUser>("contact_owning_user", null, value);
-			}
-		}
-		
-		/// <summary>
-		/// N:N contactleads_association
-		/// </summary>
-		[Microsoft.Xrm.Sdk.RelationshipSchemaNameAttribute("contactleads_association")]
-		public System.Collections.Generic.IEnumerable<Microsoft.Xrm.Sdk.Entity> contactleads_association
-		{
-			[System.Diagnostics.DebuggerNonUserCode()]
-			get
-			{
-				return this.GetRelatedEntities<Microsoft.Xrm.Sdk.Entity>("contactleads_association", null);
-			}
-			[System.Diagnostics.DebuggerNonUserCode()]
-			set
-			{
-				this.SetRelatedEntities<Microsoft.Xrm.Sdk.Entity>("contactleads_association", null, value);
-			}
-		}
-	}
-}
-#pragma warning restore CS1591
-"
-`;
-
-exports[`entityGenerator > generates Contact with suppressGeneratedCodeAttribute = false 1`] = `
-"#nullable enable
-#pragma warning disable CS1591
-//------------------------------------------------------------------------------
-// <auto-generated>
-//     This code was generated by a tool.
-//
-//     Changes to this file may cause incorrect behavior and will be lost if
-//     the code is regenerated.
-// </auto-generated>
-//------------------------------------------------------------------------------
-
-namespace DataverseModel
-{
-	
-	
-	/// <summary>
-	/// Person with whom a business unit has a relationship, such as a customer, supplier, or colleague.
-	/// </summary>
-	[System.Runtime.Serialization.DataContractAttribute()]
-	[Microsoft.Xrm.Sdk.Client.EntityLogicalNameAttribute("contact")]
-	[System.CodeDom.Compiler.GeneratedCodeAttribute("Dataverse Model Builder", "2.0.0.16")]
 	public partial class Contact : Microsoft.Xrm.Sdk.Entity
 	{
 		
@@ -3746,562 +2696,10 @@ namespace DataverseModel
 			{
 				return this.GetAttributeValue<string>("fullname");
 			}
-		}
-		
-		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("firstname")]
-		public string FirstName
-		{
-			[System.Diagnostics.DebuggerNonUserCode()]
-			get
-			{
-				return this.GetAttributeValue<string>("firstname");
-			}
 			[System.Diagnostics.DebuggerNonUserCode()]
 			set
 			{
-				this.SetAttributeValue("firstname", value);
-			}
-		}
-		
-		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("description")]
-		public string Description
-		{
-			[System.Diagnostics.DebuggerNonUserCode()]
-			get
-			{
-				return this.GetAttributeValue<string>("description");
-			}
-			[System.Diagnostics.DebuggerNonUserCode()]
-			set
-			{
-				this.SetAttributeValue("description", value);
-			}
-		}
-		
-		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("numberofchildren")]
-		public System.Nullable<int> NumberOfChildren
-		{
-			[System.Diagnostics.DebuggerNonUserCode()]
-			get
-			{
-				return this.GetAttributeValue<System.Nullable<int>>("numberofchildren");
-			}
-			[System.Diagnostics.DebuggerNonUserCode()]
-			set
-			{
-				this.SetAttributeValue("numberofchildren", value);
-			}
-		}
-		
-		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("annualincome")]
-		public Microsoft.Xrm.Sdk.Money AnnualIncome
-		{
-			[System.Diagnostics.DebuggerNonUserCode()]
-			get
-			{
-				return this.GetAttributeValue<Microsoft.Xrm.Sdk.Money>("annualincome");
-			}
-			[System.Diagnostics.DebuggerNonUserCode()]
-			set
-			{
-				this.SetAttributeValue("annualincome", value);
-			}
-		}
-		
-		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("donotphone")]
-		public System.Nullable<bool> DoNotPhone
-		{
-			[System.Diagnostics.DebuggerNonUserCode()]
-			get
-			{
-				return this.GetAttributeValue<System.Nullable<bool>>("donotphone");
-			}
-			[System.Diagnostics.DebuggerNonUserCode()]
-			set
-			{
-				this.SetAttributeValue("donotphone", value);
-			}
-		}
-		
-		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("birthdate")]
-		public System.Nullable<System.DateTime> Birthdate
-		{
-			[System.Diagnostics.DebuggerNonUserCode()]
-			get
-			{
-				return this.GetAttributeValue<System.Nullable<System.DateTime>>("birthdate");
-			}
-			[System.Diagnostics.DebuggerNonUserCode()]
-			set
-			{
-				this.SetAttributeValue("birthdate", value);
-			}
-		}
-		
-		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("parentcustomerid")]
-		public Microsoft.Xrm.Sdk.EntityReference ParentCustomerId
-		{
-			[System.Diagnostics.DebuggerNonUserCode()]
-			get
-			{
-				return this.GetAttributeValue<Microsoft.Xrm.Sdk.EntityReference>("parentcustomerid");
-			}
-			[System.Diagnostics.DebuggerNonUserCode()]
-			set
-			{
-				this.SetAttributeValue("parentcustomerid", value);
-			}
-		}
-		
-		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("parentcustomeridname")]
-		public string ParentCustomerIdName
-		{
-			[System.Diagnostics.DebuggerNonUserCode()]
-			get
-			{
-				if (this.FormattedValues.Contains("parentcustomerid"))
-				{
-					return this.FormattedValues["parentcustomerid"];
-				}
-				else
-				{
-					return default(string);
-				}
-			}
-		}
-		
-		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("gendercode")]
-		public Microsoft.Xrm.Sdk.OptionSetValue GenderCode
-		{
-			[System.Diagnostics.DebuggerNonUserCode()]
-			get
-			{
-				return this.GetAttributeValue<Microsoft.Xrm.Sdk.OptionSetValue>("gendercode");
-			}
-			[System.Diagnostics.DebuggerNonUserCode()]
-			set
-			{
-				this.SetAttributeValue("gendercode", value);
-			}
-		}
-		
-		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("statecode")]
-		public Microsoft.Xrm.Sdk.OptionSetValue StateCode
-		{
-			[System.Diagnostics.DebuggerNonUserCode()]
-			get
-			{
-				return this.GetAttributeValue<Microsoft.Xrm.Sdk.OptionSetValue>("statecode");
-			}
-			[System.Diagnostics.DebuggerNonUserCode()]
-			set
-			{
-				this.SetAttributeValue("statecode", value);
-			}
-		}
-		
-		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("statuscode")]
-		public Microsoft.Xrm.Sdk.OptionSetValue StatusCode
-		{
-			[System.Diagnostics.DebuggerNonUserCode()]
-			get
-			{
-				return this.GetAttributeValue<Microsoft.Xrm.Sdk.OptionSetValue>("statuscode");
-			}
-			[System.Diagnostics.DebuggerNonUserCode()]
-			set
-			{
-				this.SetAttributeValue("statuscode", value);
-			}
-		}
-		
-		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("aging30")]
-		public Microsoft.Xrm.Sdk.Money Aging30
-		{
-			[System.Diagnostics.DebuggerNonUserCode()]
-			get
-			{
-				return this.GetAttributeValue<Microsoft.Xrm.Sdk.Money>("aging30");
-			}
-		}
-		
-		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("versionnumber")]
-		public System.Nullable<long> VersionNumber
-		{
-			[System.Diagnostics.DebuggerNonUserCode()]
-			get
-			{
-				return this.GetAttributeValue<System.Nullable<long>>("versionnumber");
-			}
-		}
-		
-		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("creditlimit")]
-		public System.Nullable<decimal> CreditLimit
-		{
-			[System.Diagnostics.DebuggerNonUserCode()]
-			get
-			{
-				return this.GetAttributeValue<System.Nullable<decimal>>("creditlimit");
-			}
-			[System.Diagnostics.DebuggerNonUserCode()]
-			set
-			{
-				this.SetAttributeValue("creditlimit", value);
-			}
-		}
-		
-		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("exchangerate")]
-		public System.Nullable<double> ExchangeRate
-		{
-			[System.Diagnostics.DebuggerNonUserCode()]
-			get
-			{
-				return this.GetAttributeValue<System.Nullable<double>>("exchangerate");
-			}
-		}
-		
-		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("ownerid")]
-		public Microsoft.Xrm.Sdk.EntityReference OwnerId
-		{
-			[System.Diagnostics.DebuggerNonUserCode()]
-			get
-			{
-				return this.GetAttributeValue<Microsoft.Xrm.Sdk.EntityReference>("ownerid");
-			}
-			[System.Diagnostics.DebuggerNonUserCode()]
-			set
-			{
-				this.SetAttributeValue("ownerid", value);
-			}
-		}
-		
-		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("activityparties")]
-		public System.Collections.Generic.IEnumerable<Microsoft.Xrm.Sdk.Entity> ActivityParties
-		{
-			[System.Diagnostics.DebuggerNonUserCode()]
-			get
-			{
-				return this.GetAttributeValue<System.Collections.Generic.IEnumerable<Microsoft.Xrm.Sdk.Entity>>("activityparties");
-			}
-			[System.Diagnostics.DebuggerNonUserCode()]
-			set
-			{
-				this.SetAttributeValue("activityparties", value);
-			}
-		}
-		
-		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("entityimage")]
-		public byte[] EntityImage
-		{
-			[System.Diagnostics.DebuggerNonUserCode()]
-			get
-			{
-				return this.GetAttributeValue<byte[]>("entityimage");
-			}
-			[System.Diagnostics.DebuggerNonUserCode()]
-			set
-			{
-				this.SetAttributeValue("entityimage", value);
-			}
-		}
-		
-		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("document")]
-		public byte[] Document
-		{
-			[System.Diagnostics.DebuggerNonUserCode()]
-			get
-			{
-				return this.GetAttributeValue<byte[]>("document");
-			}
-			[System.Diagnostics.DebuggerNonUserCode()]
-			set
-			{
-				this.SetAttributeValue("document", value);
-			}
-		}
-		
-		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("isbackofficecustomer")]
-		public Microsoft.Xrm.Sdk.BooleanManagedProperty IsBackOfficeCustomer
-		{
-			[System.Diagnostics.DebuggerNonUserCode()]
-			get
-			{
-				return this.GetAttributeValue<Microsoft.Xrm.Sdk.BooleanManagedProperty>("isbackofficecustomer");
-			}
-			[System.Diagnostics.DebuggerNonUserCode()]
-			set
-			{
-				this.SetAttributeValue("isbackofficecustomer", value);
-			}
-		}
-		
-		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("preferredcontactmethodscode")]
-		public Microsoft.Xrm.Sdk.OptionSetValueCollection PreferredContactMethodsCode
-		{
-			[System.Diagnostics.DebuggerNonUserCode()]
-			get
-			{
-				return this.GetAttributeValue<Microsoft.Xrm.Sdk.OptionSetValueCollection>("preferredcontactmethodscode");
-			}
-			[System.Diagnostics.DebuggerNonUserCode()]
-			set
-			{
-				this.SetAttributeValue("preferredcontactmethodscode", value);
-			}
-		}
-		
-		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("createdby")]
-		public Microsoft.Xrm.Sdk.EntityReference CreatedBy
-		{
-			[System.Diagnostics.DebuggerNonUserCode()]
-			get
-			{
-				return this.GetAttributeValue<Microsoft.Xrm.Sdk.EntityReference>("createdby");
-			}
-		}
-		
-		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("createdon")]
-		public System.Nullable<System.DateTime> CreatedOn
-		{
-			[System.Diagnostics.DebuggerNonUserCode()]
-			get
-			{
-				return this.GetAttributeValue<System.Nullable<System.DateTime>>("createdon");
-			}
-		}
-		
-		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("contact")]
-		public string Contact__Member
-		{
-			[System.Diagnostics.DebuggerNonUserCode()]
-			get
-			{
-				return this.GetAttributeValue<string>("contact");
-			}
-			[System.Diagnostics.DebuggerNonUserCode()]
-			set
-			{
-				this.SetAttributeValue("contact", value);
-			}
-		}
-		
-		/// <summary>
-		/// 1:N contact_customer_contacts
-		/// </summary>
-		[Microsoft.Xrm.Sdk.RelationshipSchemaNameAttribute("contact_customer_contacts")]
-		public System.Collections.Generic.IEnumerable<Contact> contact_customer_contacts
-		{
-			[System.Diagnostics.DebuggerNonUserCode()]
-			get
-			{
-				return this.GetRelatedEntities<Contact>("contact_customer_contacts", null);
-			}
-			[System.Diagnostics.DebuggerNonUserCode()]
-			set
-			{
-				this.SetRelatedEntities<Contact>("contact_customer_contacts", null, value);
-			}
-		}
-		
-		/// <summary>
-		/// N:1 contact_owning_user
-		/// </summary>
-		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("contact_owning_user")]
-		[Microsoft.Xrm.Sdk.RelationshipSchemaNameAttribute("contact_owning_user")]
-		public SystemUser owninguser
-		{
-			[System.Diagnostics.DebuggerNonUserCode()]
-			get
-			{
-				return this.GetRelatedEntity<SystemUser>("contact_owning_user", null);
-			}
-			[System.Diagnostics.DebuggerNonUserCode()]
-			set
-			{
-				this.SetRelatedEntity<SystemUser>("contact_owning_user", null, value);
-			}
-		}
-		
-		/// <summary>
-		/// N:N contactleads_association
-		/// </summary>
-		[Microsoft.Xrm.Sdk.RelationshipSchemaNameAttribute("contactleads_association")]
-		public System.Collections.Generic.IEnumerable<Microsoft.Xrm.Sdk.Entity> contactleads_association
-		{
-			[System.Diagnostics.DebuggerNonUserCode()]
-			get
-			{
-				return this.GetRelatedEntities<Microsoft.Xrm.Sdk.Entity>("contactleads_association", null);
-			}
-			[System.Diagnostics.DebuggerNonUserCode()]
-			set
-			{
-				this.SetRelatedEntities<Microsoft.Xrm.Sdk.Entity>("contactleads_association", null, value);
-			}
-		}
-	}
-}
-#pragma warning restore CS1591
-"
-`;
-
-exports[`entityGenerator > generates Contact without attribute name consts 1`] = `
-"#nullable enable
-#pragma warning disable CS1591
-//------------------------------------------------------------------------------
-// <auto-generated>
-//     This code was generated by a tool.
-//
-//     Changes to this file may cause incorrect behavior and will be lost if
-//     the code is regenerated.
-// </auto-generated>
-//------------------------------------------------------------------------------
-
-namespace DataverseModel
-{
-	
-	
-	/// <summary>
-	/// Person with whom a business unit has a relationship, such as a customer, supplier, or colleague.
-	/// </summary>
-	[System.Runtime.Serialization.DataContractAttribute()]
-	[Microsoft.Xrm.Sdk.Client.EntityLogicalNameAttribute("contact")]
-	public partial class Contact : Microsoft.Xrm.Sdk.Entity
-	{
-		
-		/// <summary>
-		/// Default Constructor.
-		/// </summary>
-		[System.Diagnostics.DebuggerNonUserCode()]
-		public Contact() : 
-				base(EntityLogicalName)
-		{
-		}
-		
-		[System.Diagnostics.DebuggerNonUserCode()]
-		public Contact(System.Guid id) : 
-				base(EntityLogicalName, id)
-		{
-		}
-		
-		[System.Diagnostics.DebuggerNonUserCode()]
-		public Contact(string keyName, object keyValue) : 
-				base(EntityLogicalName, keyName, keyValue)
-		{
-		}
-		
-		[System.Diagnostics.DebuggerNonUserCode()]
-		public Contact(Microsoft.Xrm.Sdk.KeyAttributeCollection keyAttributes) : 
-				base(EntityLogicalName, keyAttributes)
-		{
-		}
-		
-		/// <summary>
-		/// Constructor for populating via LINQ queries given a LINQ anonymous type
-		/// <param name="anonymousType">LINQ anonymous type.</param>
-		/// </summary>
-		[System.Diagnostics.DebuggerNonUserCode()]
-		public Contact(object anonymousType) : 
-				this()
-		{
-            foreach (var p in anonymousType.GetType().GetProperties())
-            {
-                var value = p.GetValue(anonymousType, null);
-                var name = p.Name.ToLower();
-            
-                if (value != null && name.EndsWith("enum") && value.GetType().BaseType == typeof(System.Enum))
-                {
-                    value = new Microsoft.Xrm.Sdk.OptionSetValue((int) value);
-                    name = name.Remove(name.Length - "enum".Length);
-                }
-            
-                switch (name)
-                {
-                    case "id":
-                        base.Id = (System.Guid)value;
-                        Attributes["contactid"] = base.Id;
-                        break;
-                    case "contactid":
-                        var id = (System.Nullable<System.Guid>) value;
-                        if(id == null){ continue; }
-                        base.Id = id.Value;
-                        Attributes[name] = base.Id;
-                        break;
-                    case "formattedvalues":
-                        // Add Support for FormattedValues
-                        FormattedValues.AddRange((Microsoft.Xrm.Sdk.FormattedValueCollection)value);
-                        break;
-                    default:
-                        Attributes[name] = value;
-                        break;
-                }
-            }
-		}
-		
-		public const string EntityLogicalName = "contact";
-		
-		public const string PrimaryIdAttribute = "contactid";
-		
-		public const string PrimaryNameAttribute = "fullname";
-		
-		public const string EntitySchemaName = "Contact";
-		
-		public const string EntityLogicalCollectionName = "contacts";
-		
-		public const string EntitySetName = "contacts";
-		
-		public static partial class Relationships
-		{
-			public const string contact_customer_contacts = "contact_customer_contacts";
-			public const string contactleads_association = "contactleads_association";
-			public const string owninguser = "contact_owning_user";
-		}
-		
-		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("contactid")]
-		public System.Nullable<System.Guid> ContactId
-		{
-			[System.Diagnostics.DebuggerNonUserCode()]
-			get
-			{
-				return this.GetAttributeValue<System.Nullable<System.Guid>>("contactid");
-			}
-			[System.Diagnostics.DebuggerNonUserCode()]
-			set
-			{
-				this.SetAttributeValue("contactid", value);
-				if (value.HasValue)
-				{
-					base.Id = value.Value;
-				}
-				else
-				{
-					base.Id = System.Guid.Empty;
-				}
-			}
-		}
-		
-		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("contactid")]
-		public override System.Guid Id
-		{
-			[System.Diagnostics.DebuggerNonUserCode()]
-			get
-			{
-				return base.Id;
-			}
-			[System.Diagnostics.DebuggerNonUserCode()]
-			set
-			{
-				this.ContactId = value;
-			}
-		}
-		
-		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("fullname")]
-		public string FullName
-		{
-			[System.Diagnostics.DebuggerNonUserCode()]
-			get
-			{
-				return this.GetAttributeValue<string>("fullname");
+				this.SetAttributeValue("fullname", value);
 			}
 		}
 		
@@ -4425,6 +2823,11 @@ namespace DataverseModel
 					return default(string);
 				}
 			}
+			[System.Diagnostics.DebuggerNonUserCode()]
+			set
+			{
+				this.FormattedValues["parentcustomerid"] = value;
+			}
 		}
 		
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("gendercode")]
@@ -4480,6 +2883,11 @@ namespace DataverseModel
 			{
 				return this.GetAttributeValue<Microsoft.Xrm.Sdk.Money>("aging30");
 			}
+			[System.Diagnostics.DebuggerNonUserCode()]
+			set
+			{
+				this.SetAttributeValue("aging30", value);
+			}
 		}
 		
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("versionnumber")]
@@ -4489,6 +2897,11 @@ namespace DataverseModel
 			get
 			{
 				return this.GetAttributeValue<System.Nullable<long>>("versionnumber");
+			}
+			[System.Diagnostics.DebuggerNonUserCode()]
+			set
+			{
+				this.SetAttributeValue("versionnumber", value);
 			}
 		}
 		
@@ -4514,6 +2927,11 @@ namespace DataverseModel
 			get
 			{
 				return this.GetAttributeValue<System.Nullable<double>>("exchangerate");
+			}
+			[System.Diagnostics.DebuggerNonUserCode()]
+			set
+			{
+				this.SetAttributeValue("exchangerate", value);
 			}
 		}
 		
@@ -4615,6 +3033,11 @@ namespace DataverseModel
 			{
 				return this.GetAttributeValue<Microsoft.Xrm.Sdk.EntityReference>("createdby");
 			}
+			[System.Diagnostics.DebuggerNonUserCode()]
+			set
+			{
+				this.SetAttributeValue("createdby", value);
+			}
 		}
 		
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("createdon")]
@@ -4624,6 +3047,11 @@ namespace DataverseModel
 			get
 			{
 				return this.GetAttributeValue<System.Nullable<System.DateTime>>("createdon");
+			}
+			[System.Diagnostics.DebuggerNonUserCode()]
+			set
+			{
+				this.SetAttributeValue("createdon", value);
 			}
 		}
 		
@@ -4702,7 +3130,7 @@ namespace DataverseModel
 "
 `;
 
-exports[`entityGenerator > generates Contact without enum properties (Picklist falls back to OptionSetValue) 1`] = `
+exports[`makeReadonlyFieldsEditable = true > READONLY_FIELDS_EDITABLE_ATTRS get setters while other readonly fields remain read-only (snapshot) 1`] = `
 "#nullable enable
 #pragma warning disable CS1591
 //------------------------------------------------------------------------------
@@ -5203,6 +3631,11 @@ namespace DataverseModel
 			{
 				return this.GetAttributeValue<Microsoft.Xrm.Sdk.EntityReference>("createdby");
 			}
+			[System.Diagnostics.DebuggerNonUserCode()]
+			set
+			{
+				this.SetAttributeValue("createdby", value);
+			}
 		}
 		
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("createdon")]
@@ -5212,6 +3645,11 @@ namespace DataverseModel
 			get
 			{
 				return this.GetAttributeValue<System.Nullable<System.DateTime>>("createdon");
+			}
+			[System.Diagnostics.DebuggerNonUserCode()]
+			set
+			{
+				this.SetAttributeValue("createdon", value);
 			}
 		}
 		
@@ -5290,7 +3728,7 @@ namespace DataverseModel
 "
 `;
 
-exports[`entityGenerator > generates Contact without relationships 1`] = `
+exports[`makeReferenceTypesNullable = true > adds ? to reference-type properties (snapshot) 1`] = `
 "#nullable enable
 #pragma warning disable CS1591
 //------------------------------------------------------------------------------
@@ -5424,6 +3862,601 @@ namespace DataverseModel
 			public const string StateCode = "statecode";
 			public const string StatusCode = "statuscode";
 			public const string VersionNumber = "versionnumber";
+		}
+		
+		public static partial class Relationships
+		{
+			public const string contact_customer_contacts = "contact_customer_contacts";
+			public const string contactleads_association = "contactleads_association";
+			public const string owninguser = "contact_owning_user";
+		}
+		
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("contactid")]
+		public System.Nullable<System.Guid> ContactId
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return this.GetAttributeValue<System.Nullable<System.Guid>>("contactid");
+			}
+			[System.Diagnostics.DebuggerNonUserCode()]
+			set
+			{
+				this.SetAttributeValue("contactid", value);
+				if (value.HasValue)
+				{
+					base.Id = value.Value;
+				}
+				else
+				{
+					base.Id = System.Guid.Empty;
+				}
+			}
+		}
+		
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("contactid")]
+		public override System.Guid Id
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return base.Id;
+			}
+			[System.Diagnostics.DebuggerNonUserCode()]
+			set
+			{
+				this.ContactId = value;
+			}
+		}
+		
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("fullname")]
+		public string? FullName
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return this.GetAttributeValue<string>("fullname");
+			}
+		}
+		
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("firstname")]
+		public string? FirstName
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return this.GetAttributeValue<string>("firstname");
+			}
+			[System.Diagnostics.DebuggerNonUserCode()]
+			set
+			{
+				this.SetAttributeValue("firstname", value);
+			}
+		}
+		
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("description")]
+		public string? Description
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return this.GetAttributeValue<string>("description");
+			}
+			[System.Diagnostics.DebuggerNonUserCode()]
+			set
+			{
+				this.SetAttributeValue("description", value);
+			}
+		}
+		
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("numberofchildren")]
+		public System.Nullable<int> NumberOfChildren
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return this.GetAttributeValue<System.Nullable<int>>("numberofchildren");
+			}
+			[System.Diagnostics.DebuggerNonUserCode()]
+			set
+			{
+				this.SetAttributeValue("numberofchildren", value);
+			}
+		}
+		
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("annualincome")]
+		public Microsoft.Xrm.Sdk.Money? AnnualIncome
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return this.GetAttributeValue<Microsoft.Xrm.Sdk.Money>("annualincome");
+			}
+			[System.Diagnostics.DebuggerNonUserCode()]
+			set
+			{
+				this.SetAttributeValue("annualincome", value);
+			}
+		}
+		
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("donotphone")]
+		public System.Nullable<bool> DoNotPhone
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return this.GetAttributeValue<System.Nullable<bool>>("donotphone");
+			}
+			[System.Diagnostics.DebuggerNonUserCode()]
+			set
+			{
+				this.SetAttributeValue("donotphone", value);
+			}
+		}
+		
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("birthdate")]
+		public System.Nullable<System.DateTime> Birthdate
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return this.GetAttributeValue<System.Nullable<System.DateTime>>("birthdate");
+			}
+			[System.Diagnostics.DebuggerNonUserCode()]
+			set
+			{
+				this.SetAttributeValue("birthdate", value);
+			}
+		}
+		
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("parentcustomerid")]
+		public Microsoft.Xrm.Sdk.EntityReference? ParentCustomerId
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return this.GetAttributeValue<Microsoft.Xrm.Sdk.EntityReference>("parentcustomerid");
+			}
+			[System.Diagnostics.DebuggerNonUserCode()]
+			set
+			{
+				this.SetAttributeValue("parentcustomerid", value);
+			}
+		}
+		
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("parentcustomeridname")]
+		public string? ParentCustomerIdName
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				if (this.FormattedValues.Contains("parentcustomerid"))
+				{
+					return this.FormattedValues["parentcustomerid"];
+				}
+				else
+				{
+					return default(string);
+				}
+			}
+		}
+		
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("gendercode")]
+		public Microsoft.Xrm.Sdk.OptionSetValue? GenderCode
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return this.GetAttributeValue<Microsoft.Xrm.Sdk.OptionSetValue>("gendercode");
+			}
+			[System.Diagnostics.DebuggerNonUserCode()]
+			set
+			{
+				this.SetAttributeValue("gendercode", value);
+			}
+		}
+		
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("statecode")]
+		public Microsoft.Xrm.Sdk.OptionSetValue? StateCode
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return this.GetAttributeValue<Microsoft.Xrm.Sdk.OptionSetValue>("statecode");
+			}
+			[System.Diagnostics.DebuggerNonUserCode()]
+			set
+			{
+				this.SetAttributeValue("statecode", value);
+			}
+		}
+		
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("statuscode")]
+		public Microsoft.Xrm.Sdk.OptionSetValue? StatusCode
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return this.GetAttributeValue<Microsoft.Xrm.Sdk.OptionSetValue>("statuscode");
+			}
+			[System.Diagnostics.DebuggerNonUserCode()]
+			set
+			{
+				this.SetAttributeValue("statuscode", value);
+			}
+		}
+		
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("aging30")]
+		public Microsoft.Xrm.Sdk.Money? Aging30
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return this.GetAttributeValue<Microsoft.Xrm.Sdk.Money>("aging30");
+			}
+		}
+		
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("versionnumber")]
+		public System.Nullable<long> VersionNumber
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return this.GetAttributeValue<System.Nullable<long>>("versionnumber");
+			}
+		}
+		
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("creditlimit")]
+		public System.Nullable<decimal> CreditLimit
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return this.GetAttributeValue<System.Nullable<decimal>>("creditlimit");
+			}
+			[System.Diagnostics.DebuggerNonUserCode()]
+			set
+			{
+				this.SetAttributeValue("creditlimit", value);
+			}
+		}
+		
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("exchangerate")]
+		public System.Nullable<double> ExchangeRate
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return this.GetAttributeValue<System.Nullable<double>>("exchangerate");
+			}
+		}
+		
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("ownerid")]
+		public Microsoft.Xrm.Sdk.EntityReference? OwnerId
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return this.GetAttributeValue<Microsoft.Xrm.Sdk.EntityReference>("ownerid");
+			}
+			[System.Diagnostics.DebuggerNonUserCode()]
+			set
+			{
+				this.SetAttributeValue("ownerid", value);
+			}
+		}
+		
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("activityparties")]
+		public System.Collections.Generic.IEnumerable<Microsoft.Xrm.Sdk.Entity>? ActivityParties
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return this.GetAttributeValue<System.Collections.Generic.IEnumerable<Microsoft.Xrm.Sdk.Entity>>("activityparties");
+			}
+			[System.Diagnostics.DebuggerNonUserCode()]
+			set
+			{
+				this.SetAttributeValue("activityparties", value);
+			}
+		}
+		
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("entityimage")]
+		public byte[]? EntityImage
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return this.GetAttributeValue<byte[]>("entityimage");
+			}
+			[System.Diagnostics.DebuggerNonUserCode()]
+			set
+			{
+				this.SetAttributeValue("entityimage", value);
+			}
+		}
+		
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("document")]
+		public byte[]? Document
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return this.GetAttributeValue<byte[]>("document");
+			}
+			[System.Diagnostics.DebuggerNonUserCode()]
+			set
+			{
+				this.SetAttributeValue("document", value);
+			}
+		}
+		
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("isbackofficecustomer")]
+		public Microsoft.Xrm.Sdk.BooleanManagedProperty? IsBackOfficeCustomer
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return this.GetAttributeValue<Microsoft.Xrm.Sdk.BooleanManagedProperty>("isbackofficecustomer");
+			}
+			[System.Diagnostics.DebuggerNonUserCode()]
+			set
+			{
+				this.SetAttributeValue("isbackofficecustomer", value);
+			}
+		}
+		
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("preferredcontactmethodscode")]
+		public Microsoft.Xrm.Sdk.OptionSetValueCollection? PreferredContactMethodsCode
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return this.GetAttributeValue<Microsoft.Xrm.Sdk.OptionSetValueCollection>("preferredcontactmethodscode");
+			}
+			[System.Diagnostics.DebuggerNonUserCode()]
+			set
+			{
+				this.SetAttributeValue("preferredcontactmethodscode", value);
+			}
+		}
+		
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("createdby")]
+		public Microsoft.Xrm.Sdk.EntityReference? CreatedBy
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return this.GetAttributeValue<Microsoft.Xrm.Sdk.EntityReference>("createdby");
+			}
+		}
+		
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("createdon")]
+		public System.Nullable<System.DateTime> CreatedOn
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return this.GetAttributeValue<System.Nullable<System.DateTime>>("createdon");
+			}
+		}
+		
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("contact")]
+		public string? Contact__Member
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return this.GetAttributeValue<string>("contact");
+			}
+			[System.Diagnostics.DebuggerNonUserCode()]
+			set
+			{
+				this.SetAttributeValue("contact", value);
+			}
+		}
+		
+		/// <summary>
+		/// 1:N contact_customer_contacts
+		/// </summary>
+		[Microsoft.Xrm.Sdk.RelationshipSchemaNameAttribute("contact_customer_contacts")]
+		public System.Collections.Generic.IEnumerable<Contact>? contact_customer_contacts
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return this.GetRelatedEntities<Contact>("contact_customer_contacts", null);
+			}
+			[System.Diagnostics.DebuggerNonUserCode()]
+			set
+			{
+				this.SetRelatedEntities<Contact>("contact_customer_contacts", null, value);
+			}
+		}
+		
+		/// <summary>
+		/// N:1 contact_owning_user
+		/// </summary>
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("contact_owning_user")]
+		[Microsoft.Xrm.Sdk.RelationshipSchemaNameAttribute("contact_owning_user")]
+		public SystemUser? owninguser
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return this.GetRelatedEntity<SystemUser>("contact_owning_user", null);
+			}
+			[System.Diagnostics.DebuggerNonUserCode()]
+			set
+			{
+				this.SetRelatedEntity<SystemUser>("contact_owning_user", null, value);
+			}
+		}
+		
+		/// <summary>
+		/// N:N contactleads_association
+		/// </summary>
+		[Microsoft.Xrm.Sdk.RelationshipSchemaNameAttribute("contactleads_association")]
+		public System.Collections.Generic.IEnumerable<Microsoft.Xrm.Sdk.Entity>? contactleads_association
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return this.GetRelatedEntities<Microsoft.Xrm.Sdk.Entity>("contactleads_association", null);
+			}
+			[System.Diagnostics.DebuggerNonUserCode()]
+			set
+			{
+				this.SetRelatedEntities<Microsoft.Xrm.Sdk.Entity>("contactleads_association", null, value);
+			}
+		}
+	}
+}
+#pragma warning restore CS1591
+"
+`;
+
+exports[`replaceOptionSetPropertiesWithEnum = true > emits single typed enum property instead of dual block (snapshot) 1`] = `
+"#nullable enable
+#pragma warning disable CS1591
+//------------------------------------------------------------------------------
+// <auto-generated>
+//     This code was generated by a tool.
+//
+//     Changes to this file may cause incorrect behavior and will be lost if
+//     the code is regenerated.
+// </auto-generated>
+//------------------------------------------------------------------------------
+
+namespace DataverseModel
+{
+	
+	
+	/// <summary>
+	/// Person with whom a business unit has a relationship, such as a customer, supplier, or colleague.
+	/// </summary>
+	[System.Runtime.Serialization.DataContractAttribute()]
+	[Microsoft.Xrm.Sdk.Client.EntityLogicalNameAttribute("contact")]
+	public partial class Contact : Microsoft.Xrm.Sdk.Entity
+	{
+		
+		/// <summary>
+		/// Default Constructor.
+		/// </summary>
+		[System.Diagnostics.DebuggerNonUserCode()]
+		public Contact() : 
+				base(EntityLogicalName)
+		{
+		}
+		
+		[System.Diagnostics.DebuggerNonUserCode()]
+		public Contact(System.Guid id) : 
+				base(EntityLogicalName, id)
+		{
+		}
+		
+		[System.Diagnostics.DebuggerNonUserCode()]
+		public Contact(string keyName, object keyValue) : 
+				base(EntityLogicalName, keyName, keyValue)
+		{
+		}
+		
+		[System.Diagnostics.DebuggerNonUserCode()]
+		public Contact(Microsoft.Xrm.Sdk.KeyAttributeCollection keyAttributes) : 
+				base(EntityLogicalName, keyAttributes)
+		{
+		}
+		
+		/// <summary>
+		/// Constructor for populating via LINQ queries given a LINQ anonymous type
+		/// <param name="anonymousType">LINQ anonymous type.</param>
+		/// </summary>
+		[System.Diagnostics.DebuggerNonUserCode()]
+		public Contact(object anonymousType) : 
+				this()
+		{
+            foreach (var p in anonymousType.GetType().GetProperties())
+            {
+                var value = p.GetValue(anonymousType, null);
+                var name = p.Name.ToLower();
+            
+                if (value != null && name.EndsWith("enum") && value.GetType().BaseType == typeof(System.Enum))
+                {
+                    value = new Microsoft.Xrm.Sdk.OptionSetValue((int) value);
+                    name = name.Remove(name.Length - "enum".Length);
+                }
+            
+                switch (name)
+                {
+                    case "id":
+                        base.Id = (System.Guid)value;
+                        Attributes["contactid"] = base.Id;
+                        break;
+                    case "contactid":
+                        var id = (System.Nullable<System.Guid>) value;
+                        if(id == null){ continue; }
+                        base.Id = id.Value;
+                        Attributes[name] = base.Id;
+                        break;
+                    case "formattedvalues":
+                        // Add Support for FormattedValues
+                        FormattedValues.AddRange((Microsoft.Xrm.Sdk.FormattedValueCollection)value);
+                        break;
+                    default:
+                        Attributes[name] = value;
+                        break;
+                }
+            }
+		}
+		
+		public const string EntityLogicalName = "contact";
+		
+		public const string PrimaryIdAttribute = "contactid";
+		
+		public const string PrimaryNameAttribute = "fullname";
+		
+		public const string EntitySchemaName = "Contact";
+		
+		public const string EntityLogicalCollectionName = "contacts";
+		
+		public const string EntitySetName = "contacts";
+		
+		public static partial class Fields
+		{
+			public const string ActivityParties = "activityparties";
+			public const string Aging30 = "aging30";
+			public const string AnnualIncome = "annualincome";
+			public const string Birthdate = "birthdate";
+			public const string Contact__Member = "contact";
+			public const string ContactId = "contactid";
+			public const string CreatedBy = "createdby";
+			public const string CreatedOn = "createdon";
+			public const string CreditLimit = "creditlimit";
+			public const string Description = "description";
+			public const string Document = "document";
+			public const string DoNotPhone = "donotphone";
+			public const string EntityImage = "entityimage";
+			public const string ExchangeRate = "exchangerate";
+			public const string FirstName = "firstname";
+			public const string FullName = "fullname";
+			public const string GenderCode = "gendercode";
+			public const string Id = "contactid";
+			public const string IsBackOfficeCustomer = "isbackofficecustomer";
+			public const string NumberOfChildren = "numberofchildren";
+			public const string OwnerId = "ownerid";
+			public const string ParentCustomerId = "parentcustomerid";
+			public const string ParentCustomerIdName = "parentcustomeridname";
+			public const string PreferredContactMethodsCode = "preferredcontactmethodscode";
+			public const string StateCode = "statecode";
+			public const string StatusCode = "statuscode";
+			public const string VersionNumber = "versionnumber";
+		}
+		
+		public static partial class Relationships
+		{
+			public const string contact_customer_contacts = "contact_customer_contacts";
+			public const string contactleads_association = "contactleads_association";
+			public const string owninguser = "contact_owning_user";
 		}
 		
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("contactid")]
@@ -5597,47 +4630,47 @@ namespace DataverseModel
 		}
 		
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("gendercode")]
-		public Microsoft.Xrm.Sdk.OptionSetValue GenderCode
+		public virtual Contact_GenderCode? GenderCode
 		{
 			[System.Diagnostics.DebuggerNonUserCode()]
 			get
 			{
-				return this.GetAttributeValue<Microsoft.Xrm.Sdk.OptionSetValue>("gendercode");
+				return ((Contact_GenderCode?)(EntityOptionSetEnum.GetEnum(this, "gendercode")));
 			}
 			[System.Diagnostics.DebuggerNonUserCode()]
 			set
 			{
-				this.SetAttributeValue("gendercode", value);
+				this.SetAttributeValue("gendercode", value.HasValue ? new Microsoft.Xrm.Sdk.OptionSetValue((int)value) : null);
 			}
 		}
 		
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("statecode")]
-		public Microsoft.Xrm.Sdk.OptionSetValue StateCode
+		public virtual Contact_StateCode? StateCode
 		{
 			[System.Diagnostics.DebuggerNonUserCode()]
 			get
 			{
-				return this.GetAttributeValue<Microsoft.Xrm.Sdk.OptionSetValue>("statecode");
+				return ((Contact_StateCode?)(EntityOptionSetEnum.GetEnum(this, "statecode")));
 			}
 			[System.Diagnostics.DebuggerNonUserCode()]
 			set
 			{
-				this.SetAttributeValue("statecode", value);
+				this.SetAttributeValue("statecode", value.HasValue ? new Microsoft.Xrm.Sdk.OptionSetValue((int)value) : null);
 			}
 		}
 		
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("statuscode")]
-		public Microsoft.Xrm.Sdk.OptionSetValue StatusCode
+		public virtual Contact_StatusCode? StatusCode
 		{
 			[System.Diagnostics.DebuggerNonUserCode()]
 			get
 			{
-				return this.GetAttributeValue<Microsoft.Xrm.Sdk.OptionSetValue>("statuscode");
+				return ((Contact_StatusCode?)(EntityOptionSetEnum.GetEnum(this, "statuscode")));
 			}
 			[System.Diagnostics.DebuggerNonUserCode()]
 			set
 			{
-				this.SetAttributeValue("statuscode", value);
+				this.SetAttributeValue("statuscode", value.HasValue ? new Microsoft.Xrm.Sdk.OptionSetValue((int)value) : null);
 			}
 		}
 		
@@ -5762,17 +4795,17 @@ namespace DataverseModel
 		}
 		
 		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("preferredcontactmethodscode")]
-		public Microsoft.Xrm.Sdk.OptionSetValueCollection PreferredContactMethodsCode
+		public virtual System.Collections.Generic.IEnumerable<Contact_PreferredContactMethodsCode> PreferredContactMethodsCode
 		{
 			[System.Diagnostics.DebuggerNonUserCode()]
 			get
 			{
-				return this.GetAttributeValue<Microsoft.Xrm.Sdk.OptionSetValueCollection>("preferredcontactmethodscode");
+				return EntityOptionSetEnum.GetMultiEnum<Contact_PreferredContactMethodsCode>(this, "preferredcontactmethodscode");
 			}
 			[System.Diagnostics.DebuggerNonUserCode()]
 			set
 			{
-				this.SetAttributeValue("preferredcontactmethodscode", value);
+				this.SetAttributeValue("preferredcontactmethodscode", EntityOptionSetEnum.GetMultiEnum(this, "preferredcontactmethodscode", value));
 			}
 		}
 		
@@ -5808,6 +4841,1267 @@ namespace DataverseModel
 			set
 			{
 				this.SetAttributeValue("contact", value);
+			}
+		}
+		
+		/// <summary>
+		/// 1:N contact_customer_contacts
+		/// </summary>
+		[Microsoft.Xrm.Sdk.RelationshipSchemaNameAttribute("contact_customer_contacts")]
+		public System.Collections.Generic.IEnumerable<Contact> contact_customer_contacts
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return this.GetRelatedEntities<Contact>("contact_customer_contacts", null);
+			}
+			[System.Diagnostics.DebuggerNonUserCode()]
+			set
+			{
+				this.SetRelatedEntities<Contact>("contact_customer_contacts", null, value);
+			}
+		}
+		
+		/// <summary>
+		/// N:1 contact_owning_user
+		/// </summary>
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("contact_owning_user")]
+		[Microsoft.Xrm.Sdk.RelationshipSchemaNameAttribute("contact_owning_user")]
+		public SystemUser owninguser
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return this.GetRelatedEntity<SystemUser>("contact_owning_user", null);
+			}
+			[System.Diagnostics.DebuggerNonUserCode()]
+			set
+			{
+				this.SetRelatedEntity<SystemUser>("contact_owning_user", null, value);
+			}
+		}
+		
+		/// <summary>
+		/// N:N contactleads_association
+		/// </summary>
+		[Microsoft.Xrm.Sdk.RelationshipSchemaNameAttribute("contactleads_association")]
+		public System.Collections.Generic.IEnumerable<Microsoft.Xrm.Sdk.Entity> contactleads_association
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return this.GetRelatedEntities<Microsoft.Xrm.Sdk.Entity>("contactleads_association", null);
+			}
+			[System.Diagnostics.DebuggerNonUserCode()]
+			set
+			{
+				this.SetRelatedEntities<Microsoft.Xrm.Sdk.Entity>("contactleads_association", null, value);
+			}
+		}
+	}
+}
+#pragma warning restore CS1591
+"
+`;
+
+exports[`useEnumForStateCodes = true > emits Microsoft.Xrm.Sdk.EntityState? for statecode (snapshot) 1`] = `
+"#nullable enable
+#pragma warning disable CS1591
+//------------------------------------------------------------------------------
+// <auto-generated>
+//     This code was generated by a tool.
+//
+//     Changes to this file may cause incorrect behavior and will be lost if
+//     the code is regenerated.
+// </auto-generated>
+//------------------------------------------------------------------------------
+
+namespace DataverseModel
+{
+	
+	
+	/// <summary>
+	/// Person with whom a business unit has a relationship, such as a customer, supplier, or colleague.
+	/// </summary>
+	[System.Runtime.Serialization.DataContractAttribute()]
+	[Microsoft.Xrm.Sdk.Client.EntityLogicalNameAttribute("contact")]
+	public partial class Contact : Microsoft.Xrm.Sdk.Entity
+	{
+		
+		/// <summary>
+		/// Default Constructor.
+		/// </summary>
+		[System.Diagnostics.DebuggerNonUserCode()]
+		public Contact() : 
+				base(EntityLogicalName)
+		{
+		}
+		
+		[System.Diagnostics.DebuggerNonUserCode()]
+		public Contact(System.Guid id) : 
+				base(EntityLogicalName, id)
+		{
+		}
+		
+		[System.Diagnostics.DebuggerNonUserCode()]
+		public Contact(string keyName, object keyValue) : 
+				base(EntityLogicalName, keyName, keyValue)
+		{
+		}
+		
+		[System.Diagnostics.DebuggerNonUserCode()]
+		public Contact(Microsoft.Xrm.Sdk.KeyAttributeCollection keyAttributes) : 
+				base(EntityLogicalName, keyAttributes)
+		{
+		}
+		
+		/// <summary>
+		/// Constructor for populating via LINQ queries given a LINQ anonymous type
+		/// <param name="anonymousType">LINQ anonymous type.</param>
+		/// </summary>
+		[System.Diagnostics.DebuggerNonUserCode()]
+		public Contact(object anonymousType) : 
+				this()
+		{
+            foreach (var p in anonymousType.GetType().GetProperties())
+            {
+                var value = p.GetValue(anonymousType, null);
+                var name = p.Name.ToLower();
+            
+                if (value != null && name.EndsWith("enum") && value.GetType().BaseType == typeof(System.Enum))
+                {
+                    value = new Microsoft.Xrm.Sdk.OptionSetValue((int) value);
+                    name = name.Remove(name.Length - "enum".Length);
+                }
+            
+                switch (name)
+                {
+                    case "id":
+                        base.Id = (System.Guid)value;
+                        Attributes["contactid"] = base.Id;
+                        break;
+                    case "contactid":
+                        var id = (System.Nullable<System.Guid>) value;
+                        if(id == null){ continue; }
+                        base.Id = id.Value;
+                        Attributes[name] = base.Id;
+                        break;
+                    case "formattedvalues":
+                        // Add Support for FormattedValues
+                        FormattedValues.AddRange((Microsoft.Xrm.Sdk.FormattedValueCollection)value);
+                        break;
+                    default:
+                        Attributes[name] = value;
+                        break;
+                }
+            }
+		}
+		
+		public const string EntityLogicalName = "contact";
+		
+		public const string PrimaryIdAttribute = "contactid";
+		
+		public const string PrimaryNameAttribute = "fullname";
+		
+		public const string EntitySchemaName = "Contact";
+		
+		public const string EntityLogicalCollectionName = "contacts";
+		
+		public const string EntitySetName = "contacts";
+		
+		public static partial class Fields
+		{
+			public const string ActivityParties = "activityparties";
+			public const string Aging30 = "aging30";
+			public const string AnnualIncome = "annualincome";
+			public const string Birthdate = "birthdate";
+			public const string Contact__Member = "contact";
+			public const string ContactId = "contactid";
+			public const string CreatedBy = "createdby";
+			public const string CreatedOn = "createdon";
+			public const string CreditLimit = "creditlimit";
+			public const string Description = "description";
+			public const string Document = "document";
+			public const string DoNotPhone = "donotphone";
+			public const string EntityImage = "entityimage";
+			public const string ExchangeRate = "exchangerate";
+			public const string FirstName = "firstname";
+			public const string FullName = "fullname";
+			public const string GenderCode = "gendercode";
+			public const string Id = "contactid";
+			public const string IsBackOfficeCustomer = "isbackofficecustomer";
+			public const string NumberOfChildren = "numberofchildren";
+			public const string OwnerId = "ownerid";
+			public const string ParentCustomerId = "parentcustomerid";
+			public const string ParentCustomerIdName = "parentcustomeridname";
+			public const string PreferredContactMethodsCode = "preferredcontactmethodscode";
+			public const string StateCode = "statecode";
+			public const string StatusCode = "statuscode";
+			public const string VersionNumber = "versionnumber";
+		}
+		
+		public static partial class Relationships
+		{
+			public const string contact_customer_contacts = "contact_customer_contacts";
+			public const string contactleads_association = "contactleads_association";
+			public const string owninguser = "contact_owning_user";
+		}
+		
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("contactid")]
+		public System.Nullable<System.Guid> ContactId
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return this.GetAttributeValue<System.Nullable<System.Guid>>("contactid");
+			}
+			[System.Diagnostics.DebuggerNonUserCode()]
+			set
+			{
+				this.SetAttributeValue("contactid", value);
+				if (value.HasValue)
+				{
+					base.Id = value.Value;
+				}
+				else
+				{
+					base.Id = System.Guid.Empty;
+				}
+			}
+		}
+		
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("contactid")]
+		public override System.Guid Id
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return base.Id;
+			}
+			[System.Diagnostics.DebuggerNonUserCode()]
+			set
+			{
+				this.ContactId = value;
+			}
+		}
+		
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("fullname")]
+		public string FullName
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return this.GetAttributeValue<string>("fullname");
+			}
+		}
+		
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("firstname")]
+		public string FirstName
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return this.GetAttributeValue<string>("firstname");
+			}
+			[System.Diagnostics.DebuggerNonUserCode()]
+			set
+			{
+				this.SetAttributeValue("firstname", value);
+			}
+		}
+		
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("description")]
+		public string Description
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return this.GetAttributeValue<string>("description");
+			}
+			[System.Diagnostics.DebuggerNonUserCode()]
+			set
+			{
+				this.SetAttributeValue("description", value);
+			}
+		}
+		
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("numberofchildren")]
+		public System.Nullable<int> NumberOfChildren
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return this.GetAttributeValue<System.Nullable<int>>("numberofchildren");
+			}
+			[System.Diagnostics.DebuggerNonUserCode()]
+			set
+			{
+				this.SetAttributeValue("numberofchildren", value);
+			}
+		}
+		
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("annualincome")]
+		public Microsoft.Xrm.Sdk.Money AnnualIncome
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return this.GetAttributeValue<Microsoft.Xrm.Sdk.Money>("annualincome");
+			}
+			[System.Diagnostics.DebuggerNonUserCode()]
+			set
+			{
+				this.SetAttributeValue("annualincome", value);
+			}
+		}
+		
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("donotphone")]
+		public System.Nullable<bool> DoNotPhone
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return this.GetAttributeValue<System.Nullable<bool>>("donotphone");
+			}
+			[System.Diagnostics.DebuggerNonUserCode()]
+			set
+			{
+				this.SetAttributeValue("donotphone", value);
+			}
+		}
+		
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("birthdate")]
+		public System.Nullable<System.DateTime> Birthdate
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return this.GetAttributeValue<System.Nullable<System.DateTime>>("birthdate");
+			}
+			[System.Diagnostics.DebuggerNonUserCode()]
+			set
+			{
+				this.SetAttributeValue("birthdate", value);
+			}
+		}
+		
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("parentcustomerid")]
+		public Microsoft.Xrm.Sdk.EntityReference ParentCustomerId
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return this.GetAttributeValue<Microsoft.Xrm.Sdk.EntityReference>("parentcustomerid");
+			}
+			[System.Diagnostics.DebuggerNonUserCode()]
+			set
+			{
+				this.SetAttributeValue("parentcustomerid", value);
+			}
+		}
+		
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("parentcustomeridname")]
+		public string ParentCustomerIdName
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				if (this.FormattedValues.Contains("parentcustomerid"))
+				{
+					return this.FormattedValues["parentcustomerid"];
+				}
+				else
+				{
+					return default(string);
+				}
+			}
+		}
+		
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("gendercode")]
+		public virtual Microsoft.Xrm.Sdk.OptionSetValue? GenderCode
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return this.GetAttributeValue<Microsoft.Xrm.Sdk.OptionSetValue>("gendercode");
+			}
+			[System.Diagnostics.DebuggerNonUserCode()]
+			set
+			{
+				this.SetAttributeValue("gendercode", value);
+			}
+		}
+		
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("gendercode")]
+		public virtual Contact_GenderCode? GenderCodeEnum
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return ((Contact_GenderCode?)(EntityOptionSetEnum.GetEnum(this, "gendercode")));
+			}
+			[System.Diagnostics.DebuggerNonUserCode()]
+			set
+			{
+				this.SetAttributeValue("gendercode", value.HasValue ? new Microsoft.Xrm.Sdk.OptionSetValue((int)value) : null);
+			}
+		}
+		
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("statecode")]
+		public virtual Microsoft.Xrm.Sdk.EntityState? StateCode
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return ((Microsoft.Xrm.Sdk.EntityState?)(EntityOptionSetEnum.GetEnum(this, "statecode")));
+			}
+			[System.Diagnostics.DebuggerNonUserCode()]
+			set
+			{
+				this.SetAttributeValue("statecode", value.HasValue ? new Microsoft.Xrm.Sdk.OptionSetValue((int)value) : null);
+			}
+		}
+		
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("statuscode")]
+		public virtual Microsoft.Xrm.Sdk.OptionSetValue? StatusCode
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return this.GetAttributeValue<Microsoft.Xrm.Sdk.OptionSetValue>("statuscode");
+			}
+			[System.Diagnostics.DebuggerNonUserCode()]
+			set
+			{
+				this.SetAttributeValue("statuscode", value);
+			}
+		}
+		
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("statuscode")]
+		public virtual Contact_StatusCode? StatusCodeEnum
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return ((Contact_StatusCode?)(EntityOptionSetEnum.GetEnum(this, "statuscode")));
+			}
+			[System.Diagnostics.DebuggerNonUserCode()]
+			set
+			{
+				this.SetAttributeValue("statuscode", value.HasValue ? new Microsoft.Xrm.Sdk.OptionSetValue((int)value) : null);
+			}
+		}
+		
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("aging30")]
+		public Microsoft.Xrm.Sdk.Money Aging30
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return this.GetAttributeValue<Microsoft.Xrm.Sdk.Money>("aging30");
+			}
+		}
+		
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("versionnumber")]
+		public System.Nullable<long> VersionNumber
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return this.GetAttributeValue<System.Nullable<long>>("versionnumber");
+			}
+		}
+		
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("creditlimit")]
+		public System.Nullable<decimal> CreditLimit
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return this.GetAttributeValue<System.Nullable<decimal>>("creditlimit");
+			}
+			[System.Diagnostics.DebuggerNonUserCode()]
+			set
+			{
+				this.SetAttributeValue("creditlimit", value);
+			}
+		}
+		
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("exchangerate")]
+		public System.Nullable<double> ExchangeRate
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return this.GetAttributeValue<System.Nullable<double>>("exchangerate");
+			}
+		}
+		
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("ownerid")]
+		public Microsoft.Xrm.Sdk.EntityReference OwnerId
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return this.GetAttributeValue<Microsoft.Xrm.Sdk.EntityReference>("ownerid");
+			}
+			[System.Diagnostics.DebuggerNonUserCode()]
+			set
+			{
+				this.SetAttributeValue("ownerid", value);
+			}
+		}
+		
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("activityparties")]
+		public System.Collections.Generic.IEnumerable<Microsoft.Xrm.Sdk.Entity> ActivityParties
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return this.GetAttributeValue<System.Collections.Generic.IEnumerable<Microsoft.Xrm.Sdk.Entity>>("activityparties");
+			}
+			[System.Diagnostics.DebuggerNonUserCode()]
+			set
+			{
+				this.SetAttributeValue("activityparties", value);
+			}
+		}
+		
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("entityimage")]
+		public byte[] EntityImage
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return this.GetAttributeValue<byte[]>("entityimage");
+			}
+			[System.Diagnostics.DebuggerNonUserCode()]
+			set
+			{
+				this.SetAttributeValue("entityimage", value);
+			}
+		}
+		
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("document")]
+		public byte[] Document
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return this.GetAttributeValue<byte[]>("document");
+			}
+			[System.Diagnostics.DebuggerNonUserCode()]
+			set
+			{
+				this.SetAttributeValue("document", value);
+			}
+		}
+		
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("isbackofficecustomer")]
+		public Microsoft.Xrm.Sdk.BooleanManagedProperty IsBackOfficeCustomer
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return this.GetAttributeValue<Microsoft.Xrm.Sdk.BooleanManagedProperty>("isbackofficecustomer");
+			}
+			[System.Diagnostics.DebuggerNonUserCode()]
+			set
+			{
+				this.SetAttributeValue("isbackofficecustomer", value);
+			}
+		}
+		
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("preferredcontactmethodscode")]
+		public virtual System.Collections.Generic.IEnumerable<Contact_PreferredContactMethodsCode> PreferredContactMethodsCode
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return EntityOptionSetEnum.GetMultiEnum<Contact_PreferredContactMethodsCode>(this, "preferredcontactmethodscode");
+			}
+			[System.Diagnostics.DebuggerNonUserCode()]
+			set
+			{
+				this.SetAttributeValue("preferredcontactmethodscode", EntityOptionSetEnum.GetMultiEnum(this, "preferredcontactmethodscode", value));
+			}
+		}
+		
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("createdby")]
+		public Microsoft.Xrm.Sdk.EntityReference CreatedBy
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return this.GetAttributeValue<Microsoft.Xrm.Sdk.EntityReference>("createdby");
+			}
+		}
+		
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("createdon")]
+		public System.Nullable<System.DateTime> CreatedOn
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return this.GetAttributeValue<System.Nullable<System.DateTime>>("createdon");
+			}
+		}
+		
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("contact")]
+		public string Contact__Member
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return this.GetAttributeValue<string>("contact");
+			}
+			[System.Diagnostics.DebuggerNonUserCode()]
+			set
+			{
+				this.SetAttributeValue("contact", value);
+			}
+		}
+		
+		/// <summary>
+		/// 1:N contact_customer_contacts
+		/// </summary>
+		[Microsoft.Xrm.Sdk.RelationshipSchemaNameAttribute("contact_customer_contacts")]
+		public System.Collections.Generic.IEnumerable<Contact> contact_customer_contacts
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return this.GetRelatedEntities<Contact>("contact_customer_contacts", null);
+			}
+			[System.Diagnostics.DebuggerNonUserCode()]
+			set
+			{
+				this.SetRelatedEntities<Contact>("contact_customer_contacts", null, value);
+			}
+		}
+		
+		/// <summary>
+		/// N:1 contact_owning_user
+		/// </summary>
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("contact_owning_user")]
+		[Microsoft.Xrm.Sdk.RelationshipSchemaNameAttribute("contact_owning_user")]
+		public SystemUser owninguser
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return this.GetRelatedEntity<SystemUser>("contact_owning_user", null);
+			}
+			[System.Diagnostics.DebuggerNonUserCode()]
+			set
+			{
+				this.SetRelatedEntity<SystemUser>("contact_owning_user", null, value);
+			}
+		}
+		
+		/// <summary>
+		/// N:N contactleads_association
+		/// </summary>
+		[Microsoft.Xrm.Sdk.RelationshipSchemaNameAttribute("contactleads_association")]
+		public System.Collections.Generic.IEnumerable<Microsoft.Xrm.Sdk.Entity> contactleads_association
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return this.GetRelatedEntities<Microsoft.Xrm.Sdk.Entity>("contactleads_association", null);
+			}
+			[System.Diagnostics.DebuggerNonUserCode()]
+			set
+			{
+				this.SetRelatedEntities<Microsoft.Xrm.Sdk.Entity>("contactleads_association", null, value);
+			}
+		}
+	}
+}
+#pragma warning restore CS1591
+"
+`;
+
+exports[`useLogicalNames = true > attribute property names are raw logical names (snapshot) 1`] = `
+"#nullable enable
+#pragma warning disable CS1591
+//------------------------------------------------------------------------------
+// <auto-generated>
+//     This code was generated by a tool.
+//
+//     Changes to this file may cause incorrect behavior and will be lost if
+//     the code is regenerated.
+// </auto-generated>
+//------------------------------------------------------------------------------
+
+namespace DataverseModel
+{
+	
+	
+	/// <summary>
+	/// Person with whom a business unit has a relationship, such as a customer, supplier, or colleague.
+	/// </summary>
+	[System.Runtime.Serialization.DataContractAttribute()]
+	[Microsoft.Xrm.Sdk.Client.EntityLogicalNameAttribute("contact")]
+	public partial class Contact : Microsoft.Xrm.Sdk.Entity
+	{
+		
+		/// <summary>
+		/// Default Constructor.
+		/// </summary>
+		[System.Diagnostics.DebuggerNonUserCode()]
+		public Contact() : 
+				base(EntityLogicalName)
+		{
+		}
+		
+		[System.Diagnostics.DebuggerNonUserCode()]
+		public Contact(System.Guid id) : 
+				base(EntityLogicalName, id)
+		{
+		}
+		
+		[System.Diagnostics.DebuggerNonUserCode()]
+		public Contact(string keyName, object keyValue) : 
+				base(EntityLogicalName, keyName, keyValue)
+		{
+		}
+		
+		[System.Diagnostics.DebuggerNonUserCode()]
+		public Contact(Microsoft.Xrm.Sdk.KeyAttributeCollection keyAttributes) : 
+				base(EntityLogicalName, keyAttributes)
+		{
+		}
+		
+		/// <summary>
+		/// Constructor for populating via LINQ queries given a LINQ anonymous type
+		/// <param name="anonymousType">LINQ anonymous type.</param>
+		/// </summary>
+		[System.Diagnostics.DebuggerNonUserCode()]
+		public Contact(object anonymousType) : 
+				this()
+		{
+            foreach (var p in anonymousType.GetType().GetProperties())
+            {
+                var value = p.GetValue(anonymousType, null);
+                var name = p.Name.ToLower();
+            
+                if (value != null && name.EndsWith("enum") && value.GetType().BaseType == typeof(System.Enum))
+                {
+                    value = new Microsoft.Xrm.Sdk.OptionSetValue((int) value);
+                    name = name.Remove(name.Length - "enum".Length);
+                }
+            
+                switch (name)
+                {
+                    case "id":
+                        base.Id = (System.Guid)value;
+                        Attributes["contactid"] = base.Id;
+                        break;
+                    case "contactid":
+                        var id = (System.Nullable<System.Guid>) value;
+                        if(id == null){ continue; }
+                        base.Id = id.Value;
+                        Attributes[name] = base.Id;
+                        break;
+                    case "formattedvalues":
+                        // Add Support for FormattedValues
+                        FormattedValues.AddRange((Microsoft.Xrm.Sdk.FormattedValueCollection)value);
+                        break;
+                    default:
+                        Attributes[name] = value;
+                        break;
+                }
+            }
+		}
+		
+		public const string EntityLogicalName = "contact";
+		
+		public const string PrimaryIdAttribute = "contactid";
+		
+		public const string PrimaryNameAttribute = "fullname";
+		
+		public const string EntitySchemaName = "Contact";
+		
+		public const string EntityLogicalCollectionName = "contacts";
+		
+		public const string EntitySetName = "contacts";
+		
+		public static partial class Fields
+		{
+			public const string activityparties = "activityparties";
+			public const string aging30 = "aging30";
+			public const string annualincome = "annualincome";
+			public const string birthdate = "birthdate";
+			public const string contact = "contact";
+			public const string contactid = "contactid";
+			public const string createdby = "createdby";
+			public const string createdon = "createdon";
+			public const string creditlimit = "creditlimit";
+			public const string description = "description";
+			public const string document = "document";
+			public const string donotphone = "donotphone";
+			public const string entityimage = "entityimage";
+			public const string exchangerate = "exchangerate";
+			public const string firstname = "firstname";
+			public const string fullname = "fullname";
+			public const string gendercode = "gendercode";
+			public const string Id = "contactid";
+			public const string isbackofficecustomer = "isbackofficecustomer";
+			public const string numberofchildren = "numberofchildren";
+			public const string ownerid = "ownerid";
+			public const string parentcustomerid = "parentcustomerid";
+			public const string parentcustomeridname = "parentcustomeridname";
+			public const string preferredcontactmethodscode = "preferredcontactmethodscode";
+			public const string statecode = "statecode";
+			public const string statuscode = "statuscode";
+			public const string versionnumber = "versionnumber";
+		}
+		
+		public static partial class Relationships
+		{
+			public const string contact_customer_contacts = "contact_customer_contacts";
+			public const string contactleads_association = "contactleads_association";
+			public const string owninguser = "contact_owning_user";
+		}
+		
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("contactid")]
+		public System.Nullable<System.Guid> contactid
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return this.GetAttributeValue<System.Nullable<System.Guid>>("contactid");
+			}
+			[System.Diagnostics.DebuggerNonUserCode()]
+			set
+			{
+				this.SetAttributeValue("contactid", value);
+				if (value.HasValue)
+				{
+					base.Id = value.Value;
+				}
+				else
+				{
+					base.Id = System.Guid.Empty;
+				}
+			}
+		}
+		
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("contactid")]
+		public override System.Guid Id
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return base.Id;
+			}
+			[System.Diagnostics.DebuggerNonUserCode()]
+			set
+			{
+				this.contactid = value;
+			}
+		}
+		
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("fullname")]
+		public string fullname
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return this.GetAttributeValue<string>("fullname");
+			}
+		}
+		
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("firstname")]
+		public string firstname
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return this.GetAttributeValue<string>("firstname");
+			}
+			[System.Diagnostics.DebuggerNonUserCode()]
+			set
+			{
+				this.SetAttributeValue("firstname", value);
+			}
+		}
+		
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("description")]
+		public string description
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return this.GetAttributeValue<string>("description");
+			}
+			[System.Diagnostics.DebuggerNonUserCode()]
+			set
+			{
+				this.SetAttributeValue("description", value);
+			}
+		}
+		
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("numberofchildren")]
+		public System.Nullable<int> numberofchildren
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return this.GetAttributeValue<System.Nullable<int>>("numberofchildren");
+			}
+			[System.Diagnostics.DebuggerNonUserCode()]
+			set
+			{
+				this.SetAttributeValue("numberofchildren", value);
+			}
+		}
+		
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("annualincome")]
+		public Microsoft.Xrm.Sdk.Money annualincome
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return this.GetAttributeValue<Microsoft.Xrm.Sdk.Money>("annualincome");
+			}
+			[System.Diagnostics.DebuggerNonUserCode()]
+			set
+			{
+				this.SetAttributeValue("annualincome", value);
+			}
+		}
+		
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("donotphone")]
+		public System.Nullable<bool> donotphone
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return this.GetAttributeValue<System.Nullable<bool>>("donotphone");
+			}
+			[System.Diagnostics.DebuggerNonUserCode()]
+			set
+			{
+				this.SetAttributeValue("donotphone", value);
+			}
+		}
+		
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("birthdate")]
+		public System.Nullable<System.DateTime> birthdate
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return this.GetAttributeValue<System.Nullable<System.DateTime>>("birthdate");
+			}
+			[System.Diagnostics.DebuggerNonUserCode()]
+			set
+			{
+				this.SetAttributeValue("birthdate", value);
+			}
+		}
+		
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("parentcustomerid")]
+		public Microsoft.Xrm.Sdk.EntityReference parentcustomerid
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return this.GetAttributeValue<Microsoft.Xrm.Sdk.EntityReference>("parentcustomerid");
+			}
+			[System.Diagnostics.DebuggerNonUserCode()]
+			set
+			{
+				this.SetAttributeValue("parentcustomerid", value);
+			}
+		}
+		
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("parentcustomeridname")]
+		public string parentcustomeridname
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				if (this.FormattedValues.Contains("parentcustomerid"))
+				{
+					return this.FormattedValues["parentcustomerid"];
+				}
+				else
+				{
+					return default(string);
+				}
+			}
+		}
+		
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("gendercode")]
+		public Microsoft.Xrm.Sdk.OptionSetValue gendercode
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return this.GetAttributeValue<Microsoft.Xrm.Sdk.OptionSetValue>("gendercode");
+			}
+			[System.Diagnostics.DebuggerNonUserCode()]
+			set
+			{
+				this.SetAttributeValue("gendercode", value);
+			}
+		}
+		
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("statecode")]
+		public Microsoft.Xrm.Sdk.OptionSetValue statecode
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return this.GetAttributeValue<Microsoft.Xrm.Sdk.OptionSetValue>("statecode");
+			}
+			[System.Diagnostics.DebuggerNonUserCode()]
+			set
+			{
+				this.SetAttributeValue("statecode", value);
+			}
+		}
+		
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("statuscode")]
+		public Microsoft.Xrm.Sdk.OptionSetValue statuscode
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return this.GetAttributeValue<Microsoft.Xrm.Sdk.OptionSetValue>("statuscode");
+			}
+			[System.Diagnostics.DebuggerNonUserCode()]
+			set
+			{
+				this.SetAttributeValue("statuscode", value);
+			}
+		}
+		
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("aging30")]
+		public Microsoft.Xrm.Sdk.Money aging30
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return this.GetAttributeValue<Microsoft.Xrm.Sdk.Money>("aging30");
+			}
+		}
+		
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("versionnumber")]
+		public System.Nullable<long> versionnumber
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return this.GetAttributeValue<System.Nullable<long>>("versionnumber");
+			}
+		}
+		
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("creditlimit")]
+		public System.Nullable<decimal> creditlimit
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return this.GetAttributeValue<System.Nullable<decimal>>("creditlimit");
+			}
+			[System.Diagnostics.DebuggerNonUserCode()]
+			set
+			{
+				this.SetAttributeValue("creditlimit", value);
+			}
+		}
+		
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("exchangerate")]
+		public System.Nullable<double> exchangerate
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return this.GetAttributeValue<System.Nullable<double>>("exchangerate");
+			}
+		}
+		
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("ownerid")]
+		public Microsoft.Xrm.Sdk.EntityReference ownerid
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return this.GetAttributeValue<Microsoft.Xrm.Sdk.EntityReference>("ownerid");
+			}
+			[System.Diagnostics.DebuggerNonUserCode()]
+			set
+			{
+				this.SetAttributeValue("ownerid", value);
+			}
+		}
+		
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("activityparties")]
+		public System.Collections.Generic.IEnumerable<Microsoft.Xrm.Sdk.Entity> activityparties
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return this.GetAttributeValue<System.Collections.Generic.IEnumerable<Microsoft.Xrm.Sdk.Entity>>("activityparties");
+			}
+			[System.Diagnostics.DebuggerNonUserCode()]
+			set
+			{
+				this.SetAttributeValue("activityparties", value);
+			}
+		}
+		
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("entityimage")]
+		public byte[] entityimage
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return this.GetAttributeValue<byte[]>("entityimage");
+			}
+			[System.Diagnostics.DebuggerNonUserCode()]
+			set
+			{
+				this.SetAttributeValue("entityimage", value);
+			}
+		}
+		
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("document")]
+		public byte[] document
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return this.GetAttributeValue<byte[]>("document");
+			}
+			[System.Diagnostics.DebuggerNonUserCode()]
+			set
+			{
+				this.SetAttributeValue("document", value);
+			}
+		}
+		
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("isbackofficecustomer")]
+		public Microsoft.Xrm.Sdk.BooleanManagedProperty isbackofficecustomer
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return this.GetAttributeValue<Microsoft.Xrm.Sdk.BooleanManagedProperty>("isbackofficecustomer");
+			}
+			[System.Diagnostics.DebuggerNonUserCode()]
+			set
+			{
+				this.SetAttributeValue("isbackofficecustomer", value);
+			}
+		}
+		
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("preferredcontactmethodscode")]
+		public Microsoft.Xrm.Sdk.OptionSetValueCollection preferredcontactmethodscode
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return this.GetAttributeValue<Microsoft.Xrm.Sdk.OptionSetValueCollection>("preferredcontactmethodscode");
+			}
+			[System.Diagnostics.DebuggerNonUserCode()]
+			set
+			{
+				this.SetAttributeValue("preferredcontactmethodscode", value);
+			}
+		}
+		
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("createdby")]
+		public Microsoft.Xrm.Sdk.EntityReference createdby
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return this.GetAttributeValue<Microsoft.Xrm.Sdk.EntityReference>("createdby");
+			}
+		}
+		
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("createdon")]
+		public System.Nullable<System.DateTime> createdon
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return this.GetAttributeValue<System.Nullable<System.DateTime>>("createdon");
+			}
+		}
+		
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("contact")]
+		public string contact
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return this.GetAttributeValue<string>("contact");
+			}
+			[System.Diagnostics.DebuggerNonUserCode()]
+			set
+			{
+				this.SetAttributeValue("contact", value);
+			}
+		}
+		
+		/// <summary>
+		/// 1:N contact_customer_contacts
+		/// </summary>
+		[Microsoft.Xrm.Sdk.RelationshipSchemaNameAttribute("contact_customer_contacts")]
+		public System.Collections.Generic.IEnumerable<Contact> contact_customer_contacts
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return this.GetRelatedEntities<Contact>("contact_customer_contacts", null);
+			}
+			[System.Diagnostics.DebuggerNonUserCode()]
+			set
+			{
+				this.SetRelatedEntities<Contact>("contact_customer_contacts", null, value);
+			}
+		}
+		
+		/// <summary>
+		/// N:1 contact_owning_user
+		/// </summary>
+		[Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute("contact_owning_user")]
+		[Microsoft.Xrm.Sdk.RelationshipSchemaNameAttribute("contact_owning_user")]
+		public SystemUser owninguser
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return this.GetRelatedEntity<SystemUser>("contact_owning_user", null);
+			}
+			[System.Diagnostics.DebuggerNonUserCode()]
+			set
+			{
+				this.SetRelatedEntity<SystemUser>("contact_owning_user", null, value);
+			}
+		}
+		
+		/// <summary>
+		/// N:N contactleads_association
+		/// </summary>
+		[Microsoft.Xrm.Sdk.RelationshipSchemaNameAttribute("contactleads_association")]
+		public System.Collections.Generic.IEnumerable<Microsoft.Xrm.Sdk.Entity> contactleads_association
+		{
+			[System.Diagnostics.DebuggerNonUserCode()]
+			get
+			{
+				return this.GetRelatedEntities<Microsoft.Xrm.Sdk.Entity>("contactleads_association", null);
+			}
+			[System.Diagnostics.DebuggerNonUserCode()]
+			set
+			{
+				this.SetRelatedEntities<Microsoft.Xrm.Sdk.Entity>("contactleads_association", null, value);
 			}
 		}
 	}
