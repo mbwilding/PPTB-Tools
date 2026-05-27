@@ -1,7 +1,7 @@
 {
     "name": "@mbwilding/tool-early-bound-generator",
     "displayName": "Early Bound Generator",
-    "version": "0.0.18",
+    "version": "0.0.19",
     "description": "Generate strongly-typed C# early-bound classes for Dataverse entities, option sets, and messages",
     "icon": "icons/ebg.svg",
     "contributors": [

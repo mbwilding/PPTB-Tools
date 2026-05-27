@@ -92,6 +92,26 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
+      - name: Wait for npm to reflect published version
+        if: steps.version-check.outputs.publish == 'true'
+        env:
+          SLEEP: 3
+        run: |
+          PKG="${{ steps.version-check.outputs.pkg }}"
+          VERSION="${{ steps.version-check.outputs.local }}"
+          echo "Waiting for $PKG@$VERSION to be available on npm..."
+          for i in $(seq 1 24); do
+            PUBLISHED=$(npm view "$PKG@$VERSION" version 2>/dev/null || echo "")
+            if [ "$PUBLISHED" = "$VERSION" ]; then
+              echo "Version $VERSION is now available on npm"
+              exit 0
+            fi
+            echo "Attempt $i: not yet available, retrying in ${SLEEP}s..."
+            sleep $SLEEP
+          done
+          echo "Timed out waiting for $PKG@$VERSION to appear on npm"
+          exit 1
+
       - name: Notify PPTB
         if: steps.version-check.outputs.publish == 'true' && steps.version-check.outputs.tool_id != ''
         run: |
