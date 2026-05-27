@@ -31,7 +31,6 @@ jobs:
       matrix:
         tool: ${{ fromJson(needs.detect-tools.outputs.tools) }}
       fail-fast: false
-
     steps:
       - uses: actions/checkout@v6.0.2
 
@@ -41,15 +40,18 @@ jobs:
         run: |
           LOCAL=$(jq -r '.version' package.json)
           PKG=$(jq -r '.name' package.json)
+          TOOL_ID=$(jq -r '.configurations.pptbToolId // ""' package.json)
           REMOTE=$(npm view "$PKG" version 2>/dev/null || echo "none")
           echo "local=$LOCAL" >> "$GITHUB_OUTPUT"
           echo "remote=$REMOTE" >> "$GITHUB_OUTPUT"
+          echo "pkg=$PKG" >> "$GITHUB_OUTPUT"
+          echo "tool_id=$TOOL_ID" >> "$GITHUB_OUTPUT"
           if [ "$LOCAL" = "$REMOTE" ]; then
             echo "publish=false" >> "$GITHUB_OUTPUT"
-            echo "Version $LOCAL already published, skipping."
+            echo "Version $LOCAL already published"
           else
             echo "publish=true" >> "$GITHUB_OUTPUT"
-            echo "Local version $LOCAL differs from remote $REMOTE, will publish."
+            echo "Publish required"
           fi
 
       - uses: actions/setup-node@v6.4.0
@@ -89,3 +91,14 @@ jobs:
         working-directory: ${{ matrix.tool }}
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Notify PPTB
+        if: steps.version-check.outputs.publish == 'true' && steps.version-check.outputs.tool_id != ''
+        run: |
+          RESPONSE=$(curl -s -X POST https://www.powerplatformtoolbox.com/api/update-tool \
+            -H "Content-Type: application/json" \
+            -d "{\"toolUpdateId\": \"${{ steps.version-check.outputs.tool_id }}\", \"packageName\": \"${{ steps.version-check.outputs.pkg }}\"}")
+          echo "Response: $(echo "$RESPONSE" | jq -r '.message')"
+          if [ "$(echo "$RESPONSE" | jq -r '.success')" != "true" ]; then
+            exit 1
+          fi
