@@ -337,13 +337,12 @@ body {
 .terminal-header-label {
     display: inline-flex;
     align-items: center;
+    gap: 6px;
     padding: 2px 0;
     border: 1px solid transparent;
-    font-size: 11px;
+    font-size: 12px;
     font-weight: 600;
-    color: var(--text-secondary);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
+    color: var(--text-primary);
 }
 
 .terminal-header-actions {
