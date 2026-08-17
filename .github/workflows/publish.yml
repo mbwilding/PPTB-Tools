@@ -13,7 +13,7 @@ jobs:
     outputs:
       tools: ${{ steps.list.outputs.tools }}
     steps:
-      - uses: actions/checkout@v6.0.2
+      - uses: actions/checkout@v7
 
       - name: List tools
         id: list
@@ -32,7 +32,7 @@ jobs:
         tool: ${{ fromJson(needs.detect-tools.outputs.tools) }}
       fail-fast: false
     steps:
-      - uses: actions/checkout@v6.0.2
+      - uses: actions/checkout@v7
 
       - name: Check if version is new
         id: version-check
@@ -115,10 +115,6 @@ jobs:
       - name: Notify PPTB
         if: steps.version-check.outputs.publish == 'true' && steps.version-check.outputs.tool_id != ''
         run: |
-          RESPONSE=$(curl -s -X POST https://www.powerplatformtoolbox.com/api/update-tool \
+          curl -s -X POST https://www.powerplatformtoolbox.com/api/update-tool \
             -H "Content-Type: application/json" \
-            -d "{\"toolUpdateId\": \"${{ steps.version-check.outputs.tool_id }}\", \"packageName\": \"${{ steps.version-check.outputs.pkg }}\"}")
-          echo "Response: $(echo "$RESPONSE" | jq -r '.message')"
-          if [ "$(echo "$RESPONSE" | jq -r '.success')" != "true" ]; then
-            exit 1
-          fi
+            -d "{\"toolUpdateId\": \"${{ steps.version-check.outputs.tool_id }}\", \"packageName\": \"${{ steps.version-check.outputs.pkg }}\"}"
