@@ -1,6 +1,7 @@
 import tseslint from "@typescript-eslint/eslint-plugin";
 import tsparser from "@typescript-eslint/parser";
 import eslintConfigPrettier from "eslint-config-prettier/flat";
+import storybook from "eslint-plugin-storybook";
 
 export default [
     {
@@ -19,4 +20,5 @@ export default [
             quotes: ["error", "double", { avoidEscape: true, allowTemplateLiterals: false }],
         },
     },
+    ...storybook.configs["flat/recommended"],
 ];

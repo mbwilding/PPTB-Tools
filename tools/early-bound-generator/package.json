@@ -1,7 +1,7 @@
 {
     "name": "@mbwilding/tool-early-bound-generator",
     "displayName": "Early Bound Generator",
-    "version": "0.0.19",
+    "version": "0.0.20",
     "description": "Generate strongly-typed C# early-bound classes for Dataverse entities, option sets, and messages",
     "icon": "icons/ebg.svg",
     "contributors": [
@@ -27,7 +27,9 @@
         "validate": "pptb-validate",
         "finalize-package": "npm shrinkwrap",
         "lint": "eslint --fix .",
-        "pretty": "prettier --write ."
+        "pretty": "prettier --write .",
+        "storybook": "storybook dev -p 6006",
+        "build-storybook": "storybook build"
     },
     "files": [
         "dist",
@@ -46,19 +48,24 @@
         "react-dom": "^18.3.1"
     },
     "devDependencies": {
-        "@pptb/types": "^1.0.20",
+        "@pptb/types": "^1.2.4",
+        "@storybook/addon-a11y": "^10.5.8",
+        "@storybook/addon-docs": "^10.5.8",
+        "@storybook/react-vite": "^10.5.8",
         "@types/node": "^20.19.21",
         "@types/react": "^18.3.1",
         "@types/react-dom": "^18.3.0",
         "@typescript-eslint/eslint-plugin": "^8.59.4",
         "@typescript-eslint/parser": "^8.59.4",
         "@vitejs/plugin-react": "^4.3.4",
-        "eslint": "^10.4.0",
+        "eslint": "^10.8.1",
         "eslint-config-prettier": "^10.1.8",
+        "eslint-plugin-storybook": "^10.5.8",
         "happy-dom": "^20.9.0",
         "prettier": "^3.8.3",
+        "storybook": "^10.5.8",
         "typescript": "^5.9.3",
-        "vite": "^6.0.7",
-        "vitest": "^4.1.7"
+        "vite": "^7.1.10",
+        "vitest": "^4.1.10"
     }
 }

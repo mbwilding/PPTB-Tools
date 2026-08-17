@@ -1,10 +1,10 @@
 {
     "extends": "./tsconfig.json",
     "compilerOptions": {
-        "moduleResolution": "node",
+        "moduleResolution": "bundler",
         "allowImportingTsExtensions": false,
         "noEmit": true,
         "types": ["node"]
     },
-    "include": ["src"]
+    "include": ["src", ".storybook"]
 }

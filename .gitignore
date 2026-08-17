@@ -140,3 +140,7 @@ vite.config.ts.timestamp-*
 
 # Example output
 tools/*/output/
+
+# Storybook
+**/*storybook.log
+**/storybook-static
